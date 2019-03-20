@@ -580,7 +580,7 @@
 													<div class="widget-box collapsed">
 														<div class="widget-header widget-header-flat">
 															<h4 class="widget-title lighter">
-																<i class="ace-icon fa fa-star orange"></i> Sum Of Columns
+																<i class="ace-icon fa fa-star orange"></i> Aggregation Of Columns
 															</h4>
 						
 															<div class="widget-toolbar">
@@ -612,7 +612,7 @@
 													
 												</select>	
 											</div>
-																	<div class="col-sm-2">
+																	<div class="col-sm-3">
 																		
 																		<input type="text" name="sumvalue" 
 																			value="0" disabled="disabled" id = "sumvalue" >
