@@ -215,6 +215,8 @@ public class ViewReportController implements Serializable {
 		String abc = "";
 		ReportBean listReport = reportBeanService.findByReportId(repId);
 		model.put("tableColor", listReport.getTableColor());
+		model.put("reportHeader", listReport.getReport_header());
+		model.put("reportFooter", listReport.getReport_footer());
 		model.put("departmentIdOfReport", listReport.getDepartmentId());
 
 		if ((servID == 0L) || (servID == 1L)) {

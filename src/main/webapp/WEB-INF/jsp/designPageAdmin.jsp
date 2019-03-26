@@ -1234,7 +1234,7 @@
 	                        else {
 	                            $(this).next('label').text(AnotherFieldName);
 	                            $(this).next('label').css('color', 'red');
-	                            AppendToSortable('ul#sortable', ' key="' + $(this).next('label').text() + '" value="' + $(this).val() + '" class="ui-state-default tagme ui-sortable-handle ui-draggable ui-draggable-handle"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' + $(this).next('label').text() + '</li>', $(this).next('label').text(), $(this).val());
+	                            AppendToSortable('ul#sortable', '<li key="' + $(this).next('label').text() + '" value="' + $(this).val() + '" class="ui-state-default tagme ui-sortable-handle ui-draggable ui-draggable-handle"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' + $(this).next('label').text() + '</li>', $(this).next('label').text(), $(this).val());
 
 	                        }
 	                    }
@@ -1377,6 +1377,8 @@
 	                addition.push(addition_Property);
 	            });
 	            $('#JSONTEXT').html(JSON.stringify(addition));
+	            $("#hddnJSON").val(JSON.stringify(addition));
+	            initSelBox_Product();
 	            event.stopPropagation();
 	            event.stopImmediatePropagation();
 	            checkifeventofdragisAlive = '0';
@@ -1408,6 +1410,8 @@
 	                additionB.push(additionB_Property);
 	            });
 	            $('#JSONTEXTB').html(JSON.stringify(additionB));
+	            $("#hddnJSONB").val(JSON.stringify(additionB));
+	            initSelBox_Product();
 	            event.stopPropagation();
 	            event.stopImmediatePropagation();
 	            checkifeventofdragisAlive = '0';
@@ -1431,7 +1435,7 @@
             $(elementToRemove).remove();
         }
              
-        $(function () {
+        /* $(function () {
             $("#sortable").sortable({
                 change: function (event, ui) {
                 },
@@ -1453,6 +1457,6 @@
                 }
             });
             $("#sortable").disableSelection();
-        });
+        }); */
         
 		</script>

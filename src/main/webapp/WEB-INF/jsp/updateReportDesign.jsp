@@ -166,12 +166,16 @@
 							<tr>
 								<th width="20px">Id</th>
 								<th>Name</th>
+								<th>Modify</th>
 								<th>Delete</th>
 							</tr>
 							<c:forEach items="${pagedListHolder.pageList}" var="item">
 								<tr>
 									<td>${item.reportId}</td>
 									<td>${item.reportName}</td>
+									<td><%-- <spring:url	value="/modifyReportDesign?reportId=${item.reportId}" var="modifyURL" /> 
+										<a class="btn btn-primary"	href="${modifyURL}" role="button">Modify</a></td> --%>
+										<a class="btn btn-primary"	href="javascript:void(0);" role="button" onclick="modifyData('${item.reportId}')">Modify</a></td>
 									<td><spring:url	value="/deleteSelectedReport?reportId=${item.reportId}&sign_no=${sign_no}" var="deleteURL" /> 
 										<a class="btn btn-danger"	href="${deleteURL}" role="button">Delete</a></td>
 								</tr>
@@ -233,4 +237,22 @@
 	<!-- ace scripts -->
 	<script src="assets/js/ace-elements.min.js"></script>
 	<script src="assets/js/ace.min.js"></script>
+	
+	<script type="text/javascript">
+			
+			function modifyData(repId) {
+				//var deptidwithNameSelected = $("#deptidwithName").val();
+				$.ajax({
+					type : "GET",
+					url : '/modifyReportDesign',
+					data : {
+						reportId : repId
+					},
+					success : function(data) {
+						window.location.href='/modifySelectedReportDesign';
+					}
+				});
+			}
+		
+		</script>
 	

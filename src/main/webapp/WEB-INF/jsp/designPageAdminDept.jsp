@@ -1078,69 +1078,7 @@
 				        });
 				}
 			});
-	    		
-			/* $('#getServicesOrg').click(function() {
-   			 var orgid = $('#selectedDeptrtmnt').val();
-   			 console.log(orgid);
-   			 if(orgid=="0" || orgid==""){
-   				 alert("Please select Organisation from drop-down");
-   				 return false;
-   			 }
-			$.ajax({
-   				type : "get",
-   				url : "/DesignReportFetchServices",
-   				dataType : 'json',
-   				data : {
-   					deptOid : $('#selectedDeptrtmnt').val(),
-   					action : "fetchService"
-   				},
-   				contentType : 'application/json',
-   				success : function(responseJson) {
-   					console.log(responseJson);
-   					 $("#reprt2").show();
-   					 var $select = $("#selectedRecord");                         
-   				        $select.find("option").remove();
-   				        $("<option>").val(0).text("Please Select").appendTo($select);
-   				    	 $("<option>").val(1).text("Select All").appendTo($select);
-   				        $.each(responseJson, function(key, value) {              
-   				            $("<option>").val(key).text(value).appendTo($select); 
-   				        });
-   				}
-   			});
-   		}); */
-	    		
-	    		
-	    	/* 	$('#getcol').click(function() {
-	    			 var sid = $('#selectedRecord').val();
-	    			 if(sid=="0" || sid==""){
-	    				 alert("Please select Service from drop-down");
-	    				 return false;
-	    			 }
-	    			$.ajax({
-	    				type : "post",
-	    				url : '/DesignReportCol',
-	    				data : {
-	    					deptid : $('#deptid').val(),
-	    					serviceid: $('#selectedRecord').val(),
-	    					action : "fetchColumns"
-	    				},
-	    				success : function(responseJson1) {
-	    					$("#selcol").show();
-	    					document.getElementById("selectedDeptrtmnt").disabled=true;
-	    					document.getElementById("selectedRecord").disabled=true;
-	    					console.log(responseJson1);
-	    					$('#ContentPlaceHolder1_CheckBoxList1').empty();
-	    						   $.each(responseJson1, function(key, value) {
-	    				           $('#ContentPlaceHolder1_CheckBoxList1').append('<input type="checkbox"  name="colmn" value="'+ key +'"/> ' +  '<label for="'+ key +'" >'+value.trim()+'</label>' +'<br/>');
-	    				        });
-	    						   $('#departmentID').val($('#deptid').val());
-	    						   $('#serviceID').val($('#selectedRecord').val());
-	    							abc();	       
-	    				}
-	    			});
-	    		});
-	    		
-	    		 */
+	    	
 	    		
 	    		//To fetch where conditions #rpWhrCondition
 	    		$('#getServicesOrg').click(function() {
@@ -1248,7 +1186,7 @@
 	                        else {
 	                            $(this).next('label').text(AnotherFieldName);
 	                            $(this).next('label').css('color', 'red');
-	                            AppendToSortable('ul#sortable', ' key="' + $(this).next('label').text() + '" value="' + $(this).val() + '" class="ui-state-default tagme ui-sortable-handle ui-draggable ui-draggable-handle"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' + $(this).next('label').text() + '</li>', $(this).next('label').text(), $(this).val());
+	                            AppendToSortable('ul#sortable', '<li key="' + $(this).next('label').text() + '" value="' + $(this).val() + '" class="ui-state-default tagme ui-sortable-handle ui-draggable ui-draggable-handle"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>' + $(this).next('label').text() + '</li>', $(this).next('label').text(), $(this).val());
 
 	                        }
 	                    }
@@ -1391,6 +1329,8 @@
 	                addition.push(addition_Property);
 	            });
 	            $('#JSONTEXT').html(JSON.stringify(addition));
+	            $("#hddnJSON").val(JSON.stringify(addition));
+	            initSelBox_Product();
 	            event.stopPropagation();
 	            event.stopImmediatePropagation();
 	            checkifeventofdragisAlive = '0';
@@ -1422,6 +1362,8 @@
 	                additionB.push(additionB_Property);
 	            });
 	            $('#JSONTEXTB').html(JSON.stringify(additionB));
+	            $("#hddnJSONB").val(JSON.stringify(additionB));
+	            initSelBox_Product();
 	            event.stopPropagation();
 	            event.stopImmediatePropagation();
 	            checkifeventofdragisAlive = '0';
@@ -1445,7 +1387,7 @@
             $(elementToRemove).remove();
         }
              
-        $(function () {
+        /* $(function () {
             $("#sortable").sortable({
                 change: function (event, ui) {
                 },
@@ -1467,6 +1409,6 @@
                 }
             });
             $("#sortable").disableSelection();
-        });
+        }); */
         
 		</script>

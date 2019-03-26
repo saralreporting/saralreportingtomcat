@@ -20,4 +20,10 @@ public class ReportSelectColumnServiceImpl implements ReportSelectColumnService 
 
 		return reportSelectColumnRepository.save(reportSelectedColumn);
 	}
+
+	@Override
+	public void deleteByReportId(Long reportId) {
+		// TODO Auto-generated method stub
+		 //reportSelectColumnRepository.deleteByReportId(reportId);
+	}
 }

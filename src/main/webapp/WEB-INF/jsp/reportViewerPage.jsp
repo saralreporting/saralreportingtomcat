@@ -229,8 +229,6 @@
 					},
 					success : function(data) {
 						window.location.href='/viewSelectedReportData?page=1';
-						/* $(".inner-jsp").html(data); */
-						//window.location.href='http://localhost:8082/viewSelectedReport?reportId='+${reportId}+'&sign_no='+"\"${sign_no}\""+'&service_id='+${service_id}+'&page='+suffix;
 					}
 				});
 			}

@@ -6,4 +6,5 @@ public interface  ReportSelectColumnService {
 	
 	 ReportSelectColumn save(ReportSelectColumn reportSelectColumn);
 
+	 void deleteByReportId(Long reportId);
 }

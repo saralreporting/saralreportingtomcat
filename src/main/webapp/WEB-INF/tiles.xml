@@ -94,6 +94,10 @@
 		<put-attribute name="title" value="DesignPageAdminDept" />
 		<put-attribute name="body" value="/WEB-INF/jsp/designPageAdminDept.jsp" />
 	</definition>
+	<definition name="modifyReportDesign" extends="base-definition">
+		<put-attribute name="title" value="ModifyReportDesign" />
+		<put-attribute name="body" value="/WEB-INF/jsp/modifyReportDesign.jsp" />
+	</definition>
 	
 	<!-- Domain Master  -->
 	

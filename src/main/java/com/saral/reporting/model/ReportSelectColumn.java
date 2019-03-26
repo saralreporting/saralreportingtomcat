@@ -37,7 +37,7 @@ public class ReportSelectColumn {
 	private Character status;
 
 	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name = "report_id", insertable = true, updatable = false, nullable = true)
+	@JoinColumn(name = "report_id", insertable = true, updatable = true, nullable = true)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JsonIgnore
 	private ReportBean reportBean12;

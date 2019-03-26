@@ -6,4 +6,6 @@ import com.saral.reporting.model.ReportSelectColumn;
 
 public interface ReportSelectColumnRepository extends JpaRepository<ReportSelectColumn, Long>{
 
+	//void deleteByReportId(Long reportId);
+
 }

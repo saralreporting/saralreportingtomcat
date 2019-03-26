@@ -438,6 +438,7 @@
 
 								<div class="right-content">
 									<h5 class="content-heading">Department Chart Data</h5>
+									<div id="reportHeader" style=" margin-top: inherit; text-align: -webkit-center;"></div>
 									<div class="cuschart">
 										<div id="arechart" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 										<div id="barchart" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
@@ -604,19 +605,18 @@
 																	</div>
 																	
 																	<div class="col-sm-2">
-												<select  name="findAggregation" id="findAggregation">
-													<option value="sum">Sum</option>
-													<option value="count">Count</option>
-													<option value="avg">Average</option>
-													
-													
-												</select>	
-											</div>
+																		<select  name="findAggregation" id="findAggregation">
+																			<option value="sum">Sum</option>
+																			<option value="count">Count</option>
+																			<option value="avg">Average</option>
+																		</select>	
+																	</div>
+																	
 																	<div class="col-sm-3">
-																		
 																		<input type="text" name="sumvalue" 
 																			value="0" disabled="disabled" id = "sumvalue" >
 																	</div>
+																	
 																	<div class="col-sm-1">
 																		<input type="button" style=""
 																	class="btn no-border" value="Aggregation"
@@ -655,6 +655,7 @@
 											style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 
 									</div>
+									<div id="reportFooter" style=" margin-top: inherit; text-align: -webkit-center;"></div>
 								</div>
 								<!--Three closig divs has been moved to upper div from here-->
 
@@ -1105,8 +1106,7 @@ function higrpbar(data){
 			 o.push([a.map.y, a.map.name]);
 			 return o;
 			},[])
-/* 	var bsj = JSON.stringify(t)
-			console.log(bsj); */
+
 	
 	Highcharts.chart('HIGroupedBar', {
 	    chart: {
@@ -1513,6 +1513,9 @@ Highcharts.chart('stackedbar', {
 		</script>
 		<script>
 		$(document).ready(function(){
+			
+			$("#reportHeader").append("${reportHeader}");
+			$("#reportFooter").append("${reportFooter}");
 			$('#deptidwithName').val(${deptidwithNameSelectedBU});
 		
 			if((${service_id} != 0) && (${service_id} != 1)){
