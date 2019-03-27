@@ -1250,7 +1250,7 @@
 							
 							if(result="Report has been saved"){
 								alert(result);
-								window.location.href='/DesignReptPage';
+								window.location.href='/fetchReportsName';
 							}else{
 							console.log("My ajax 1");
 							console.log(result);
