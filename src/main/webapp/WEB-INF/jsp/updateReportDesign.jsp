@@ -123,7 +123,7 @@
 
 					<div class="page-header">
 						<h1>
-							Delete Reports
+							Modify Reports
 							<!-- <small>
 									<i class="ace-icon fa fa-angle-double-right"></i>
 									overview &amp; stats
