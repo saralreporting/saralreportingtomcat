@@ -126,7 +126,10 @@
 								</select> <input type="submit" class="btn btn-purple no-border"
 									id="getcol" value="Get Columns" />
 				</div>
-				<div class="hr hr32 hr-dotted"></div>
+				
+				<div class="col-lg-12 col-md-12 col-xs-12 container" id="updateReportLabel" style="height: 50px; width: 80%; float: none; margin: auto; display: none; background-color: aliceblue;">
+				</div>
+				<div class="hr hr32 hr-dotted" ></div>
 			</div>
 			
 			
@@ -158,7 +161,7 @@
 							<div class="tab-content">
 
 								<div class="tab-pane active" id="sql">
-									<div class="col-lg-12 col-md-12 col-xs-12 container" id="selcol" >
+									<div class="col-lg-12 col-md-12 col-xs-12 container" id="selcol" style="display: none;">
 										<div class="container " id="collist"
 											style="width:33%; float: left;">
 											<h4 align="left">Please select Service Attributes below :</h4>
@@ -1000,7 +1003,7 @@
 	    				contentType : 'application/json',
 	    				success : function(responseJson) {
 	    					console.log(responseJson);
-	    					 $("#reprt2").show();
+	    					 //$("#reprt2").show();
 	    					 var $select = $("#selectedRecord");                         
 	    				        $select.find("option").remove();
 	    				        $("<option>").val(0).text("Please Select").appendTo($select);		
@@ -1016,7 +1019,7 @@
 	    		//To fetch where conditions #rpWhrCondition
 	    			$.ajax({
 	    				type : "post",
-	    				url : '/fetchWhereConditions',
+	    				url : '/fetchReportsName',
 	    				data : {},
 	    				success : function(responseJsonWhere) {
 	    					
@@ -1132,11 +1135,6 @@
 	    	        
 	    	        
 	    	        //To fetch Columns
-	       			/* var sid = $('#selectedRecord').val();
-	       			  if(sid=="0" || sid==""){
-	       				 alert("Please select Service from drop-down");
-	       				 return false;
-	       				} */
     	   			$.ajax({
     	   				type : "post",
     	   				url : '/DesignReportCol',
@@ -1148,7 +1146,7 @@
     	   				success : function(responseJson1) {
     	   					//$("#selcol").show();
     	   					document.getElementById("selectedRecord").disabled=true;
-    	   					console.log(responseJson1);
+    	   					//console.log(responseJson1);
     	   					$('#ContentPlaceHolder1_CheckBoxList1').empty();
        						$.each(responseJson1, function(key, value) {
        				        	$('#ContentPlaceHolder1_CheckBoxList1').append('<input type="checkbox"  name="colmn" value="'+ key +'"/> ' +  '<label for="'+ key +'" >'+value.trim()+'</label>' +'<br/>');
@@ -1167,8 +1165,8 @@
         				url : '/fetchApplInfoCol',
         				data : {},
         				success : function(responseJsonAppInfoCol) {
-        					//$("#selcol1").show();
-        					console.log(responseJsonAppInfoCol);
+        					$("#selcol").show();
+        					//console.log(responseJsonAppInfoCol);
         					$('#ContentPlaceHolder2_CheckBoxList2').empty();
         					$.each(responseJsonAppInfoCol, function(key, value) {               
         				    	$('#ContentPlaceHolder2_CheckBoxList2').append('<input type="checkbox"  name="colmn" value="'+ key +'"/> ' +  '<label for="'+ key +'" >'+value.trim() +'</label>' +'<br/>');
@@ -1181,9 +1179,9 @@
     	   			
         			 function checkSelectedColumns(){
        		    	 	var data = ${selectedColforRepjson};
-       					console.log(data);
+       				//	console.log(data);
        					Object.keys(data).forEach(function(key) {
-	     					console.log('Key : ' + key + ', Value : ' + data[key]);
+	     				//	console.log('Key : ' + key + ', Value : ' + data[key]);
 	     					if(key==data[key]){
 	  							
 	  						 }else{
@@ -1194,9 +1192,9 @@
         					
         			 function checkSelectedColumnsforInit(){
         		    	 	var data = ${selectedColforRepjson};
-        					console.log(data);
+        				//	console.log(data);
         					Object.keys(data).forEach(function(key) {
- 	     					console.log('Key : ' + key + ', Value : ' + data[key]);
+ 	     					//console.log('Key : ' + key + ', Value : ' + data[key]);
  	     					if(key==data[key]){
  	  							$("#ContentPlaceHolder2_CheckBoxList2").find("input[value="+ key +"]").prop("checked", "checked").change();
  	  						 }
@@ -1213,6 +1211,29 @@
         	 	        }
         			 }
         			 
+        			 
+        			 var servID = $('#serviceID').val();
+        			 var deptId = ${listReport.getDepartmentId()};
+        			 var isAdminReport = $('#isAdminReport').val();
+        			 if(isAdminReport=="Y"){
+    					 $("#collist").hide();
+    					 $("#sortable1").hide();
+    					 $("#sortable5").css('height', '300px');
+    				 }
+        			 if(servID!=null && servID!=0){
+        				 $("#updateReportLabel").text("Modify Report For : " + "${ServiceName}");
+        				 $("#updateReportLabel").show();
+        				
+        			 }else if(deptId!=0 && servID==0){
+        				if(deptId==1){
+        					$("#updateReportLabel").text("Modify Report For All Departments ");
+                			$("#updateReportLabel").show();
+        				}else if(deptId!=1 && deptId!=null){
+        					$("#updateReportLabel").text("Modify Report For : " + "${SelectedDepartmentName}");
+        					$("#updateReportLabel").show();
+        				}	
+        			 }
+        			
 	    	   			
 //Code for update fetch ends here
 
@@ -1226,7 +1247,7 @@
 							
 							if(result="Report has been saved"){
 								alert(result);
-								//window.location.href='/DesignReptPage';
+								window.location.href='/DesignReptPage';
 							}else{
 							console.log("My ajax 1");
 							console.log(result);

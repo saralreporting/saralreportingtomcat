@@ -26,8 +26,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.google.gson.Gson;
 import com.saral.reporting.model.ReportBean;
+import com.saral.reporting.model.ReportOrganizations;
 import com.saral.reporting.model.ReportSelectColumn;
+import com.saral.reporting.model.ServiceMaster;
 import com.saral.reporting.service.ReportBeanService;
+import com.saral.reporting.service.ReportDomainService;
 import com.saral.reporting.service.ServiceMasterService;
 
 @Transactional
@@ -40,6 +43,9 @@ public class ModifyReportController {
 	
 	@Autowired
 	ServiceMasterService serviceMasterService;
+	
+	@Autowired
+	ReportDomainService reportDomainService;
 	
 	@RequestMapping(value = { "/modifyReportDesign" }, method = RequestMethod.GET)
 	public String modifyReportDesign(ModelMap model, Pageable pageable, @RequestParam String reportId, HttpServletRequest request)
@@ -72,6 +78,24 @@ public class ModifyReportController {
 		model.put("colListforUpdate", colListforUpdate);
 		model.put("reportColor", listReport.getTableColor());
 		model.put("reportName", listReport.getReportName());
+		
+		if(listReport.getServiceId()!=0L && listReport.getServiceId()!=null){
+			ServiceMaster serviceMaster = serviceMasterService.findByServiceCode(listReport.getServiceId().toString());
+			model.put("ServiceName", serviceMaster.getServiceName());
+			System.out.println("service_name is " + serviceMaster.getServiceName());
+		}
+		
+		if(listReport.getDepartmentId()!=0L && listReport.getServiceId()==0L){
+			if(listReport.getDepartmentId()==1L){
+				model.put("SelectedDepartmentName","All Departments");
+				System.out.println("All Department");
+			}else if(listReport.getDepartmentId()!=1L){
+				ReportOrganizations repOrg = reportDomainService.findByOrgCode(listReport.getDepartmentId());
+				model.put("SelectedDepartmentName",repOrg.getOrgName());
+				System.out.println("SelectedDepartmentName" + repOrg.getOrgName());
+			}	
+		}
+		
 		System.out.println("service_id is " + listReport.getServiceId());
 		return "modifyReportDesign";
 		
@@ -84,37 +108,18 @@ public class ModifyReportController {
 		ReportBean reportBean =reportBeanService.findByReportId(repId);
 		String res = "";
 
-		//Long departmentID = Long.parseLong(request.getParameter("departmentID"));//From Frontend For Report Purpose
-		//Long serviceID = Long.parseLong(request.getParameter("serviceID"));
-		//Long desigID = Long.parseLong(request.getParameter("desigID"));
-		//System.out.println("service ID is :" + serviceID);
-		//System.out.println("dep ID is :" + departmentID);
-
-		/*Long department_id = (Long) request.getSession().getAttribute("department_id");//From Session
-		if(department_id==0L){
-			reportBean.setIsAdminReport('Y');
-		}else{
-			reportBean.setIsAdminReport('N');
-		}*/
-		
 		reportBean.setReportName(request.getParameter("rpName"));
 		reportBean.setTableColor(request.getParameter("rpColor"));
-		//reportBean.setDepartmentId(departmentID);
-		//reportBean.setServiceId(serviceID);
-		//reportBean.setUserId(request.getParameter("userID"));
-		//reportBean.setSignNo(request.getParameter("sign_no"));
-		// reportBean.setSortBy(request.getParameter("sortBy"));
-		// reportBean.setSortingOrder(request.getParameter("sortByOrder"));
+		
 		reportBean.setVersionNo(reportBean.getVersionNo() + 1L); // need to get front end
-		//reportBean.setDesignationId(desigID); // need to get front end
+		
 		reportBean.setTooltip(request.getParameter("tooltip"));
-		// org.json.simple.JSONArray whrclsJSON
-		// =reportBean.jsonManipulateWhere(request.getParameter("whrclsJSON"));
+		
 		reportBean.setWhereCondition(request.getParameter("whrclsJSON"));
 		reportBean.setOrderCondition(request.getParameter("odrclsJSON"));
 		System.out.println("hey"+ request.getParameter("agrclsJSON"));
 		reportBean.setAggregationCls(request.getParameter("agrclsJSON"));
-		/* report.setGrouping(request.getParameter("rpGrpBy")); */
+		
 		String grpby = request.getParameter("grpIdName");
 		if (grpby.equals("0") || (grpby == null)) {
 			reportBean.setGrouping("");
@@ -122,25 +127,15 @@ public class ModifyReportController {
 			reportBean.setGrouping(grpby);
 		}
 
-		/*
-		 * String sortBy = request.getParameter("sortIdName"); if
-		 * (sortBy.equals("0")||(sortBy==null)) { reportBean.setSortBy("");
-		 * reportBean.setSortingOrder(""); } else {
-		 * reportBean.setSortBy(sortBy);
-		 * reportBean.setSortingOrder(request.getParameter("sortByOrder")); }
-		 */
-
-		/* report.setGrouping(request.getParameter("grpIdName")); */
+		
 		System.out.println("Group by :" + reportBean.getGrouping());
 		reportBean.setBackgroundText(request.getParameter("bgtext"));
 		reportBean.setFilterCls(""); // need to discuss
-		//org.json.simple.JSONArray hvngclsJSON = reportBean.jsonManipulateHaving(request.getParameter("hvngclsJSON"));
+		
 		reportBean.setHavingCls(request.getParameter("hvngclsJSON"));
 		reportBean.setTableFormat(""); // need to discuss
 		System.out.println("Report Header is" + request.getParameter("rpHeader"));
-		//reportBean.setReport_header(request.getParameter("rpHeader"));
-		//reportBean.setReport_footer(request.getParameter("rpFooter"));
-
+		
 		String selectedColList = request.getParameter("selectedColList");
 		System.out.println("Selected selectedColList list : " + selectedColList);
 
@@ -168,7 +163,7 @@ public class ModifyReportController {
 			col.setReportSelectedColumnId(objc.getString("Value"));
 			col.setReportSelectedColumnName(objc.getString("key"));
 			reportSelectColumnlist.add(col);
-			reportBean.addReportSelectColumn(col);
+			reportBean.addReportSelectColumnModify(col);
 			System.out.println(col);
 
 		}

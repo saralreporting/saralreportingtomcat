@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -105,7 +106,8 @@ public class ReportBean {
 	@Column(name = "isAdminReport")
 	private Character isAdminReport;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "reportBean12")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy = "reportBean12")
+	 @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)   
 	private List<ReportSelectColumn> reportSelectColumnList;
 
 	
@@ -138,8 +140,8 @@ public class ReportBean {
 	}
 
 	public void setReportSelectColumnList(List<ReportSelectColumn> reportSelectColumnList) {
-
-		this.reportSelectColumnList = reportSelectColumnList;
+		//reportSelectColumnList.clear();
+		this.reportSelectColumnList.addAll(reportSelectColumnList);
 	}
 
 	public Long getServiceId() {
@@ -333,6 +335,17 @@ public class ReportBean {
 	}
 
 	public void addReportSelectColumn(ReportSelectColumn reportSelectColumn) {
+		//reportSelectColumnList.clear();
+		if (reportSelectColumn != null) {
+			if (reportSelectColumnList == null) {
+				reportSelectColumnList = new ArrayList<ReportSelectColumn>();
+			}
+			reportSelectColumnList.add(reportSelectColumn);
+			reportSelectColumn.setReportBean(this);
+		}
+	}
+	public void addReportSelectColumnModify(ReportSelectColumn reportSelectColumn) {
+		reportSelectColumnList.clear();
 		if (reportSelectColumn != null) {
 			if (reportSelectColumnList == null) {
 				reportSelectColumnList = new ArrayList<ReportSelectColumn>();
