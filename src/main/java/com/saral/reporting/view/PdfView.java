@@ -41,7 +41,7 @@ public class PdfView extends AbstractPdfView {
 		Iterator<String> keys = json.keys();
 		int i = 0;
 		while (keys.hasNext()) {
-			//String key = keys.next();
+			keys.next();
 			
 			i++;
 		}

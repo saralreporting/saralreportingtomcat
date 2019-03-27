@@ -1058,8 +1058,11 @@
 	            	$("#serviceID").val("${listReport.serviceId}");
 	            	$('#selectedRecord').val("${listReport.serviceId}");
 	            	$("#bgtext").val("${listReport.getBackgroundText()}");
-	            	$("#rpHeader").val("${listReport.getReport_header()}");
-	            	$("#rpFooter").val("${listReport.getReport_footer()}");
+	            	//$("#rpHeader").val("${listReport.getReport_header()}");
+	            	//$("#rpFooter").val("${listReport.getReport_footer()}");
+	            	CKEDITOR.instances["rpHeader"].setData("${listReport.getReport_header()}");
+	            	CKEDITOR.instances["rpFooter"].setData("${listReport.getReport_footer()}");
+	            	
 	            	$("#reportID").val("${listReport.getReportId()}");
 	            	$("#isAdminReport").val("${listReport.getIsAdminReport()}");
 	            	console.log("${reportColor}");
