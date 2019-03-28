@@ -218,24 +218,12 @@
 						</select> 
 						<input type="button" id="buttonToRefreshOnChange" style="display: none;" class="btn no-border"
 					value="Refresh" onclick="javascript:RefreshReportView()" />
-
-				<%-- <form class="form-search">
-							<span class="input-icon"> <input type="text"
-								placeholder="Search ..." class="nav-search-input"
-								id="nav-search-input" autocomplete="off" /> <i
-								class="ace-icon fa fa-search nav-search-icon"></i>
-							</span>
-						</form> --%>
 					</div>
 					<!-- /.nav-search -->
 				</div>
 
 				<div class="page-content">
 					<div class="ace-settings-container" id="ace-settings-container">
-						<!-- <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn"> -->
-						<!-- <i class="ace-icon fa fa-cog bigger-130"></i> -->
-						<!-- </div> -->
-
 						<div class="ace-settings-box clearfix" id="ace-settings-box">
 							<div class="pull-left width-50">
 								<div class="ace-settings-item">
@@ -317,13 +305,6 @@
 					<!-- /.ace-settings-container -->
 
 					<div class="page-header">
-						<!-- <h1> -->
-						<!-- Dashboard -->
-						<!-- <small> -->
-						<!-- <i class="ace-icon fa fa-angle-double-right"></i> -->
-						<!-- overview &amp; stats -->
-						<!-- </small> -->
-						<!-- </h1> -->
 					</div>
 					<!-- /.page-header -->
 
@@ -640,12 +621,7 @@
 												</select><br/>
 												<a href="javascript:void(0);"
 																onclick="showDataForPieChart()">Show Pie-Chart</a>
-												
-												
-												
 											</div>
-											
-										
 										</div>
 										<div id="piechart"
 											style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto">
@@ -657,8 +633,6 @@
 									</div>
 									<div id="reportFooter" style=" margin-top: inherit; text-align: -webkit-center;"></div>
 								</div>
-								<!--Three closig divs has been moved to upper div from here-->
-
 				</div>
 				<!-- /.page-content -->
 			</div>

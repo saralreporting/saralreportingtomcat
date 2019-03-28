@@ -105,10 +105,6 @@
 			<div class="page-header">
 				<h1>
 					Role Master List
-					<!-- <small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small> -->
 				</h1>
 			</div>
 			<!-- /.page-header -->
@@ -116,17 +112,6 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<!-- PAGE CONTENT BEGINS -->
-					<!-- 	<div class="alert alert-block alert-success">
-								<button type="button" class="close" data-dismiss="alert">
-									<i class="ace-icon fa fa-times"></i>
-								</button>
-
-								<i class="ace-icon fa fa-check green"></i> Welcome to <strong
-									class="green"> Saral Haryana <small>(v1.0)</small>
-								</strong>, Report Designer.
-							</div>
-
-							<div class="hr hr32 hr-dotted"></div> -->
 					<div id="hdndivval">
 						<input type="hidden" name="deptid"
 							value=${department_id
@@ -225,9 +210,6 @@
 <script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 <script src="assets/js/jquery.easypiechart.min.js"></script>
 <script src="assets/js/jquery.sparkline.index.min.js"></script>
-<!-- 	<!-- <script src="assets/js/jquery.flot.min.js"></script> 
-		<script src="assets/js/jquery.flot.pie.min.js"></script>
-		<script src="assets/js/jquery.flot.resize.min.js"></script> -->
 
 <!-- ace scripts -->
 <script src="assets/js/ace-elements.min.js"></script>
