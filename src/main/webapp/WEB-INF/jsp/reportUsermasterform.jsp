@@ -48,17 +48,6 @@
 				<li class="active">Report User Master</li>
 			</ul>
 			<!-- /.breadcrumb -->
-
-			<div class="nav-search" id="nav-search">
-				<form class="form-search">
-					<span class="input-icon"> <input type="text"
-						placeholder="Search ..." class="nav-search-input"
-						id="nav-search-input" autocomplete="off" /> <i
-						class="ace-icon fa fa-search nav-search-icon"></i>
-					</span>
-				</form>
-			</div>
-			<!-- /.nav-search -->
 		</div>
 
 		<div class="page-content">
@@ -145,10 +134,6 @@
 			<div class="page-header">
 				<h1>
 					Report User Master
-					<!-- <small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small> -->
 				</h1>
 			</div>
 			<!-- /.page-header -->
@@ -156,17 +141,6 @@
 			<div class="row">
 				<div class="col-xs-12">
 					<!-- PAGE CONTENT BEGINS -->
-					<!-- <div class="alert alert-block alert-success">
-						<button type="button" class="close" data-dismiss="alert">
-							<i class="ace-icon fa fa-times"></i>
-						</button>
-
-						<i class="ace-icon fa fa-check green"></i> Welcome to <strong
-							class="green"> Saral Haryana <small>(v1.0)</small>
-						</strong>, Report Designer.
-					</div>
-
-					<div class="hr hr32 hr-dotted"></div> -->
 					<div id="hdndivval">
 						<input type="hidden" name="deptid"
 							value=${department_id} id="deptid" />

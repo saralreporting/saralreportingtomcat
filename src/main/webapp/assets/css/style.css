@@ -69,14 +69,13 @@ section{
 .form-control option{
 	color: #424242;
 }
-.form-control{
+.form-control {
 	border-radius: 0;
-	padding: 25px;
-    font-size: 18px;
-    font-style: italic;
-    background-color: transparent;
-    color: #424242;
-    margin-bottom: 30px;
+	padding: 15px;
+	font-size: 14px;
+	background-color: transparent;
+	color: #424242;
+	margin-bottom: 30px;
 	border-color: #51c2b9;
 }
 .form-control:focus{

@@ -19,17 +19,6 @@
 						<li class="active">User List</li>
 					</ul>
 					<!-- /.breadcrumb -->
-
-					<div class="nav-search" id="nav-search">
-						<form class="form-search">
-							<span class="input-icon"> <input type="text"
-								placeholder="Search ..." class="nav-search-input"
-								id="nav-search-input" autocomplete="off" /> <i
-								class="ace-icon fa fa-search nav-search-icon"></i>
-							</span>
-						</form>
-					</div>
-					<!-- /.nav-search -->
 				</div>
 
 				<div class="page-content">
@@ -122,10 +111,6 @@
 					<div class="page-header">
 						<h1>
 							User List
-							<!-- <small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small> -->
 						</h1>
 					</div>
 					<!-- /.page-header -->
@@ -133,36 +118,27 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<!-- <div class="alert alert-block alert-success">
-								<button type="button" class="close" data-dismiss="alert">
-									<i class="ace-icon fa fa-times"></i>
-								</button>
-
-								<i class="ace-icon fa fa-check green"></i> Welcome to <strong
-									class="green"> Saral Haryana <small>(v1.0)</small>
-								</strong>, Report Designer.
-							</div>
-
-							<div class="hr hr32 hr-dotted"></div> -->
 							<div id="hdndivval">
 								<input type="hidden" name="deptid"
 									value=${department_id} id="deptid" />
 							</div>
 
-							<div class="container" style="width: 100%;">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-chart-div" style="padding-top: 15px; padding-left: 15px; padding-right: 15px; margin-top: 5px;">
 								<!-- <h2>User List</h2> -->
 								<table class="table table-striped">
 									<thead>
-										<th scope="row">#ID</th>
-										<th scope="row">UserSignNumber</th>
-										<th scope="row">Role Names</th>
-										<th scope="row">Designation</th>
-										<th scope="row">User Detail</th>
-										<th scope="row">Mobile Number</th>
-										<th scope="row">Email</th>
-										<th scope="row">State</th>
-										<th scope="row">Modify</th>
-										<th scope="row">Delete</th>
+										<tr>
+											<th scope="row">#ID</th>
+											<th scope="row">UserSignNumber</th>
+											<th scope="row">Role Names</th>
+											<th scope="row">Designation</th>
+											<th scope="row">User Detail</th>
+											<th scope="row">Mobile Number</th>
+											<th scope="row">Email</th>
+											<th scope="row">State</th>
+											<th scope="row">Modify</th>
+											<th scope="row">Delete</th>
+										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${UserMasterlist}" var="ReportUserMaster">
@@ -177,18 +153,20 @@
 												<td>${ReportUserMaster.stateId}</td>
 												<td><spring:url
 														value="updateReportUserMaster?id=${ReportUserMaster.userDataId }"
-														var="updateURL" /> <a class="btn btn-primary"
-													href="${updateURL}" role="button">Modify</a></td>
+														var="updateURL" /> <a class="cus-mod-more2"
+													href="${updateURL}" role="button"></a></td>
 												<td><spring:url
 														value="/deleteReportUserMaster?id=${ReportUserMaster.userDataId }"
-														var="deleteURL" /> <a class="btn btn-danger"
-													href="${deleteURL }" role="button">Delete</a></td>
+														var="deleteURL" /> <a class="cus-del-more2"
+													href="${deleteURL }" role="button"></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
-								<spring:url value="/addReportUserMaster" var="addURL" />
-								<a class="btn btn-primary" href="${addURL}" role="button">Add New User</a>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="margin-bottom: 15px;">
+									<spring:url value="/addReportUserMaster" var="addURL" />
+									<a class="btn btn-primary" href="${addURL}" role="button">Add New User</a>
+								</div>
 							</div>
 
 							<!-- PAGE CONTENT ENDS -->

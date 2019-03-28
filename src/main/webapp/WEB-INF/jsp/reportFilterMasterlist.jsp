@@ -148,14 +148,16 @@
 									value=${department_id} id="deptid" />
 							</div>
 
-							<div class="container" style="width: 100%;">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-chart-div" style="padding-top: 15px; padding-left: 15px; padding-right: 15px; margin-top: 5px;">
 								<!-- <h2>Filter Master List</h2> -->
 								<table class="table table-striped">
 									<thead>
-										<th scope="row">#ID</th>
-										<th scope="row">Filter Name</th>
-										<th scope="row">Modify</th>
-										<th scope="row">Delete</th>
+										<tr>
+											<th scope="row">#ID</th>
+											<th scope="row">Filter Name</th>
+											<th scope="row">Modify</th>
+											<th scope="row">Delete</th>
+										</tr>
 									</thead>
 									<tbody>
 										<c:forEach items="${FilterMasterlist}"
@@ -165,19 +167,20 @@
 												<td>${ReportFilterMaster.reportFilterName}</td>
 												<td><spring:url
 														value="updateReportFilterMaster?id=${ReportFilterMaster.reportFilterId }"
-														var="updateURL" /> <a class="btn btn-primary"
-													href="${updateURL}" role="button">Modify</a></td>
+														var="updateURL" /> <a class="cus-mod-more2"
+													href="${updateURL}" role="button"></a></td>
 												<td><spring:url
-														value="/deleteReportFilterMaster?id=${ReportFilterMaster.reportFilterId }"
-														var="deleteURL" /> <a class="btn btn-danger"
-													href="${deleteURL }" role="button">Delete</a></td>
+														value="/deleteHavingFunctons?id=${ReportFilterMaster.reportFilterId }"
+														var="deleteURL" /> <a class="cus-del-more2"
+													href="${deleteURL }" role="button"></a></td>
 											</tr>
 										</c:forEach>
 									</tbody>
 								</table>
-								<spring:url value="/addReportFilterMaster" var="addURL" />
-								<a class="btn btn-primary" href="${addURL}" role="button">Add
-									New Filter Master</a>
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="margin-bottom: 15px;">
+									<spring:url value="/addReportFilterMaster" var="addURL" />
+									<a class="btn btn-primary" href="${addURL}" role="button">Add New Filter Master</a>
+								</div>
 							</div>
 
 							<!-- PAGE CONTENT ENDS -->

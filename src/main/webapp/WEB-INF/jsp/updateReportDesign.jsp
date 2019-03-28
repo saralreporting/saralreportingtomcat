@@ -10,7 +10,6 @@
 
 
 	
-	<!-- <div class="main-container ace-save-state" id="main-container"> -->
 		
 		<div class="main-content">
 			<div class="main-content-inner">
@@ -124,29 +123,13 @@
 					<div class="page-header">
 						<h1>
 							Modify Reports
-							<!-- <small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small> -->
 						</h1>
 					</div>
 					<!-- /.page-header -->
 
 					<div class="row">
 						<div class="col-xs-12">
-							<!-- PAGE CONTENT BEGINS -->
-							<!-- <div class="alert alert-block alert-success">
-								<button type="button" class="close" data-dismiss="alert">
-									<i class="ace-icon fa fa-times"></i>
-								</button>
 
-								<i class="ace-icon fa fa-check green"></i> Welcome to <strong
-									class="green"> Saral Haryana <small>(v1.0)</small>
-								</strong>, Report Designer.
-							</div> -->
-
-
-							<!-- PAGE CONTENT ENDS -->
 						</div>
 						<!-- /.col -->
 					</div>
@@ -173,8 +156,7 @@
 								<tr>
 									<td>${item.reportId}</td>
 									<td>${item.reportName}</td>
-									<td><%-- <spring:url	value="/modifyReportDesign?reportId=${item.reportId}" var="modifyURL" /> 
-										<a class="btn btn-primary"	href="${modifyURL}" role="button">Modify</a></td> --%>
+									<td>
 										<a class="btn btn-primary"	href="javascript:void(0);" role="button" onclick="modifyData('${item.reportId}')">Modify</a></td>
 									<td><spring:url	value="/deleteSelectedReport?reportId=${item.reportId}&sign_no=${sign_no}" var="deleteURL" /> 
 										<a class="btn btn-danger"	href="${deleteURL}" role="button">Delete</a></td>
@@ -230,9 +212,6 @@
 	<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
 	<script src="assets/js/jquery.easypiechart.min.js"></script>
 	<script src="assets/js/jquery.sparkline.index.min.js"></script>
-	<!-- 	<!-- <script src="assets/js/jquery.flot.min.js"></script> 
-		<script src="assets/js/jquery.flot.pie.min.js"></script>
-		<script src="assets/js/jquery.flot.resize.min.js"></script> -->
 
 	<!-- ace scripts -->
 	<script src="assets/js/ace-elements.min.js"></script>

@@ -578,14 +578,10 @@ public class ViewReportController implements Serializable {
 				List<Long> childList2 = childListComplete.stream().map(urEntity -> urEntity.getOrgUnitCode())
 						.collect(Collectors.toList());
 				finalList.addAll(childList2);
-				// System.out.println("This is child List in Loop " + i + "childList2 : " +
-				// childList2);
+				
 				parentIds.clear();
 				parentIds.addAll(childList2);
-				// System.out.println("This is Parent List After Loop " + i + "parentIds : " +
-				// parentIds);
-				// System.out.println("This is Final List After Loop " + i + "finalList : " +
-				// finalList);
+				
 			}
 
 			return finalList;

@@ -13,22 +13,11 @@
 	<div class="main-content-inner">
 		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-home home-icon"></i> <a
-					href="/welcome">Home</a></li>
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+				</li>
 				<li class="active">Dashboard</li>
 			</ul>
 			<!-- /.breadcrumb -->
-
-			<div class="nav-search" id="nav-search">
-				<form class="form-search">
-					<span class="input-icon"> <input type="text"
-						placeholder="Search ..." class="nav-search-input"
-						id="nav-search-input" autocomplete="off" /> <i
-						class="ace-icon fa fa-search nav-search-icon"></i>
-					</span>
-				</form>
-			</div>
-			<!-- /.nav-search -->
 		</div>
 
 		<div class="page-content">
@@ -115,34 +104,14 @@
 			<div class="page-header">
 				<h1>
 					Dashboard
-					<!-- <small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small> -->
 				</h1>
 			</div>
 			<!-- /.page-header -->
 
 			<div class="row">
-				<!-- <div class="col-xs-12">
-							PAGE CONTENT BEGINS
-							<div class="alert alert-block alert-success">
-								<button type="button" class="close" data-dismiss="alert">
-									<i class="ace-icon fa fa-times"></i>
-								</button>
-
-								<i class="ace-icon fa fa-check green"></i> Welcome to <strong
-									class="green"> Saral Haryana <small>(v1.0)</small>
-								</strong>, Report Designer.
-							</div>
-
-
-							PAGE CONTENT ENDS
-						</div> -->
-
 				<div class="col-xs-12">
 					<!-- PAGE CONTENT BEGINS -->
-					<div class="alert alert-block alert-success">
+					<div class="alert alert-block alert-success" style="margin-bottom: 0;">
 						<button type="button" class="close" data-dismiss="alert">
 							<i class="ace-icon fa fa-times"></i>
 						</button>
@@ -153,86 +122,104 @@
 					</div>
 
 					<div class="row">
-						<div class="space-6"></div>
-
-						<div class="col-sm-11 infobox-container">
-							<div class="infobox infobox-green">
-								<!-- <div class="infobox-icon">
-									<i class="ace-icon fa fa-comments"></i>
-								</div> -->
-
-								<div class="infobox-data">
-									<span class="infobox-data-number">22</span>
-									<div class="infobox-content">Districts</div>
+						<div class="col-sm-12 col-xs-12 infobox-container" style="padding: 0;">
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 cus-small-tabs">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-small-tab-inner border1">
+			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 cus-img-outer" style="padding: 0;">
+			                            <img class="img-responsive cus-icon-img" src="../assets/images/district.png">
+			                        </div>
+			                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 cus-values" style="padding: 0;">
+			                            <p id="districtCount" class="cus-value-num">22</p>
+			                            <button id="districtRldBtn" class="cus-reload-bttn" data-toggle="Tooltip" title="Click to refresh" style="display:none" type="button"></button>
+			                        </div>
+			                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+			                            <h4>Districts</h4>
+			                        </div>
+		                        </div>
+		                    </div>
+							<div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 cus-small-tabs">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-small-tab-inner border2">
+			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 cus-img-outer" style="padding: 0;">
+			                            <img class="img-responsive cus-icon-img" src="../assets/images/dept.png">
+			                        </div>
+			                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 cus-values" style="padding: 0;">
+			                            <p id="deptCount" class="cus-value-num">${departmentsCount}</p>
+			                            <button id="districtRldBtn" class="cus-reload-bttn" data-toggle="Tooltip" title="Click to refresh" style="display:none" type="button"></button>
+			                        </div>
+			                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+			                            <h4>Departments</h4>
+			                        </div>
+		                        </div>
+		                    </div>
+		                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 cus-small-tabs">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-small-tab-inner border3">
+			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 cus-img-outer" style="padding: 0;">
+			                            <img class="img-responsive cus-icon-img" src="../assets/images/service.png">
+			                        </div>
+			                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 cus-values" style="padding: 0;">
+			                            <p id="districtCount" class="cus-value-num">${servicesCount}</p>
+			                            <button id="districtRldBtn" class="cus-reload-bttn" data-toggle="Tooltip" title="Click to refresh" style="display:none" type="button"></button>
+			                        </div>
+			                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+			                            <h4>Total Services</h4>
+			                        </div>
+		                        </div>
+		                    </div>
+		                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 cus-small-tabs">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-small-tab-inner border4">
+			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 cus-img-outer" style="padding: 0;">
+			                            <img class="img-responsive cus-icon-img" src="../assets/images/total-app.png">
+			                        </div>
+			                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 cus-values" style="padding: 0;">
+			                            <p id="districtCount" class="cus-value-num">${applicationRecieved}</p>
+			                            <button id="districtRldBtn" class="cus-reload-bttn" data-toggle="Tooltip" title="Click to refresh" style="display:none" type="button"></button>
+			                        </div>
+			                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+			                            <h4>Applications Received</h4>
+			                        </div>
+		                        </div>
+		                    </div>
+		                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 cus-small-tabs">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-small-tab-inner border5">
+			                        <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 cus-img-outer" style="padding: 0;">
+			                            <img class="img-responsive cus-icon-img" src="../assets/images/comp-applications.png">
+			                        </div>
+			                        <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 cus-values" style="padding: 0;">
+			                            <p id="districtCount" class="cus-value-num">6,251</p>
+			                            <button id="districtRldBtn" class="cus-reload-bttn" data-toggle="Tooltip" title="Click to refresh" style="display:none" type="button"></button>
+			                        </div>
+			                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+			                            <h4>Applications Processed</h4>
+			                        </div>
+		                        </div>
+		                    </div>
+		                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-6 cus-small-tabs">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-small-tab-inner border6">
+									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 cus-img-outer" style="padding: 0;">
+										<img class="img-responsive cus-icon-img" src="../assets/images/comp-services.png">
+									</div>
+									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 cus-values" style="padding: 0;">
+										<p id="districtCount" class="cus-value-num">0</p>
+										<button id="districtRldBtn" class="cus-reload-bttn" data-toggle="Tooltip" title="Click to refresh" style="display:none" type="button"></button>
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+										<h4>Processed within RTS</h4>
+									</div>
 								</div>
-
-
 							</div>
-
-							<div class="infobox infobox-blue">
-								<!-- <div class="infobox-icon">
-												<i class="ace-icon fa fa-twitter"></i>
-											</div>
- -->
-								<div class="infobox-data">
-									<span class="infobox-data-number">${departmentsCount}</span>
-									<div class="infobox-content">Departments</div>
-								</div>
-
-
-							</div>
-
-							<div class="infobox infobox-pink">
-								<!-- <div class="infobox-icon">
-												<i class="ace-icon fa fa-shopping-cart"></i>
-											</div> -->
-
-								<div class="infobox-data">
-									<span class="infobox-data-number">${servicesCount}</span>
-									<div class="infobox-content">Total Services</div>
-								</div>
-
-							</div>
-
-							<div class="infobox infobox-red">
-								<!-- <div class="infobox-icon">
-												<i class="ace-icon fa fa-flask"></i>
-											</div>
- -->
-								<div class="infobox-data">
-									<span class="infobox-data-number">${applicationRecieved}</span>
-									<div class="infobox-content">Applications Received</div>
-								</div>
-							</div>
-
-							<div class="infobox infobox-orange2">
-								<!-- <div class="infobox-chart">
-												<span class="sparkline" data-values="196,128,202,177,154,94,100,170,224"></span>
-											</div> -->
-
-								<div class="infobox-data">
-									<span class="infobox-data-number">6,251</span>
-									<div class="infobox-content">Applications Processed</div>
-								</div>
-
-
-							</div>
-							Processed within RTS
-							<div class="infobox infobox-blue2">
+						
 								<div class="infobox-data">
 									<span class="infobox-data-number">0</span>
 									<div class="infobox-content">Processed within RTS</div>
 								</div>
 
-							</div>
-
-							<div class="space-6"></div>
-
 						</div>
+						<div class="space-6"></div>
+					</div>
 
 						<div class="vspace-12-sm"></div>
 						<%-- <c:if test="${not empty list}"> --%>
-						<div class="col-sm-7" id="selectedReportChartDiv">
+						<div class="col-sm-12 col-xs-12 cus-chart-div" id="selectedReportChartDiv" style="margin-top: 15px;">
 							<div class="widget-box">
 								<div
 									class="widget-header widget-header-flat widget-header-small">
@@ -284,8 +271,8 @@
 								</div>
 							</div>
 						</div>
-						<div class="">
-							<div class="col-sm-6">
+						
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-grids">
 								<div class="widget-box transparent">
 									<div class="widget-header widget-header-flat">
 										<h4 class="widget-title lighter">
@@ -342,7 +329,7 @@
 								<!-- /.widget-box -->
 							</div>
 							<!-- /.col -->
-						</div>
+						
 
 
 						<sec:authorize access="hasRole('ADMIN')">
@@ -406,9 +393,6 @@
 							</div>
 							<!-- /.col -->
 						</sec:authorize>
-					</div>
-
-
 				</div>
 				<!-- PAGE CONTENT ENDS -->
 			</div>
@@ -417,7 +401,6 @@
 		<!-- /.row -->
 	</div>
 	<!-- /.page-content -->
-</div>
 </div>
 <!-- /.main-content -->
 

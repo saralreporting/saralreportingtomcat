@@ -18,20 +18,9 @@
 					<ul class="breadcrumb">
 						<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/welcome">Home</a>
 						</li>
-						<li class="active">Report Role Master</li>
+						<li class="active">Report Role Master Form</li>
 					</ul>
 					<!-- /.breadcrumb -->
-
-					<div class="nav-search" id="nav-search">
-						<form class="form-search">
-							<span class="input-icon"> <input type="text"
-								placeholder="Search ..." class="nav-search-input"
-								id="nav-search-input" autocomplete="off" /> <i
-								class="ace-icon fa fa-search nav-search-icon"></i>
-							</span>
-						</form>
-					</div>
-					<!-- /.nav-search -->
 				</div>
 
 				<div class="page-content">
@@ -123,11 +112,7 @@
 
 					<div class="page-header">
 						<h1>
-							Report Role Master
-							<!-- <small>
-									<i class="ace-icon fa fa-angle-double-right"></i>
-									overview &amp; stats
-								</small> -->
+							Report Role Master Form
 						</h1>
 					</div>
 					<!-- /.page-header -->

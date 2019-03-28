@@ -8,30 +8,15 @@
 	<div class="main-content-inner">
 		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
 			<ul class="breadcrumb">
-				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="#">Home</a>
+				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/welcome">Home</a>
 				</li>
-				<li class="active">Dashboard</li>
+				<li class="active">Design Report</li>
 			</ul>
 			<!-- /.breadcrumb -->
-
-			<div class="nav-search" id="nav-search">
-				<form class="form-search">
-					<span class="input-icon"> <input type="text"
-						placeholder="Search ..." class="nav-search-input"
-						id="nav-search-input" autocomplete="off" /> <i
-						class="ace-icon fa fa-search nav-search-icon"></i>
-					</span>
-				</form>
-			</div>
-			<!-- /.nav-search -->
 		</div>
 
 		<div class="page-content">
 			<div class="ace-settings-container" id="ace-settings-container">
-				<!-- <div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn"> -->
-				<!-- <i class="ace-icon fa fa-cog bigger-130"></i> -->
-				<!-- </div> -->
-
 				<div class="ace-settings-box clearfix" id="ace-settings-box">
 					<div class="pull-left width-50">
 						<div class="ace-settings-item">
@@ -107,13 +92,6 @@
 			<!-- /.ace-settings-container -->
 
 			<div class="page-header">
-				<!-- <h1> -->
-				<!-- Dashboard -->
-				<!-- <small> -->
-				<!-- <i class="ace-icon fa fa-angle-double-right"></i> -->
-				<!-- overview &amp; stats -->
-				<!-- </small> -->
-				<!-- </h1> -->
 			</div>
 			<!-- /.page-header -->
 			<div class="row">
@@ -122,90 +100,67 @@
 								<input type="hidden" name="deptid" value=${department_id} id="deptid" />
 							</div>
 							
-							<div class="col-lg-12 col-md-12 col-xs-12 container" id="departmentNames" style="height: 200px; width: 80%; float: none; margin: auto; display: none; background-color: aliceblue;">
-								
-								<h3>Please select Department below :</h3>
-								<select id="selectedDeptrtmnt" name="selectedDeptrtmnt"
-									style="width: 600px">
+							<div class="col-lg-6 col-md-6 col-xs-12" id="departmentNames" style="background-color: aliceblue; margin-bottom: 15px; padding: 0;">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-input-ext">
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-labels-div">
+									<label class="cus-labels">Please select Department below :</label>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-text-input">
+								<select id="selectedDeptrtmnt" name="selectedDeptrtmnt" style="width: 100%;">
 									<option value="0">Please Select</option>
 								</select> 
-								
-								<input type="submit" class="btn btn-purple no-border"
-									id="getServicesOrg" value="Get Services" />
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
+								<input type="submit" class="btn btn-purple no-border cus-get-col" id="getServicesOrg" value="Get Services" />
+								</div>
 							</div>
-							
-				<div class="col-lg-12 col-md-12 col-xs-12 container" id="reprt2"
-								style="height: 200px; width: 80%; float: none; margin: auto; display: none; background-color: aliceblue;">
-								<h3>Please select Service below :</h3>
-								<select id="selectedRecord" name="selectedRecord"
-									style="width: 600px">
+							</div>
+				<div class="col-lg-6 col-md-6 col-xs-12" id="reprt2" style="background-color: aliceblue; margin-bottom: 15px; padding: 0;">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-input-ext">
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-labels-div">
+									<label class="cus-labels">Please select Service below :</label>
+								</div>
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-text-input">
+								<select id="selectedRecord" name="selectedRecord" style="width: 100%">
 									<option value="0">Please Select</option>
-								</select> <input type="submit" class="btn btn-purple no-border"
-									id="getcol" value="Get Columns" />
+								</select> 
+								</div>
+								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
+								<input type="submit" class="btn btn-purple no-border cus-get-col" id="getcol" value="Get Columns" />
+								</div>
+				</div>
 				</div>
 				<div class="hr hr32 hr-dotted"></div>
-
-							
-			</div>
-			
-			
-			<div class="row">
 				<div class="col-lg-12 col-md-12 col-xs-12">
 				
 					<form id="mycustreport" method="post" enctype="multipart/form-data">
 						<div class="tabbable">
 							<ul class="nav nav-tabs">
-								<!-- <li class="active"><a href="#filter" data-toggle="tab"><img
-										src="assets/images/icons/filter.png"
-										class="img-responsive tab-img"><span>Filters</span></a></li> -->
-								<!-- <li><a href="#editor" data-toggle="tab"><img
-										src="assets/images/icons/editor.png"
-										class="img-responsive tab-img"><span>Editor</span></a></li> -->
-								<li id="c1" class="active" ><a href="#sql" data-toggle="tab" onclick="javascript:changeTab0()"><img
-										src="assets/images/icons/customize.png"
-										class="img-responsive tab-img"><span>Step-1. Columns Selection</span></a></li>
-								<!-- <li><a href="#setting" data-toggle="tab"><img
-										src="assets/images/icons/setting.png"
-										class="img-responsive tab-img"><span>Settings</span></a></li> -->
-								<li id="c2"><a href="#customize" data-toggle="tab" onclick="javascript:changeTab()"><img
-										src="assets/images/icons/customize.png"
-										class="img-responsive tab-img"><span>Step-2. Report Details</span></a></li>
-								<li id="c3"><a href="#divForOrdr" data-toggle="tab" onclick="javascript:changeTab2()"><img
-										src="assets/images/icons/customize.png"
-										class="img-responsive tab-img"><span>Step-3. Order By
-											Conditions</span></a></li>
-								<li id="c4"><a href="#divForWhere" data-toggle="tab" onclick="javascript:changeTab3()"><img
-										src="assets/images/icons/customize.png"
-										class="img-responsive tab-img"><span>Step-4. Where
-											Conditions</span></a></li>
-								<li id="c5"><a href="#divForHaving" data-toggle="tab" onclick="javascript:changeTab4()"><img
-										src="assets/images/icons/customize.png"
-										class="img-responsive tab-img"><span>Step-5. Having
-											Conditions</span></a></li>
-							<!-- 	<li><a href="#divForAggr" data-toggle="tab"><img
-										src="assets/images/icons/customize.png"
-										class="img-responsive tab-img"><span>Step-6 </span></a></li> -->
+								<li id="c1" class="active"><a href="#sql" data-toggle="tab" onclick="javascript:changeTab0()"><img src="../assets/images/columns.png" class="img-responsive tab-img"><span>Step-1. Columns Selection</span></a></li>
+								<li id="c2"><a href="#customize" data-toggle="tab" onclick="javascript:changeTab()"><img src="../assets/images/reports1.png" class="img-responsive tab-img"><span>Step-2. Report Details</span></a></li>
+								<li id="c3"><a href="#divForOrdr" data-toggle="tab" onclick="javascript:changeTab2()"><img src="../assets/images/orderby2.png" class="img-responsive tab-img"><span>Step-3. Order By Conditions</span></a></li>
+								<li id="c4"><a href="#divForWhere" data-toggle="tab" onclick="javascript:changeTab3()"><img src="../assets/images/wherecond.png" class="img-responsive tab-img"><span>Step-4. Where Conditions</span></a></li>
+								<li id="c5"><a href="#divForHaving" data-toggle="tab" onclick="javascript:changeTab4()"><img src="../assets/images/havingcond.png" class="img-responsive tab-img"><span>Step-5. Having Conditions</span></a></li>
 							</ul>
-							<div class="tab-content">
+							<div class="tab-content cus-tabs">
 								<div class="tab-pane active" id="sql">
-									<div class="col-lg-12 col-md-12 col-xs-12 container" id="selcol" style="display: none;">
-										<div class="container " id="collist"
+									<div class="col-lg-12 col-md-12 col-xs-12" id="selcol" style="display: none;">
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-list-div" id="collist"
 											style="width:33%; float: left; display: none;">
-											<h4 align="left">Please select Service Attributes below :</h4>
+											<h5 class="cus-list-heading" align="left">Please select Service Attributes below :</h5>
 											<div class="container" id="ContentPlaceHolder1_CheckBoxList1"
 												style="overflow: scroll; height: 300px; width: 100%; float: left; BACKGROUND-COLOR: aliceblue;">
 											</div>
 										</div>
-										<div class="container " id="applInfoCollist"
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-list-div" id="applInfoCollist"
 											style="width:33%; float: left;">
-											<h4 align="left">Please select ApplInfo Columns below:</h4>
+											<h5 class="cus-list-heading" align="left">Please select ApplInfo Columns below:</h5>
 											<div class="container" id="ContentPlaceHolder2_CheckBoxList2"
 												style="overflow: scroll; height: 300px; width: 100%; float: left; BACKGROUND-COLOR: aliceblue;">
 											</div>
 										</div>
-										<div class="container" id="selcollist"
-											style="width:33%; float: left;">
-											<H4 align="left">Selected columns for report</H4>
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-list-div" id="selcollist" style="width:33%; float: left;">
+											<h5 class="cus-list-heading" align="left">Selected columns for report</h5>
 											<div id="sortable1"
 												style="overflow: scroll; display: none; height: 150px; width: 100%; float: left; background-color: aliceblue;">
 												<ul id="sortable" class="cus-jquery-tabs"
@@ -224,10 +179,12 @@
 								</div>
 								
 								<div class="tab-pane" id="customize">
-									<span class="cus-filter">Report Details</span> <input
-										type="hidden" id="hddnJSONB" name="hddnJSONB" /> <input
-										type="hidden" id="hddnJSON" name="hddnJSON" /> <input
-										type="hidden" id="departmentID" name="departmentID" value="" />
+									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
+									<h4>Report Details</h4> 
+								</div>
+								 <input type="hidden" id="hddnJSONB" name="hddnJSONB" /> 
+								 <input type="hidden" id="hddnJSON" name="hddnJSON" /> 
+								 <input type="hidden" id="departmentID" name="departmentID" value="" />
 									<input type="hidden" id="serviceID" name="serviceID" value="" />
 									<input type="hidden" id="desigID" name="desigID"
 										value=${designation_id } /> <input type="hidden" id="userID"
@@ -238,47 +195,48 @@
 										type="hidden" id="hvngclsJSON" name="hvngclsJSON" /> 
 										<input	type="hidden" id="odrclsJSON" name="odrclsJSON" />
 										<input type="hidden" id="agrclsJSON" name="agrclsJSON" />
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpName">Report
-											Name:</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" id="rpName"
-												placeholder="Enter Report Name" name="rpName"
-												required="required">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-form-group">
+									<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-labels-div">
+										<label class="cus-labels" for="rpName">Report Name:</label>
+									</div>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="rpName" placeholder="Enter Report Name" name="rpName" required="required">
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpColor">
-											Table Color:</label>
-										<div class="col-sm-9">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-form-group">
+									<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-labels-div">
+										<label class="cus-labels" for="rpColor">Table Color:</label>
+									</div>
+										<div class="col-sm-8">
 											<input class="jscolor form-control" id="rpColor"
 												name="rpColor" value="FFFFFF">
 										</div>
 									</div>
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="tooltip">
-											Tool-tip:</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" id="tooltip"
-												placeholder="Enter Tool-tip" name="tooltip">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-form-group">
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-labels-div">
+											<label class="cus-labels" for="tooltip">Tool-tip:</label>
+										</div>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="tooltip" placeholder="Enter Tool-tip" name="tooltip">
 										</div>
 									</div>
 
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="bgtext">Report
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-form-group">
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-labels-div">
+										<label class="cus-labels" for="bgtext">Report
 											Background text:</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" id="bgtext"
-												placeholder="Enter Background text " name="bgtext">
+										</div>
+										<div class="col-sm-8">
+											<input type="text" class="form-control" id="bgtext" placeholder="Enter Background text " name="bgtext">
 										</div>
 									</div>
 
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpGrpBy">
-											Select Group By:</label>
-										<div class="col-sm-9">
-											<select multiple class="form-control" name="rpGrpBy"
-												id="rpGrpBy">
+									<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-form-group">
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-labels-div">
+										<label class="cus-labels" for="rpGrpBy">Select Group By:</label>
+										</div>
+										<div class="col-sm-8">
+											<select multiple class="form-control" name="rpGrpBy" id="rpGrpBy">
 												<option value="0">Please Select</option>
 											</select>
 										</div>
@@ -286,12 +244,12 @@
 									<input class="form-group" type="hidden" name="grpIdName"
 										id="grpIdName" />
 
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpHeader">Report
-											Header Text:</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" id="rpHeader"
-												placeholder="Enter Report Header Text" name="rpHeader">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-form-group">
+										<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 cus-labels-div">
+										<label class="cus-labels" for="rpHeader">Report Header Text:</label>
+										</div>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="rpHeader" placeholder="Enter Report Header Text" name="rpHeader">
 										</div>
 									</div>
 
@@ -299,12 +257,12 @@
 													CKEDITOR.replace('rpHeader');
 												</script>
 
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpFooter">
-											Report Footer Text:</label>
-										<div class="col-sm-9">
-											<input type="text" class="form-control" id="rpFooter"
-												placeholder="Enter Report Footer Text" name="rpFooter">
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-form-group">
+										<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 cus-labels-div">
+										<label class="cus-labels" for="rpFooter">Report Footer Text:</label>
+										</div>
+										<div class="col-sm-10">
+											<input type="text" class="form-control" id="rpFooter" placeholder="Enter Report Footer Text" name="rpFooter">
 										</div>
 									</div>
 									<script>
@@ -319,16 +277,19 @@
 								</div>
 
 								<div class="tab-pane" id="divForOrdr">
-									<span class="cus-filter">Report Details - Order By</span>
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpODCondition">Order
-											By Condition :</label>
-										<div class="col-sm-3">
+									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
+										<h4>Report Details - Order By</h4> 
+									</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-form-group">
+									<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-labels-div">
+										<label class="cus-labels" for="rpODCondition">Order By Condition :</label>
+									</div>
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-text-input">
 											<select class="form-control" name="rpGrpBy9" id="rpGrpBy9">
 												<option value="0">Please Select</option>
 											</select>
 										</div>
-										<div class="col-sm-3">
+										<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-text-input">
 											<select class="form-control" name="rpODCondition"
 												id="rpODCondition">
 												<option value="0">Please Select</option>
@@ -336,21 +297,21 @@
 												<option value="DESC">Descending</option>
 											</select>
 										</div>
-										<div class="col-sm-2">
-											<input type="button" style="" class="btn no-border"
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-input-bttns">
+											<input type="button" style="" class="cus-add-more"
 												value="Add More" onclick="javascript:AddODCondition()" />
 										</div>
 									</div>
 									<div class="form-group">
 										<div>
 											<label class="control-label col-sm-4"
-												for="rpODConditionGridView">Order BY Grid View:</label>
-											<table id="rpODConditionGridView">
-												<thead>
+												for="rpODConditionGridView"><strong>Order BY Grid View:</strong></label>
+											<table id="rpODConditionGridView" class="table table-striped table-bordered table-hover table-condensed">
+												<thead class="thin-border-bottom">
 													<tr>
-														<th class="col-sm-1"><button
-																class="btn no-border .delete-row" type="button"
-																onclick="javascript:DeleteThisRowOrdr()">Delete Row</button></th>
+														<th class="col-sm-1">
+															<button class="cus-del-more" type="button" onclick="javascript:DeleteThisRowOrdr()">Delete Row</button>
+														</th>
 														<th style="display: none;" class="col-sm-1">ColumnId</th>
 														<th class="col-sm-4">Column</th>
 														<th class="col-sm-3">Order</th>
@@ -365,48 +326,47 @@
 									<a id="next3" href="#divForWhere" class="button"  data-toggle="tab" onclick="javascript:changeTab3()">Next</a>
 								</div>
 								<div class="tab-pane" id="divForWhere">
-									<span class="cus-filter">Report Details - Where
-										Condition</span>
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpWhrCondition">WHERE
-											Condition :</label>
-										<div class="col-sm-2">
+									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
+										<h4>Report Details - Where Condition</h4> 
+									</div>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-form-group">
+											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-labels-div">
+												<label class="cus-labels" for="rpWhrCondition">WHERE Condition :</label>
+											</div>
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-text-input">
 											<select class="form-control" name="rpGrpBy2" id="rpGrpBy2">
 												<option value="0">Please Select</option>
 											</select>
 										</div>
-										<div class="col-sm-2">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-text-input">
 											<select class="form-control" name="rpWhrCondition" id="rpWhrCondition">
 												<option value="0">Please Select</option>
 											</select>	
 										</div>
-										<div class="col-sm-2">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-text-input">
 											<input type="text" class="form-control" id="rpWhrCondition2"
 												placeholder="Enter Condition Value" name="rpWhrCondition2">
 										</div>
 										
-										<div class="col-sm-1">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-text-input">
 											<select class="form-control" name="rpWhr1Condition" id="rpWhr1Condition">
 												<option value="0">Please Select</option>
 												<option value="and">And</option>
 												<option value="or">Or</option>
 											</select>	
 										</div>
-										<div class="col-sm-1">
-											<input type="button" style=""
-										class="btn no-border" value="Add More"
-										onclick="javascript:AddWhrCondition()" />
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-input-bttns">
+											<input type="button" class="cus-add-more" value="Add More" onclick="javascript:AddWhrCondition()" />
 										</div>
 									</div>
 
 									<div class="form-group">
 										<div>
-											<label class="control-label col-sm-3" for="rpWhrConditionGridView">Where 
-												Condition Grid View:</label>
-											<table id="rpWhrConditionGridView">
-												<thead>
+											<label class="control-label col-sm-3" for="rpWhrConditionGridView"><strong>Where Condition Grid View:</strong></label>
+											<table id="rpWhrConditionGridView" class="table table-striped table-bordered table-hover table-condensed">
+												<thead class="thin-border-bottom">
 													<tr>
-														<th class="col-sm-1"><button class="btn no-border .delete-row" type="button" onclick="javascript:DeleteThisRow()">Delete Row</button></th>
+														<th class="col-sm-1"><button class="cus-del-more" type="button" onclick="javascript:DeleteThisRow()">Delete Row</button></th>
 														<th style="display: none;" class="col-sm-1">ColumnId</th>
 														<th class="col-sm-3">Column</th>
 														<th class="col-sm-2">Condition</th>
@@ -423,168 +383,123 @@
 									<a id="next4" href="#divForHaving" class="button"  data-toggle="tab" onclick="javascript:changeTab4()">Next</a> 
 								</div>
 								<div class="tab-pane" id="divForHaving">
-									<span class="cus-filter">Report Details - Having
-										Conditions</span>
-										<label class="control-label col-sm-2" for="rpWhrCondition">Having
-											Condition :</label>
-									<div class="form-group">
-											<div class="col-sm-2">
-											<select class="form-control" name="rpGrpBy3" id="rpGrpBy3">
-												<option value="0">Please Select</option>
-											</select>
-										</div>
-										<div class="col-sm-2">
-											<select class="form-control" name="rphvngCondition" id="rphvngCondition">
-												<option value="0">Please Select</option>
-											</select>
-										</div>
-										<div class="col-sm-2">
-											<input type="text" class="form-control" id="rphvngCondition2"
-												placeholder="Enter Condition Value" name="rphvngCondition2">
-										</div>
-										<div class="col-sm-2">
-											<select class="form-control" name="rphvn1Condition" id="rphvn1Condition">
-												<option value="0">Please Select</option>
-												<option value="=">equal</option>
-												<option value=">">greaterThan</option>
-												<option value="<">lessThan</option>
-												<option value=">=">greaterThanEqual</option>
-												<option value="<=">lessThanEqual</option>
-												
-											</select>	
-										</div>
-										<div class="col-sm-1">
-											<input type="button" style=""
-										class="btn no-border" value="Add More"
-										onclick="javascript:AddHvngCondition()" />
-										</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
+										<h4>Report Details - Having Conditions</h4> 
 									</div>
-
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpHvngConditionGridView">Having 
-													Condition Grid View:</label>
-										<div>
-											<table id="rpHvngConditionGridView">
-												<thead>
-													<tr>
-														<th class="col-sm-1"><button class="btn no-border .delete-row" type="button" onclick="javascript:DeleteThisHvngRow()">Delete Row</button></th>
-														<th style="display: none;" class="col-sm-1">ColumnId</th>
-														<th class="col-sm-2">Column</th>
-														<th class="col-sm-2">Function</th>
-														<th class="col-sm-1">Value</th>
-														<th class="col-sm-2">Condition</th>
-													</tr>
-												</thead>
-												<tbody>
-												
-												</tbody>
-											</table>
-										</div>
-									</div>
-									<span class="cus-filter">Report Details - Aggregation</span> 
-									<label class="control-label col-sm-3" 
-										for="rpWhrCondition">Aggregation :</label>
-									<div class="form-group">
-										<div class="col-sm-3">
-											<select class="form-control" name="rpGrpBy19" id="rpGrpBy19">
-												<option value="0">Please Select</option>
-											</select>
-										</div>
-										<div class="col-sm-3">
-											<select class="form-control" name="rpAGCondition" id="rpAGCondition">
-												<option value="0">Please Select</option>
-												<option value="sum">Sum</option>
-												<option value="count">Count</option>
-											</select>	
-										</div>
-										<div class="col-sm-2">
-											<input type="button" style=""
-										class="btn no-border" value="Add More"
-										onclick="javascript:AddAGCondition()" />
-										</div>
-									</div>
-									<div class="form-group">
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-form-group">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-labels-div">
+											<label class="cus-labels" for="rpWhrCondition">Having Condition :</label>
+											</div>
 										
-										<div>
-										<label class="control-label col-sm-4" for="rpAGConditionGridView">Aggregation 
-											Grid View:</label>
-											<table id="rpAGConditionGridView">
-												<thead>
-													<tr>
-														<th class="col-sm-1"><button class="btn no-border .delete-row" type="button" onclick="javascript:DeleteThisRowAgr()">Delete Row</button></th>
-														<th style="display: none;" class="col-sm-1">ColumnId</th>
-														<th class="col-sm-3">Column</th>
-														<th class="col-sm-3">Function</th>
-													</tr>
-												</thead>
-												<tbody>
-												
-												</tbody>
-											</table>
+											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-text-input">
+												<select class="form-control" name="rpGrpBy3" id="rpGrpBy3">
+													<option value="0">Please Select</option>
+												</select>
+											</div>
+											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-text-input">
+												<select class="form-control" name="rphvngCondition" id="rphvngCondition">
+													<option value="0">Please Select</option>
+												</select>
+											</div>
+											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-text-input">
+												<input type="text" class="form-control" id="rphvngCondition2" placeholder="Enter Condition Value" name="rphvngCondition2">
+											</div>
+											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-text-input">
+												<select class="form-control" name="rphvn1Condition" id="rphvn1Condition">
+													<option value="0">Please Select</option>
+													<option value="=">equal</option>
+													<option value=">">greaterThan</option>
+													<option value="<">lessThan</option>
+													<option value=">=">greaterThanEqual</option>
+													<option value="<=">lessThanEqual</option>
+													
+												</select>	
+											</div>
+											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-input-bttns">
+												<input type="button" class="cus-add-more" value="Add More" onclick="javascript:AddHvngCondition()" />
+											</div>
+									
 										</div>
-										<br> <br> <br>
 										<div class="form-group">
-											<input type="submit" style="" class="btn btn-purple no-border" value="Save Report Design"
-											onclick="javascript:MyJsonFunction()" />
+											<label class="control-label col-sm-3" for="rpHvngConditionGridView"><strong>Having Condition Grid View:</strong></label>
+											<div>
+												<table id="rpHvngConditionGridView" class="table table-striped table-bordered table-hover table-condensed">
+													<thead class="thin-border-bottom">
+														<tr>
+															<th class="col-sm-1"><button class="cus-del-more" type="button" onclick="javascript:DeleteThisHvngRow()">Delete Row</button></th>
+															<th style="display: none;" class="col-sm-1">ColumnId</th>
+															<th class="col-sm-2">Column</th>
+															<th class="col-sm-2">Function</th>
+															<th class="col-sm-1">Value</th>
+															<th class="col-sm-2">Condition</th>
+														</tr>
+													</thead>
+													<tbody>
+													
+													</tbody>
+												</table>
+											</div>
 										</div>
-									</div>
-								</div>
 								
-								<!-- <div class="tab-pane" id="#divForAggr">
-									<span class="cus-filter">Report Details - Aggregation</span> 
-									<label class="control-label col-sm-3" 
-										for="rpWhrCondition">Aggregation :</label>
-									<div class="form-group">
-										<div class="col-sm-3">
-											<select class="form-control" name="rpGrpBy19" id="rpGrpBy19">
-												<option value="0">Please Select</option>
-											</select>
-										</div>
-										<div class="col-sm-3">
-											<select class="form-control" name="rpAGCondition" id="rpAGCondition">
-												<option value="0">Please Select</option>
-												<option value="sum">Sum</option>
-												<option value="count">Count</option>
-											</select>	
-										</div>
-										<div class="col-sm-2">
-											<input type="button" style=""
-										class="btn no-border" value="Add More"
-										onclick="javascript:AddAGCondition()" />
-										</div>
+									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
+										<h4>Report Details - Aggregation</h4> 
 									</div>
-									<div class="form-group">
-										<label class="control-label col-sm-3" for="rpAGConditionGridView">Aggregation 
-											Grid View:</label>
-										<div>
-											<table id="rpAGConditionGridView">
-												<thead>
-													<tr>
-														<th class="col-sm-1"><button class="btn no-border .delete-row" type="button" onclick="javascript:DeleteThisRowAgr()">Delete Row</button></th>
-														<th style="display: none;" class="col-sm-1">ColumnId</th>
-														<th class="col-sm-4">Column</th>
-														<th class="col-sm-3">Function</th>
-													</tr>
-												</thead>
-												<tbody>
-												
-												</tbody>
-											</table>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-form-group">
+										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-labels-div">
+										<label class="cus-labels" for="rpWhrCondition">Aggregation :</label>
 										</div>
+										
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-text-input">
+												<select class="form-control" name="rpGrpBy19" id="rpGrpBy19">
+													<option value="0">Please Select</option>
+												</select>
+											</div>
+											<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 cus-text-input">
+												<select class="form-control" name="rpAGCondition" id="rpAGCondition">
+													<option value="0">Please Select</option>
+													<option value="sum">Sum</option>
+													<option value="count">Count</option>
+												</select>	
+											</div>
+											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-input-bttns">
+												<input type="button" class="cus-add-more" value="Add More" onclick="javascript:AddAGCondition()" />
+											</div>
+									
 										<div class="form-group">
-											<input type="submit" style="" class="btn btn-purple no-border" value="Save Report Design"
-											onclick="javascript:MyJsonFunction()" />
+											
+											<div>
+											<label class="control-label col-sm-4" for="rpAGConditionGridView"><strong>Aggregation Grid View:</strong></label>
+												<table id="rpAGConditionGridView" class="table table-striped table-bordered table-hover table-condensed">
+													<thead class="thin-border-bottom">
+														<tr>
+															<th class="col-sm-1"><button class="cus-del-more" type="button" onclick="javascript:DeleteThisRowAgr()">Delete Row</button></th>
+															<th style="display: none;" class="col-sm-1">ColumnId</th>
+															<th class="col-sm-3">Column</th>
+															<th class="col-sm-3">Function</th>
+														</tr>
+													</thead>
+													<tbody>
+													
+													</tbody>
+												</table>
+											</div>
+										
+											<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center cus-input-bttns">
+												<input type="submit" style="" class="btn btn-purple no-border" value="Save Report Design"
+												onclick="javascript:MyJsonFunction()" />
+											</div>
 										</div>
-									</div>
-								</div>  -->
+								
+								</div>
 							</div>
+						</div>
 						</div>
 					</form>
 				</div>
-			</div>
+			
 		</div>
 	</div>
-
+</div>
 	<!-- PAGE CONTENT ENDS -->
 </div>
 <!-- /.col -->

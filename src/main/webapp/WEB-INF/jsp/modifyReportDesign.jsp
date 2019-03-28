@@ -933,12 +933,6 @@
 	             var nvg = $("#rpGrpBy").val();
 	             var tobesave = nvg;
 	             $("#grpIdName").val(tobesave);
-	             
-	            // var nvg2 = $("#sortBy").val();
-	            // var tobesave2 = nvg2;
-	            // $("#sortIdName").val(tobesave2);
-	             
-	             
 	            
 	             var desc = CKEDITOR.instances['rpHeader'].getData();
 	             $("#rpHeader").val(desc);

@@ -25,9 +25,6 @@ public class PdfView extends AbstractPdfView {
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
 		String sign_no = (String) request.getSession().getAttribute("sign_no");
 		response.setHeader("Content-Disposition", "attachment; filename="+sign_no+"_"+JsonUtils.FileNameDate()+".pdf");
-		//response.setheader("Content-Encoding", "UTF-8");
-		//response.setContentType("text/pdf; charset=UTF-8");
-		//response.setheader("Content-type: text/csv",charset=UTF-8);
 		System.out.println("I am here at first line");
 		Map<String,Object> map = (Map<String, Object>) model.get("applInfoJsonwithGroupByForPDF");
 		JSONArray output = (JSONArray) map.get("applInfoJsonForPDF");

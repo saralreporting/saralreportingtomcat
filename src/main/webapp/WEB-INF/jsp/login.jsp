@@ -41,7 +41,7 @@
 		<div class="main-container">
 			<div class="main-content">
 				<div class="row">
-					<div class="col-sm-10 col-sm-offset-1">
+					<div class="col-lg-6 col-md-6 col-sm-6 col-lg-offset-3 col-md-offset-3 col-sm-offset-3 col-xs-12">
 						<div class="login-container">
 							<div class="center">
 								<h1>
@@ -55,72 +55,73 @@
 							<div class="space-6"></div>
 
 							<div class="position-relative">
-								<div id="login-box" class="login-box visible widget-box no-border">
-									<div class="widget-body">
-										<div class="widget-main">
-											<h4 class="header blue lighter bigger">
-												<i class="ace-icon fa fa-coffee green"></i>
-												Please Enter Your Information
+								<div id="login-box" class="login-box">
+									<div class="cus-widget-body">
+									<div class="cus-widget-heading">
+									<h4 class="cus-header">
+												Enter your Details
 											</h4>
+									<img src="../assets/images/login-banner.jpg" class="img-responsive cus-login-bg" />
+									</div>
+									
+										<div class="cus-widget-main">
+											
 
 											<div class="space-6"></div>
 
 										<form name='login' action="<c:url value='/login' />" method='POST'>
 												<fieldset>
+												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-login-inputs">
+												<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 cus-login-labels">
+												<span class="cus-labels">UserName</span>
+												</div>
+												<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12 cus-login-values">
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="text" class="form-control" placeholder="Username"  name="sign_no" />
+															<input type="text" class="cus-form-control" placeholder="Username"  name="sign_no" />
 															<i class="ace-icon fa fa-user"></i>
 															<span>${nameErrorMessage}</span>
 														</span>
 													</label>
-
+													</div>
+												</div>
+												<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-login-inputs" style="margin-bottom: 0;">
+												<div class="col-lg-2 col-md-2 col-sm-3 col-xs-12 cus-login-labels">
+												<span class="cus-labels">Password</span>
+												</div>
+												<div class="col-lg-10 col-md-10 col-sm-9 col-xs-12 cus-login-values">
 													<label class="block clearfix">
 														<span class="block input-icon input-icon-right">
-															<input type="password" class="form-control" placeholder="Password" id="pass" name="password"/>
+															<input type="password" class="cus-form-control" placeholder="Password" id="pass" name="password"/>
 															<i class="ace-icon fa fa-lock"></i>
 															<span>${passwordErrorMessage}</span>
 														</span>
 													</label>
+													</div>
+													</div>
+													
 <c:if test="${not empty error}"><div style="text-align: center;color: red;"> ${error}</div></c:if>
 	<c:if test="${not empty message}"><div style="text-align: center;color:blue;">${message}</div></c:if>
 													<div class="space"></div>
 
-													<div class="clearfix">
+													<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-right clearfix">
+													<div class="col-lg-12 col-md-12">
 														<label class="inline">
 															<input type="checkbox" class="ace" />
 															<span class="lbl"> Remember Me</span>
 														</label>
-
-														<button type="submit" class="width-35 pull-right btn btn-sm btn-primary" onclick="javascript:MyFunction()">
+															</div>
+														
+													</div>
+													<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+													<button type="submit" class="cus-login-bttn" onclick="javascript:MyFunction()">
 															<i class="ace-icon fa fa-key"></i>
 															<span class="bigger-110">Login</span>
 														</button>
 													</div>
-
-													<div class="space-4"></div>
 												</fieldset>
 											</form>
 
-											<div class="social-or-login center">
-												<span class="bigger-110">Or Login Using</span>
-											</div>
-
-											<div class="space-6"></div>
-
-											<div class="social-login center">
-												<a class="btn btn-primary">
-													<i class="ace-icon fa fa-facebook"></i>
-												</a>
-
-												<a class="btn btn-info">
-													<i class="ace-icon fa fa-twitter"></i>
-												</a>
-
-												<a class="btn btn-danger">
-													<i class="ace-icon fa fa-google-plus"></i>
-												</a>
-											</div>
 										</div><!-- /.widget-main -->
 
 								<!--		<div class="toolbar clearfix">
