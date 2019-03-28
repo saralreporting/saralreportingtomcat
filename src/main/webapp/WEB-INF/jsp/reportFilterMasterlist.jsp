@@ -132,17 +132,6 @@
 					<div class="row">
 						<div class="col-xs-12">
 							<!-- PAGE CONTENT BEGINS -->
-							<!-- <div class="alert alert-block alert-success">
-								<button type="button" class="close" data-dismiss="alert">
-									<i class="ace-icon fa fa-times"></i>
-								</button>
-
-								<i class="ace-icon fa fa-check green"></i> Welcome to <strong
-									class="green"> Saral Haryana <small>(v1.0)</small>
-								</strong>, Report Designer.
-							</div>
-
-							<div class="hr hr32 hr-dotted"></div> -->
 							<div id="hdndivval">
 								<input type="hidden" name="deptid"
 									value=${department_id} id="deptid" />
@@ -170,7 +159,7 @@
 														var="updateURL" /> <a class="cus-mod-more2"
 													href="${updateURL}" role="button"></a></td>
 												<td><spring:url
-														value="/deleteHavingFunctons?id=${ReportFilterMaster.reportFilterId }"
+														value="/deleteReportFilterMaster?id=${ReportFilterMaster.reportFilterId }"
 														var="deleteURL" /> <a class="cus-del-more2"
 													href="${deleteURL }" role="button"></a></td>
 											</tr>

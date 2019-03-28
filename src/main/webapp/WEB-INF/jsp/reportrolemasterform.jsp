@@ -119,32 +119,19 @@
 
 					<div class="row">
 						<div class="col-xs-12">
-							<!-- PAGE CONTENT BEGINS -->
-							<!-- <div class="alert alert-block alert-success">
-								<button type="button" class="close" data-dismiss="alert">
-									<i class="ace-icon fa fa-times"></i>
-								</button>
-
-								<i class="ace-icon fa fa-check green"></i> Welcome to <strong
-									class="green"> Saral Haryana <small>(v1.0)</small>
-								</strong>, Report Designer.
-							</div>
-
-							<div class="hr hr32 hr-dotted"></div> -->
 							<div id="hdndivval">
 								<input type="hidden" name="deptid" value=${department_id
 									} id="deptid" />
 							</div>
 							<div class="container">
 								<spring:url value="/saveReportRoleMaster" var="saveURL" />
-								<!-- <h2>Report Role Master</h2> -->
 								<form:form modelAttribute="reportRoleMaster" method="post"
 									action="${saveURL}" cssClass="form">
 									<form:hidden path="reportRoleId" />
 									<div class="form-group">
-										<label>Report Name</label>
+										<label>Role Name</label>
 										<form:input path="reportRoleName" cssClass="form-control" />
-										<label>Report Type</label>
+										<label>Role Type</label>
 									<form:select path = "reporttype" cssClass="form-control">
 									   <form:option value = "0" label = "Select"/>
 									   <form:option value = "1" label = "Reporting User"/>

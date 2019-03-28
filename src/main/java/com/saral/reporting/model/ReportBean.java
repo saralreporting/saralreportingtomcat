@@ -106,6 +106,7 @@ public class ReportBean {
 	@Column(name = "isAdminReport")
 	private Character isAdminReport;
 
+	@SuppressWarnings("deprecation")
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "reportBean12")
 	 @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)   
 	private List<ReportSelectColumn> reportSelectColumnList;
