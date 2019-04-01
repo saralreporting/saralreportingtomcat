@@ -219,18 +219,18 @@
 
 						<div class="vspace-12-sm"></div>
 						<%-- <c:if test="${not empty list}"> --%>
-						<div class="col-sm-12 col-xs-12 cus-chart-div" id="selectedReportChartDiv" style="margin-top: 15px;">
-							<div class="widget-box">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-chart-div" style="padding: 0;">
+							<div class="widget-box ext-widget-box">
 								<div
 									class="widget-header widget-header-flat widget-header-small">
 									<h5 class="widget-title">
-										<i class="ace-icon fa fa-signal"></i> Traffic Sources
+										<i class="ace-icon fa fa-signal"></i> Traffic Sources & Pie-Chart Data in Tabular Form
 									</h5>
 
 									
 								</div>
 
-								<div class="widget-body">
+								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 widget-body" id="selectedReportChartDiv" style="padding: 0;">
 									<div class="widget-main">
 										<div id="piechart-placeholder" style="display: none;"></div>
 										<div id="piechart"
@@ -243,23 +243,9 @@
 									<!-- /.widget-body -->
 								</div>
 								<!-- /.widget-box -->
-							</div>
-							<!-- /.col -->
-						</div>
-						<!-- /.row -->
-						<%-- </c:if> --%>
-						<div class="hr hr32 hr-dotted"></div>
-
-						<div class="col-sm-5" id="selectedReportChartDivCount" style="min-width: 310px; height: 484px; margin: 0 auto; overflow-y: scroll;">
-							<div class="widget-box">
-								<div class="widget-header widget-header-flat widget-header-small">
-									<h5 class="widget-title">
-										<i class="ace-icon fa fa-signal"></i> Pie-Chart Data in Tabular Form
-									</h5>
-								</div>
-								<div class="widget-body">
-									<div class="widget-main">
-										<table id="example" class="table table-striped table-bordered table-hover dataTable no-footer" style="overflow: scroll;">
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 widget-body" id="selectedReportChartDivCount" style="padding: 0;">
+									<div class="widget-main cus-overflow">
+										<table id="example" class="table table-striped table-bordered table-hover dataTable no-footer table-responsive cus-grids-table" style="overflow: scroll;">
 											<thead>
 												<tr>
 													<th>Name</th>
@@ -271,8 +257,14 @@
 								</div>
 							</div>
 						</div>
+
+						<!-- /.row -->
+						<%-- </c:if> --%>
+						<div class="hr hr32 hr-dotted"></div>
+
 						
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-grids">
+						
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-grids cus-flex-div">
 								<div class="widget-box transparent">
 									<div class="widget-header widget-header-flat">
 										<h4 class="widget-title lighter">
@@ -289,7 +281,7 @@
 									<c:if test="${not empty listReportData}">
 										<div class="widget-body">
 											<div class="widget-main no-padding">
-												<table class="table table-bordered table-striped">
+												<table class="table table-bordered table-striped table-responsive cus-grids-table">
 													<thead class="thin-border-bottom">
 														<tr>
 															<th><i class="ace-icon fa fa-caret-right blue"></i>
@@ -333,7 +325,7 @@
 
 
 						<sec:authorize access="hasRole('ADMIN')">
-							<div class="col-sm-6">
+							<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-grids cus-flex-div">
 								<div class="widget-box transparent">
 									<div class="widget-header widget-header-flat">
 										<h4 class="widget-title lighter">
@@ -350,7 +342,7 @@
 									<c:set var="count" value="0" scope="page" />
 									<c:if test="${not empty applInfoCount}">
 										<div class="widget-body">
-											<div class="widget-main no-padding">
+											<div class="widget-main no-padding table-respnsive cus-grids-table">
 												<table class="table table-bordered table-striped">
 													<thead class="thin-border-bottom">
 														<tr>

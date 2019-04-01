@@ -134,7 +134,7 @@
 							</div><!-- /.col -->
 						</div><!-- /.row -->
 						
-						<div class="container" style="margin-top: 20px; width: 100%">
+					
 						<jsp:useBean id="pagedListHolder" scope="request"
 							type="org.springframework.beans.support.PagedListHolder" />
 						<c:url value="/fetchReportList" var="pagedLink">
@@ -143,7 +143,9 @@
 
 						<tg:paging pagedListHolder="${pagedListHolder}"
 							pagedLink="${pagedLink}" />
-						<table class="table table-bordered">
+							
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive cus-widget-box2">
+						<table class="table table-striped table-bordered table-hover dataTable no-footer cus-grids-table cus-text-center">
 							<tr>
 								<th style="width: 5%;">Id</th>
 								<th style="display: none;">Service ID</th>
@@ -158,13 +160,14 @@
 									<td style="display: none;">${item.serviceId}</td>
 									<td>${item.tooltip}</td>
 									<td style="width: 5%;"><%-- <spring:url	value="/viewSelectedReport?reportId=${item.reportId}&sign_no=${sign_no}&service_id=${item.serviceId}&page=1" var="viewURL" /> --%> 
-										<a class="btn btn-primary"	href="javascript:void(0);" role="button" onclick="getData('${item.serviceId}','${item.reportId}')">View</a></td>
+										<a class="cus-view-bttn2"	href="javascript:void(0);" role="button" onclick="getData('${item.serviceId}','${item.reportId}')"></a></td>
 								</tr>
 							</c:forEach>
 						</table>
+						</div>
 						<tg:paging pagedListHolder="${pagedListHolder}"
 							pagedLink="${pagedLink}" />
-					</div>
+		
 					</div><!-- /.page-content -->
 				</div>
 			</div><!-- /.main-content -->

@@ -123,8 +123,8 @@
 									value=${department_id
 									} id="deptid" />
 							</div>
-
-							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-chart-div" style="padding-top: 15px; padding-left: 15px; padding-right: 15px; margin-top: 5px;">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive cus-widget-box2">
+							<div class="container" style="width: 100%;">
 							<jsp:useBean id="pagedListHolder" scope="request"
 							type="org.springframework.beans.support.PagedListHolder" />
 						<c:url value="/DomainMasterlist" var="pagedLink">
@@ -133,7 +133,8 @@
 						<tg:paging pagedListHolder="${pagedListHolder}"
 							pagedLink="${pagedLink}" />
 								<!-- <h2>Domain Master List</h2> -->
-								<table class="table table-striped">
+								
+								<table class="table table-striped table-bordered table-hover dataTable no-footer cus-grids-table cus-text-center">
 									<thead>
 										<tr>
 											<th scope="row">#ID</th>
@@ -174,6 +175,7 @@
 							</div>
 
 							<!-- PAGE CONTENT ENDS -->
+							</div>
 						</div>
 						<!-- /.col -->
 					</div>

@@ -137,7 +137,7 @@
 
 					<!-- code for report list by gaurav -->
 					
-					<div class="container" style="margin-top: 20px; width: 100%;">
+					
 						<jsp:useBean id="pagedListHolder" scope="request"
 							type="org.springframework.beans.support.PagedListHolder" />
 						<c:url value="/fetchReportsName" var="pagedLink">
@@ -145,7 +145,8 @@
 						</c:url>
 						<tg:paging pagedListHolder="${pagedListHolder}"
 							pagedLink="${pagedLink}" />
-						<table class="table table-bordered">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive cus-widget-box2">
+						<table class="table table-striped table-bordered table-hover dataTable no-footer cus-grids-table cus-text-center">
 							<tr>
 								<th width="20px">Id</th>
 								<th>Name</th>
@@ -157,21 +158,23 @@
 									<td>${item.reportId}</td>
 									<td>${item.reportName}</td>
 									<td>
-										<a class="btn btn-primary"	href="javascript:void(0);" role="button" onclick="modifyData('${item.reportId}')">Modify</a></td>
+										<a class="cus-mod-more2"	href="javascript:void(0);" role="button" onclick="modifyData('${item.reportId}')"></a></td>
 									<td><spring:url	value="/deleteSelectedReport?reportId=${item.reportId}&sign_no=${sign_no}" var="deleteURL" /> 
-										<a class="btn btn-danger"	href="${deleteURL}" role="button">Delete</a></td>
+										<a class="cus-del-more2"	href="${deleteURL}" role="button"></a></td>
 								</tr>
 							</c:forEach>
 						</table>
+						
 						<tg:paging pagedListHolder="${pagedListHolder}"
 							pagedLink="${pagedLink}" />
-					</div>
+				
 					
-					<div id="hdndivval">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" id="hdndivval" style="margin-top: 15px;">
 					<spring:url	value="/DesignReptPage" var="newUrl" /> 
-										<a class="btn btn-primary" href="${newUrl}" role="button">Desing New Report</a>
+										<a class="cus-next-bttn" href="${newUrl}" role="button">Desing New Report</a>
 								<input type="hidden" name="deptid" value=${department_id} id="deptid" />
 								<input type="hidden" name="deptid" value=${sign_no} id="sign_no" />
+					</div>
 					</div>
 				</div>
 				<!-- /.page-content -->

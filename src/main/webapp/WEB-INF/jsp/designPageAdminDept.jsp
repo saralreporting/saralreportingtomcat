@@ -190,7 +190,9 @@
 											</div>
 										</div>
 									</div>
-									<a id="next1" href="#customize" class="button"  data-toggle="tab" onclick="javascript:changeTab()">Next</a>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="margin-top: 15px;">
+									<a id="next1" href="#customize" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab()">Next</a>
+									</div>
 								</div>
 								
 								<div class="tab-pane" id="customize">
@@ -288,7 +290,9 @@
 										style="color: black; font-size: 20px; text-decoration: double; display: none;"></div>
 									<div id="JSONTEXTB"
 										style="color: black; font-size: 20px; text-decoration: double; display: none;"></div>
-									<a id="next2" href="#divForOrdr" class="button"  data-toggle="tab" onclick="javascript:changeTab2()">Next</a>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+											<a id="next2" href="#divForOrdr" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab2()">Next</a>
+										</div>
 								</div>
 
 								<div class="tab-pane" id="divForOrdr">
@@ -338,7 +342,9 @@
 											</table>
 										</div>
 									</div>
-									<a id="next3" href="#divForWhere" class="button"  data-toggle="tab" onclick="javascript:changeTab3()">Next</a>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+									<a id="next3" href="#divForWhere" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab3()">Next</a>
+									</div>
 								</div>
 								<div class="tab-pane" id="divForWhere">
 									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
@@ -395,7 +401,9 @@
 											</table>
 										</div>
 									</div>
-									<a id="next4" href="#divForHaving" class="button"  data-toggle="tab" onclick="javascript:changeTab4()">Next</a> 
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+									<a id="next4" href="#divForHaving" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab4()">Next</a> 
+									</div>
 								</div>
 								<div class="tab-pane" id="divForHaving">
 									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
@@ -1014,7 +1022,7 @@
 	    				url : '/fetchWhereConditions',
 	    				data : {},
 	    				success : function(responseJsonWhere) {
-	    					
+	    					$('#rpWhrCondition').empty();
 	    					console.log(responseJsonWhere);
 	    					document.getElementById("selectedDeptrtmnt").disabled=true;
 	    						   $.each(responseJsonWhere, function(key, value) {               
@@ -1034,6 +1042,7 @@
 	    				url : '/fetchHavingConditions',
 	    				data : {},
 	    				success : function(responseJsonHvng) {
+	    					$('#rphvngCondition').empty();
 	    					console.log(responseJsonHvng);
 	    					$.each(responseJsonHvng, function(key, value) {               
 	    				            var newOption = $('<option/>');

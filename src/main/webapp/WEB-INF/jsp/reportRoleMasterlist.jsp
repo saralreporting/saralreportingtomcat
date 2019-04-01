@@ -4,12 +4,6 @@
 
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 
-
-
-
-
-<!-- <div class="main-container ace-save-state" id="main-container"> -->
-
 <div class="main-content">
 	<div class="main-content-inner">
 		<div class="breadcrumbs ace-save-state" id="breadcrumbs">
@@ -118,9 +112,10 @@
 									} id="deptid" />
 					</div>
 
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-chart-div" style="padding-top: 15px; padding-left: 15px; padding-right: 15px; margin-top: 5px;">
+				
 						<!-- <h2>Role Master List</h2> -->
-						<table class="table table-striped">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive cus-widget-box2">
+						<table class="table table-striped table-bordered table-hover dataTable no-footer cus-grids-table cus-text-center">
 							<thead>
 								<tr>
 									<th scope="row">#ID</th>
@@ -159,7 +154,7 @@
 								</c:forEach>
 							</tbody>
 						</table>
-						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="margin-bottom: 15px;">
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="margin-top: 15px;">
 							<spring:url value="/addReportRoleMaster" var="addURL" />
 							<a class="btn btn-primary" href="${addURL}" role="button">Add New Role Master</a>
 						</div>
@@ -177,7 +172,6 @@
 <!-- /.main-content -->
 
 <!-- My having crud -->
-
 
 <a href="#" id="btn-scroll-up"
 	class="btn-scroll-up btn btn-sm btn-inverse"> <i

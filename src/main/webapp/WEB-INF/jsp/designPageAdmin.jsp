@@ -97,38 +97,38 @@
 			<div class="row">
 			
 				 <div id="hdndivval">
-								<input type="hidden" name="deptid" value=${department_id} id="deptid" />
-							</div>
-							
-							<div class="col-lg-6 col-md-6 col-xs-12" id="departmentNames" style="background-color: aliceblue; margin-bottom: 15px; padding: 0;">
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-input-ext">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-labels-div">
-									<label class="cus-labels">Please select Department below :</label>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-text-input">
-								<select id="selectedDeptrtmnt" name="selectedDeptrtmnt" style="width: 100%;">
-									<option value="0">Please Select</option>
-								</select> 
-								</div>
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
-								<input type="submit" class="btn btn-purple no-border cus-get-col" id="getServicesOrg" value="Get Services" />
-								</div>
-							</div>
-							</div>
-				<div class="col-lg-6 col-md-6 col-xs-12" id="reprt2" style="background-color: aliceblue; margin-bottom: 15px; padding: 0;">
-								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-input-ext">
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-labels-div">
-									<label class="cus-labels">Please select Service below :</label>
-								</div>
-								<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-text-input">
-								<select id="selectedRecord" name="selectedRecord" style="width: 100%">
-									<option value="0">Please Select</option>
-								</select> 
-								</div>
-								<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
-								<input type="submit" class="btn btn-purple no-border cus-get-col" id="getcol" value="Get Columns" />
-								</div>
+						<input type="hidden" name="deptid" value=${department_id} id="deptid" />
 				</div>
+							
+				<div class="col-lg-6 col-md-6 col-xs-12" id="departmentNames" style="background-color: aliceblue; margin-bottom: 15px; padding: 0;">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-input-ext">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-labels-div">
+							<label class="cus-labels">Please select Department below :</label>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-text-input">
+							<select id="selectedDeptrtmnt" name="selectedDeptrtmnt" style="width: 100%;">
+								<option value="0">Please Select</option>
+							</select> 
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
+							<input type="submit" class="btn btn-purple no-border cus-get-col" id="getServicesOrg" value="Get Services" />
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-6 col-md-6 col-xs-12" id="reprt2" style="background-color: aliceblue; margin-bottom: 15px; padding: 0;">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 cus-input-ext">
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-labels-div">
+							<label class="cus-labels">Please select Service below :</label>
+						</div>
+						<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 cus-text-input">
+							<select id="selectedRecord" name="selectedRecord" style="width: 100%">
+								<option value="0">Please Select</option>
+							</select> 
+						</div>
+						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
+							<input type="submit" class="btn btn-purple no-border cus-get-col" id="getcol" value="Get Columns" />
+						</div>
+					</div>
 				</div>
 				<div class="hr hr32 hr-dotted"></div>
 				<div class="col-lg-12 col-md-12 col-xs-12">
@@ -175,7 +175,9 @@
 											</div>
 										</div>
 									</div>
-									<a id="next1" href="#customize" class="button"  data-toggle="tab" onclick="javascript:changeTab()">Next</a>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="margin-top: 15px;">
+									<a id="next1" href="#customize" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab()">Next</a>
+									</div>
 								</div>
 								
 								<div class="tab-pane" id="customize">
@@ -273,7 +275,9 @@
 										style="color: black; font-size: 20px; text-decoration: double; display: none;"></div>
 									<div id="JSONTEXTB"
 										style="color: black; font-size: 20px; text-decoration: double; display: none;"></div>
-									<a id="next2" href="#divForOrdr" class="button"  data-toggle="tab" onclick="javascript:changeTab2()">Next</a>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+											<a id="next2" href="#divForOrdr" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab2()">Next</a>
+										</div>
 								</div>
 
 								<div class="tab-pane" id="divForOrdr">
@@ -323,7 +327,9 @@
 											</table>
 										</div>
 									</div>
-									<a id="next3" href="#divForWhere" class="button"  data-toggle="tab" onclick="javascript:changeTab3()">Next</a>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+										<a id="next3" href="#divForWhere" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab3()">Next</a>
+									</div>
 								</div>
 								<div class="tab-pane" id="divForWhere">
 									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
@@ -380,7 +386,9 @@
 											</table>
 										</div>
 									</div>
-									<a id="next4" href="#divForHaving" class="button"  data-toggle="tab" onclick="javascript:changeTab4()">Next</a> 
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+									<a id="next4" href="#divForHaving" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab4()">Next</a> 
+									</div>
 								</div>
 								<div class="tab-pane" id="divForHaving">
 									<div class="col-lg-12 col-md-12 col-sm-12 text-center cus-upper-heading">
@@ -818,7 +826,6 @@
 				table1 = {"Order": uniqueStandards};//make myrows the parent object
 				var tab1 = JSON.stringify(table1);
 				$("#odrclsJSON").val(tab1);
-				//alert(tab1);
 	        }
 	        
 			MyWhereFunction = function(){
@@ -842,7 +849,6 @@
 				table1 = {"Where": uniqueStandards};//make myrows the parent object
 				var tab1 = JSON.stringify(table1);
 				$("#whrclsJSON").val(tab1);
-				//alert(tab1);
 	        }
 			
 			MyHavingFunction = function(){
@@ -888,7 +894,6 @@
 				table = {"Aggregation": uniqueStandardsB};//make myrows the parent object
 				var tab3 = JSON.stringify(table);
 				$("#agrclsJSON").val(tab3);
-				//alert(tab3);
 			}
 			
 			//Submit function to calculate values
@@ -922,7 +927,6 @@
 						var table1 = {"Having": abc};
 						var tab1 = JSON.stringify(table1);
 						$("#hvngclsJSON").val(tab1);  
-						//$("#hvngclsJSON").val("[]");
 					}
 
 					var x2= $("#odrclsJSON").val(); 
@@ -931,7 +935,6 @@
 						var table1 = {"Order": abc};
 						var tab1 = JSON.stringify(table1);
 						$("#odrclsJSON").val(tab1);  
-						//$("#odrclsJSON").val("[]");
 					}
 					
 					var x3= $("#whrclsJSON").val(); 
@@ -940,7 +943,6 @@
 						var table1 = {"Where": abc};//make myrows the parent object
 						var tab1 = JSON.stringify(table1);
 						$("#whrclsJSON").val(tab1);  
-						//$("#whrclsJSON").val("[]");
 					}
 					
 					var x4= $("#agrclsJSON").val(); 
@@ -949,7 +951,6 @@
 						var table1 = {"Aggregation": abc};//make myrows the parent object
 						var tab1 = JSON.stringify(table1);
 						$("#agrclsJSON").val(tab1);  
-						//$("#whrclsJSON").val("[]");
 					}
 					
 	        }
@@ -1052,15 +1053,14 @@
 	    				url : '/fetchWhereConditions',
 	    				data : {},
 	    				success : function(responseJsonWhere) {
-	    					
+	    					$('#rpWhrCondition').empty();
 	    					console.log(responseJsonWhere);
-	    					
-	    						   $.each(responseJsonWhere, function(key, value) {               
-	    				           var newOption = $('<option/>');
-	    							newOption.text(key);
-	    							newOption.attr('value', value);
-	    							$('#rpWhrCondition').append(newOption);
-	    				        });	       
+   						  	$.each(responseJsonWhere, function(key, value) {               
+   				          	var newOption = $('<option/>');
+   								newOption.text(key);
+   								newOption.attr('value', value);
+   								$('#rpWhrCondition').append(newOption);
+   				        	});	       
 	    				}
 	    			});
 	    		});
@@ -1072,6 +1072,7 @@
 	    				url : '/fetchHavingConditions',
 	    				data : {},
 	    				success : function(responseJsonHvng) {
+	    					$('#rphvngCondition').empty();
 	    					console.log(responseJsonHvng);
 	    					$.each(responseJsonHvng, function(key, value) {               
 	    				            var newOption = $('<option/>');
@@ -1349,29 +1350,5 @@
             var elementToRemove = 'ul#sortableB > li[key="' + key + '"][value="' + value + '"]';
             $(elementToRemove).remove();
         }
-             
-        /* $(function () {
-            $("#sortable").sortable({
-                change: function (event, ui) {
-                },
-                stop: function (event, ui) {
-                    checkifeventofdragisAlive = '1';
-                    addition = [];
-                    $(this).parent().find('li').each(function (index, item) {
-                        var addition_Property = {};
-                        addition_Property['key'] = $(this).attr('key');
-                        addition_Property['Value'] = $(this).attr('value');         
-                        addition.push(addition_Property);
-                    });
-                   
-                    $('#JSONTEXT').html(JSON.stringify(addition));
-                   
-                    event.stopPropagation();
-                    event.stopImmediatePropagation();
-                    checkifeventofdragisAlive = '0';
-                }
-            });
-            $("#sortable").disableSelection();
-        }); */
-        
+
 		</script>

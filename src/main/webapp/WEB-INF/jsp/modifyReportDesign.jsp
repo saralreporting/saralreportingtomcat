@@ -196,7 +196,9 @@
 									<div id="hdndivval">
 										<input type="hidden" name="deptid" value=${department_id} id="deptid" />
 									</div>
-									<a id="next1" href="#customize" class="button"  data-toggle="tab" onclick="javascript:changeTab()">Next</a>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" style="margin-top: 15px;">
+									<a id="next1" href="#customize" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab()">Next</a>
+									</div>
 								</div>
 								<!-- <div class="tab-pane" id="setting">Setting</div> -->
 								<div class="tab-pane" id="customize">
@@ -294,7 +296,9 @@
 										style="color: black; font-size: 20px; text-decoration: double; display: none;"></div>
 									<div id="JSONTEXTB"
 										style="color: black; font-size: 20px; text-decoration: double; display: none;"></div>
-									<a id="next2" href="#divForOrdr" class="button"  data-toggle="tab" onclick="javascript:changeTab2()">Next</a>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+									<a id="next2" href="#divForOrdr" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab2()">Next</a>
+									</div>
 								</div>
 
 								<div class="tab-pane" id="divForOrdr">
@@ -343,7 +347,9 @@
 											</table>
 										</div>
 									</div>
-									<a id="next3" href="#divForWhere" class="button"  data-toggle="tab" onclick="javascript:changeTab3()">Next</a>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+									<a id="next3" href="#divForWhere" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab3()">Next</a>
+									</div>
 								</div>
 								<div class="tab-pane" id="divForWhere">
 									<span class="cus-filter">Report Details - Where
@@ -403,12 +409,14 @@
 											</table>
 										</div>
 									</div>
-									<a id="next4" href="#divForHaving" class="button"  data-toggle="tab" onclick="javascript:changeTab4()">Next</a>
+									<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+									<a id="next4" href="#divForHaving" class="cus-next-bttn"  data-toggle="tab" onclick="javascript:changeTab4()">Next</a>
+									</div>
 								</div>
 								<div class="tab-pane" id="divForHaving">
 									<span class="cus-filter">Report Details - Having
 										Conditions</span>
-										<label class="control-label col-sm-2" for="rpWhrCondition">Having
+										<label class="control-label col-sm-2" for="rpHvngCondition">Having
 											Condition :</label>
 									<div class="form-group">
 											<div class="col-sm-2">
@@ -468,7 +476,7 @@
 									</div>
 									<span class="cus-filter">Report Details - Aggregation</span> 
 									<label class="control-label col-sm-3" 
-										for="rpWhrCondition">Aggregation :</label>
+										for="rpAggrrCondition">Aggregation :</label>
 									<div class="form-group">
 										<div class="col-sm-3">
 											<select class="form-control" name="rpGrpBy19" id="rpGrpBy19">
@@ -1016,15 +1024,14 @@
 	    				url : '/fetchReportsName',
 	    				data : {},
 	    				success : function(responseJsonWhere) {
-	    					
 	    					console.log(responseJsonWhere);
-	    					
-	    						   $.each(responseJsonWhere, function(key, value) {               
-	    				           var newOption = $('<option/>');
-	    							newOption.text(key);
-	    							newOption.attr('value', value);
-	    							$('#rpWhrCondition').append(newOption);
-	    				        });	       
+	    					$('#rpWhrCondition').empty();
+   						  	$.each(responseJsonWhere, function(key, value) {               
+   				          	var newOption = $('<option/>');
+   							newOption.text(key);
+   							newOption.attr('value', value);
+   							$('#rpWhrCondition').append(newOption);
+   				        });	       
 	    				}
 	    			});
 	    	
@@ -1035,6 +1042,7 @@
 	    				url : '/fetchHavingConditions',
 	    				data : {},
 	    				success : function(responseJsonHvng) {
+	    					$('#rphvngCondition').empty();
 	    					console.log(responseJsonHvng);
 	    					$.each(responseJsonHvng, function(key, value) {               
 	    				            var newOption = $('<option/>');
@@ -1044,6 +1052,24 @@
 	    				        });       
 	    				}
 	    			});
+	    		
+	    		//To fetch Where conditions
+		    		$.ajax({
+		    				type : "post",
+		    				url : '/fetchWhereConditions',
+		    				data : {},
+		    				success : function(responseJsonWhere) {
+		    					
+		    					console.log(responseJsonWhere);
+		    					
+		    						   $.each(responseJsonWhere, function(key, value) {               
+		    				           var newOption = $('<option/>');
+		    							newOption.text(key);
+		    							newOption.attr('value', value);
+		    							$('#rpWhrCondition').append(newOption);
+		    				        });	       
+		    				}
+		    			});
 	    		
 //Code for update fetch starts here	    		
 	            	$("#rpName").val("${reportName}");
