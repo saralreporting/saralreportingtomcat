@@ -292,7 +292,7 @@ public class JsonUtils {
 		System.out.println(objarray);
 		// StringJoiner joiner = new StringJoiner(" and ");
 		StringJoiner joinerOr = new StringJoiner(" or ");
-		StringJoiner joiner1 = new StringJoiner(" , ");
+		StringJoiner joiner1 = new StringJoiner(" and ");
 		String builder = "";
 		String builer = "";
 		System.out.println(objarray.size());

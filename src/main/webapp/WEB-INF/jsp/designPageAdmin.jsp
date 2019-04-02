@@ -707,7 +707,7 @@
 			};
 			
 			
-			AddODCondition = function(){
+			/* AddODCondition = function(){
 				var ColumnId = $("#rpGrpBy9").val();				
 				var Column = $("#rpGrpBy9 option:selected").text();
 	            var Condition = $("#rpODCondition").val();
@@ -748,7 +748,7 @@
 				var markup = "<tr><td><input type='checkbox' name='recordgridwhr' id='recordgridwhr'></td><td style='display:none;'>" + ColumnId + "</td><td>" + Column + "</td><td>" + Condition + "</td><td>" + Value + "</td><td>" + AndOr + "</td></tr>";
 				$("#rpWhrConditionGridView tbody").append(markup);
 				MyWhereFunction();
-			};
+			}; 
 			
 			//add row to having grid
 			AddHvngCondition = function(){
@@ -764,6 +764,147 @@
 				var markup = "<tr><td><input type='checkbox' name='recordgridHvng' id='recordgridHvng'></td><td style='display:none;'>" + ColumnId + "</td><td>" + Column + "</td><td>" + Function + "</td><td>" + Value + "</td><td>" + Condition + "</td></tr>";
 				$("#rpHvngConditionGridView tbody").append(markup);
 				MyHavingFunction();
+			}; */
+			
+			AddODCondition = function(){
+				var ColumnId = $("#rpGrpBy9").val();				
+				var Column = $("#rpGrpBy9 option:selected").text();
+	            var Condition = $("#rpODCondition").val();
+	            if(ColumnId=="" || Column=="Please Select" || Condition==0){
+	            	alert("Please select values from dropdown");
+	            	return false;
+	            }
+	            var table = $("#rpODConditionGridView");
+				var exist;
+				table.find("tbody tr").each(function () {
+					var ColIdTab = $(this).find("td:eq(1)").html();
+					var ColTab = $(this).find("td:eq(2)").html();
+					var ConTab = $(this).find("td:eq(3)").html();
+					if((ColumnId==ColIdTab) && (Column==ColTab) && (Condition==ConTab)){
+						alert("This condition is already added.");
+						exist = "false";
+						return false;
+					}else if((ColumnId==ColIdTab)){
+						alert("You have already applied filter on this attribute.");
+						exist = "false";
+						return false;
+					}
+				});
+				if(exist!="false"){
+		            var markup = "<tr><td><input type='checkbox' name='recordgridodr' id='recordgridodr'></td><td style='display:none;'>" + ColumnId + "</td><td>" + Column + "</td><td>" + Condition + "</td></tr>";
+		            $("#rpODConditionGridView tbody").append(markup);
+		            MyOrderByFunction();
+				}
+			};
+	
+			//Add row to Aggregation Grid
+			AddAGCondition = function(){
+				var ColumnId = $("#rpGrpBy19").val();				
+				var Column = $("#rpGrpBy19 option:selected").text();
+				var Condition = $("#rpAGCondition").val();
+				if(ColumnId=="" || Column=="Please Select" || Condition==0){
+					alert("Please select values from dropdown");
+					return false;
+				}
+				var table = $("#rpAGConditionGridView");
+				var exist;
+				table.find("tbody tr").each(function () {
+					var ColIdTab = $(this).find("td:eq(1)").html();
+					var ColTab = $(this).find("td:eq(2)").html();
+					var ConTab = $(this).find("td:eq(3)").html();
+					if((ColumnId==ColIdTab) && (Column==ColTab) && (Condition==ConTab)){
+						alert("This condition is already added.");
+						exist = "false";
+						return false;
+					}
+				});
+				if(exist!="false"){
+					var markup = "<tr><td><input type='checkbox' name='recordgridagr' id='recordgridagr'></td><td style='display:none;'>" + ColumnId + "</td><td>" + Column + "</td><td>" + Condition + "</td></tr>";
+					$("#rpAGConditionGridView tbody").append(markup);
+					MyAggregationFunction();
+				}
+			};
+			
+			//Add row to Where condition grid
+			AddWhrCondition = function(){
+				var ColumnId = $("#rpGrpBy2").val();				
+				var Column = $("#rpGrpBy2 option:selected").text();
+				var Condition = $("#rpWhrCondition").val();
+				var Value = $("#rpWhrCondition2").val();
+				var AndOr = $("#rpWhr1Condition").val();
+				if(ColumnId=="" || Column=="Please Select" || Condition==0){
+					alert("Please select values from dropdown");
+					return false;
+				}
+				var table = $("#rpWhrConditionGridView");
+				var exist;
+				table.find("tbody tr").each(function () {
+					var ColIdTab = $(this).find("td:eq(1)").html();
+					var ColTab = $(this).find("td:eq(2)").html();
+					var ConTab = $(this).find("td:eq(3)").html();
+					var ValTab = $(this).find("td:eq(4)").html();
+					var AndOrTab = $(this).find("td:eq(5)").html();
+					if((ColumnId==ColIdTab)&& (Column==ColTab) && (Condition==ConTab) && (Value==ValTab) && (AndOr==AndOrTab)){
+						alert("Conditions already exist");
+						exist = "false";
+						return false;
+					}else if((ColumnId==ColIdTab) && (AndOr=="and")){
+						alert("Please apply AND condition on different attributes. AND condition on same attribute is not allowed");
+						exist = "false";
+						return false;
+					}else if((ColumnId==ColIdTab) && (Condition==ConTab) && (Value==ValTab)){
+						exist = "false";
+						alert("This condition is already exist.");
+						return false;
+					}
+				});
+				if(exist!="false"){
+					var markup = "<tr><td><input type='checkbox' name='recordgridwhr' id='recordgridwhr'></td><td style='display:none;'>" + ColumnId + "</td><td>" + Column + "</td><td>" + Condition + "</td><td>" + Value + "</td><td>" + AndOr + "</td></tr>";
+					$("#rpWhrConditionGridView tbody").append(markup);
+					MyWhereFunction();
+				}
+			};
+			
+			//add row to having grid
+			AddHvngCondition = function(){
+				var ColumnId = $("#rpGrpBy3").val();
+				var Column = $("#rpGrpBy3 option:selected").text();
+				var Function = $("#rphvngCondition").val();
+				var Value = $("#rphvngCondition2").val();
+				var Condition = $("#rphvn1Condition").val();
+				if(ColumnId=="" || Column=="Please Select" || Condition=="0"){
+					alert("Please select values from dropdown");
+					return false;
+				}
+				var table = $("#rpHvngConditionGridView");
+				var exist;
+				table.find("tbody tr").each(function () {
+					var ColIdTab = $(this).find("td:eq(1)").html();
+					var ColTab = $(this).find("td:eq(2)").html();
+					var FuncTab = $(this).find("td:eq(3)").html();
+					var ValTab = $(this).find("td:eq(4)").html();
+					var ConTab = $(this).find("td:eq(5)").html();
+					if(ConTab=="&gt;"){
+						ConTab = ">";
+					}else if(ConTab=="&lt;"){
+						ConTab = "<";
+					}else if(ConTab=="&gt;="){
+						ConTab = ">=";
+					}else if(ConTab=="&lt;="){
+						ConTab = "<=";
+					}
+					
+					if((ColumnId==ColIdTab) && (Column==ColTab) && (Function==FuncTab) && (Value==ValTab) && (Condition==ConTab)){
+						alert("This condition is already added.");
+						exist = "false";
+						return false;
+					}
+				});
+				if(exist!="false"){
+					var markup = "<tr><td><input type='checkbox' name='recordgridHvng' id='recordgridHvng'></td><td style='display:none;'>" + ColumnId + "</td><td>" + Column + "</td><td>" + Function + "</td><td>" + Value + "</td><td>" + Condition + "</td></tr>";
+					$("#rpHvngConditionGridView tbody").append(markup);
+					MyHavingFunction();
+				}
 			};
 			
 			//to remove from Having condition grid
