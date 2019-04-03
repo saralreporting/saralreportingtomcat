@@ -12,6 +12,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 
@@ -80,7 +81,10 @@ public class ApplInfo {
 
 	@Column(name = "sub_version")
 	private Long subVersion;
-
+	
+	@Transient
+	private String view;
+	
 	public Long getAid() {
 		return aid;
 	}
@@ -241,6 +245,14 @@ public class ApplInfo {
 		this.subVersion = subVersion;
 	}
 
+	public String getView() {
+		return view;
+	}
+
+	public void setView(String view) {
+		this.view = view;
+	}
+	
 	@Override
 	public String toString() {
 		return "ApplInfo [aid=" + aid + ", departmentId=" + departmentId + ", departmentName=" + departmentName
@@ -249,7 +261,7 @@ public class ApplInfo {
 				+ ", appliedBy=" + appliedBy + ", submissionLocation=" + submissionLocation + ", submissionDate="
 				+ submissionDate + ", paymentMode=" + paymentMode + ", payment_date=" + payment_date + ", reference_no="
 				+ reference_no + ", amount=" + amount + ", registrationId=" + registrationId + ", baseServiceId="
-				+ baseServiceId + ", versionNo=" + versionNo + ", subVersion=" + subVersion + "]";
+				+ baseServiceId + ", versionNo=" + versionNo + ", subVersion=" + subVersion + ", view=" + view + "]";
 	}
 
 	public Map<String, String> getColumnNames() {
@@ -282,5 +294,19 @@ public class ApplInfo {
 		}
 		return list;
 	}
+	
+	public static String returnColumnPojoName(String col) {
+		String s = "";
+		for (Field field : ApplInfo.class.getDeclaredFields()) {
+			Column column = field.getAnnotation(Column.class);
+
+			
+			if (column.name().equalsIgnoreCase(col) ){
+				s = (field.getName());
+				}
+
+			}
+		return s;
+		}
 
 }

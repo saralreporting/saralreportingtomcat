@@ -15,18 +15,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.ServletRequestUtils;
@@ -44,6 +49,8 @@ import com.google.gson.Gson;
 import com.saral.reporting.DAO.ReportViwerDAO;
 import com.saral.reporting.model.ApplInfo;
 import com.saral.reporting.model.ApplInfoJson;
+import com.saral.reporting.model.AttributeMasterData;
+import com.saral.reporting.model.AttributeMasterDataSql;
 import com.saral.reporting.model.DashBoardReportData;
 import com.saral.reporting.model.HrOrgLocatedAtLevels;
 import com.saral.reporting.model.HrOrgUnits;
@@ -51,22 +58,23 @@ import com.saral.reporting.model.ReportBean;
 import com.saral.reporting.model.ReportSelectColumn;
 import com.saral.reporting.model.ServiceMaster;
 import com.saral.reporting.service.ApplInfoJsonService;
+import com.saral.reporting.service.AttributeMasterDataSqlService;
 import com.saral.reporting.service.DashBoardReportDataService;
 import com.saral.reporting.service.HrOrgLocatedAtLevelsService;
 import com.saral.reporting.service.HrOrgUnitsService;
 import com.saral.reporting.service.ReportBeanService;
 import com.saral.reporting.service.ServiceMasterService;
 import com.saral.reporting.utils.JsonUtils;
-
+import org.apache.commons.lang3.StringUtils;
 @Transactional
 @Controller
 
 @SessionAttributes({ "sign_no", "reportId", "service_id", "hm", "department_level_name", "department_id",
 		"designation_id", "designation_name", "selectedOrder", "selectedOrder", "deptidwithNameSelectedBU",
-		"departmentIdOfReport" })
+		"departmentIdOfReport" ,"where", "nDeptIdName" ,"getLocationList"})
 public class ViewReportController implements Serializable {
 	
-
+	private static final Logger logger = LoggerFactory.getLogger(ViewReportController.class);
 	/**
 	 * 
 	 */
@@ -95,7 +103,10 @@ public class ViewReportController implements Serializable {
 
 	@Autowired
 	HrOrgLocatedAtLevelsService hrOrgLocatedAtLevelsService;
-
+	@Autowired
+	AttributeMasterDataSqlService attributeMasterDataSqlService;
+	
+	
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = { "/fetchReportList" }, method = RequestMethod.GET)
 	public String reportViewPage(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
@@ -127,7 +138,7 @@ public class ViewReportController implements Serializable {
 
 	@RequestMapping(value = { "/viewSelectedReport" }, method = RequestMethod.GET)
 	public String reportSelectedReport(ModelMap model, Pageable pageable, @RequestParam String reportId,
-			Long deptidwithNameSelected, @RequestParam String service_id, HttpServletRequest request)
+			@RequestParam Long deptidwithNameSelected, @RequestParam String service_id, HttpServletRequest request)
 			throws ServletException, IOException, ParseException {
 
 		Long repId = Long.parseLong(reportId);
@@ -202,18 +213,18 @@ public class ViewReportController implements Serializable {
 		nDeptIdName.add(deptidwithNameSelectedBU);
 
 		model.put("deptidwithNameSelectedBU", deptidwithNameSelectedBU);
+		model.put("nDeptIdName", nDeptIdName);
 
 		Long locationId = (Long) request.getSession().getAttribute("location_Id");
 		System.out.println("my location" + locationId);
 		List<Long> getLocationList1 = new ArrayList<>();
 		if (locationId != 0L) {
 			getLocationList1 = getLocationList(locationId, department_id);
-			System.out.println(
-					"Hkjsbdnfjskdbjsdbfjlsdbljsbdfjlbsdlblsb +++++++++++++++++++++++++++++++" + getLocationList1);
 		}
 
 		String abc = "";
 		ReportBean listReport = reportBeanService.findByReportId(repId);
+		model.put("getLocationList", getLocationList1);
 		model.put("tableColor", listReport.getTableColor());
 		model.put("reportHeader", listReport.getReport_header());
 		model.put("reportFooter", listReport.getReport_footer());
@@ -281,6 +292,7 @@ public class ViewReportController implements Serializable {
 				if (abc == "" || abc.equals("")) {
 					abc = " service_id =" + servID + " ";
 				}
+				model.put("where", abc);
 				where = abc.concat(orderby);
 				System.out.println(where);
 				System.out.println("my complete query" + abc);
@@ -291,13 +303,14 @@ public class ViewReportController implements Serializable {
 				if (abc == "" || abc.equals("")) {
 					abc = " service_id =" + servID + " ";
 				}
+				model.put("where", abc);
 				where = abc.concat(orderby);
 
 				System.out.println("my complete query" + abc);
 			}
 
 			Page<ApplInfoJson> list = reportViwer.findByCombinedJson(servID, pageable, getLocationList1, where);
-			
+			System.out.println("appl_id");
 
 			List<Map<String, Object>> listofMap = new ArrayList<>();
 
@@ -333,7 +346,8 @@ public class ViewReportController implements Serializable {
 				String servColL = servCol.substring(0, servCol.length() - 1);
 				joiner.add(servColL);
 			}
-
+			
+		
 			List<String> cols = Arrays.asList(joiner.toString().split("\\s*,\\s*"));
 			// Fetch applInfoNode from List
 			System.out.println(cols);
@@ -341,6 +355,7 @@ public class ViewReportController implements Serializable {
 				// map applinfo in map
 				// map attributes in map
 				Map<String, Object> maptotal = temp.getCombinedJson();
+				System.out.println( "applid" + maptotal.get("appl_id") );
 				for (String s : cols) {
 
 					if (!maptotal.containsKey(s)) {
@@ -361,6 +376,7 @@ public class ViewReportController implements Serializable {
 			System.out.println("ssssssss" + listofMap.size());
 			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), joiner.toString());
 			String result = SquigglyUtils.stringify(objectMapper, listofMap);
+
 
 			for (ReportSelectColumn s : L1) {
 
@@ -429,6 +445,7 @@ public class ViewReportController implements Serializable {
 					abc = "this_.department_id = this_.department_id ";
 				}
 				
+				model.put("where", abc);
 				abc = abc.concat(orderby);
 			
 				System.out.println("my complete query" + abc);
@@ -440,6 +457,7 @@ public class ViewReportController implements Serializable {
 				if (abc == "" || abc.equals("")) {
 					abc = "this_.department_id = this_.department_id ";
 				}
+				model.put("where", abc);
 				abc = abc.concat(orderby);
 				System.out.println(abc + orderby);
 				System.out.println("my complete query" + abc);
@@ -447,10 +465,23 @@ public class ViewReportController implements Serializable {
 
 			Page<ApplInfo> list = reportViwer.findByCombinedJsonAdminReport(filterbserviceId, pageable, filterbdisttId,
 					nDeptIdName, abc, orderby);
+			System.out.println(list.getContent().get(0).getServiceId());
 			ObjectMapper mapper1 = new ObjectMapper();
 			String jsonString = mapper1.writeValueAsString(list);
 			System.out.println("Our Main list Size " + list.getSize());
-
+			List<ApplInfo> applList = list.getContent();
+			List<ApplInfo> applListwithView = new ArrayList<>();
+			for(ApplInfo l : applList) {
+				//System.out.println(l);
+				//a href="javascript:void(0);" onclick="list('2')"
+				//a href="/fetchTaskInfo?applId=578565&amp;serviceId=983"
+				//<a href="javascript:void(0);" onclick="showTaskInfo(510617,887" )="">
+				//l.setView("<a href=/fetchTaskInfo?applId="+ l.getApplId() +"&serviceId="+l.getServiceId()+ ">View</a>");
+				l.setView("<a href=javascript:void(0); onclick=showTaskInfo('"+l.getApplId()+"','"+l.getServiceId()+"')>View</a>");
+				applListwithView.add(l);
+				
+			}
+			System.out.println(applListwithView);
 			JSONParser parser = new JSONParser();
 			JSONObject array = (JSONObject) parser.parse(jsonString);
 			// System.out.println(array);
@@ -489,33 +520,43 @@ public class ViewReportController implements Serializable {
 				String servColL = servCol.substring(0, servCol.length() - 1);
 				joiner.add(servColL);
 			}
-
+			//joiner.add("view");
+			System.out.println("merz view joiner "+ joiner);
 			ApplInfo applInfo = new ApplInfo();
 			Map<String, Object> listofColsMap = applInfo.getColumnNamesWithPojoVariables();
 
 			// ObjectMapper mapperForColms = new ObjectMapper();
 			ObjectMapper objectMapper1 = Squiggly.init(new ObjectMapper(), joiner.toString());
 			String result1 = SquigglyUtils.stringify(objectMapper1, listofColsMap);
+			
+		
 
 			final ObjectMapper mapper = new ObjectMapper();
-			Map<String, String> mapFromString = new HashMap<>();
+			Map<String, String> mapFromString = new LinkedHashMap<>();
 			try {
 				mapFromString = mapper.readValue(result1, new TypeReference<Map<String, String>>() {
 				});
 			} catch (IOException e) {
 
 			}
-
-			String valueString = String.join(",", mapFromString.values());
-
-			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), valueString.toString());
-			String result = SquigglyUtils.stringify(objectMapper, objarray);
+			
+			List<String> result4 = mapFromString.values().stream()
+					.collect(Collectors.toList());
+			
+			//String valueString = String.join(",", mapFromString.values());
+		
+			
+			result4.add(0,"view");
+			System.out.println("sasasasa"+result4);
+			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), StringUtils.join(result4, ','));
+			String result = SquigglyUtils.stringify(objectMapper, applListwithView);
 
 			for (ReportSelectColumn s : L1) {
 
 				result = result.replace("\"" + s.getReportSelectedColumnId() + "\":",
 						"\"" + s.getReportSelectedColumnName().replaceAll("\\/", "\\_").replaceAll(" ", "\\_") + "\":");
 			}
+			
 
 			Integer totalPages = (int) (countMax / 150);
 			if (countMax % 150 == 0) {
@@ -539,7 +580,7 @@ public class ViewReportController implements Serializable {
 			model.put("reportId", repId);
 			model.put("service_id", servID);
 
-			System.out.println("Inside second loop where records are greater than 6000 ==== FINAL");
+			//System.out.println("Inside second loop where records are greater than 6000 ==== FINAL");
 
 			JsonUtils.pageModel(model, list);
 			long pNumber = ((pageable.getPageNumber() - 1) * 150);
@@ -550,6 +591,7 @@ public class ViewReportController implements Serializable {
 			model.addAttribute("totalPages", totalPages);
 			model.addAttribute("listCol", listCol);
 			return "showReportNew";
+			
 		}
 
 	}
@@ -595,7 +637,7 @@ public class ViewReportController implements Serializable {
 	*/
 	@RequestMapping(value = "/checkColumnCount", method = {RequestMethod.GET }, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<?> checkColumnCount(ModelMap model, @RequestParam String id, Long depId,
+	public ResponseEntity<?> checkColumnCount(ModelMap model, @RequestParam String id, @RequestParam Long depId,
 			HttpServletRequest request) throws ServletException, IOException {
 		Long depIds = (Long) request.getSession().getAttribute("department_id");
 		System.out.println(depIds);
@@ -646,21 +688,53 @@ public class ViewReportController implements Serializable {
 	}
 
 	// To get the sum of columns with request from frontend
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value = { "/viewSum" }, method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public ResponseEntity<?> getSumColum(ModelMap model, @RequestParam String columnId, String departmentId,
 			@RequestParam String aggregation, HttpServletRequest request)
 			throws ServletException, IOException, ParseException {
+		
+
+        
 
 		Long repId = (Long) request.getSession().getAttribute("reportId");
 		Long servID = (Long) request.getSession().getAttribute("service_id");
-		System.out.println(repId);
+		Long location_id = (Long) request.getSession().getAttribute("location_Id");
+		
+		System.out.println(location_id);
+		String where = (String) request.getSession().getAttribute("where");
+		System.out.println(where);
 		System.out.println(servID);
-		Object value = reportViwer.findSumofColumn(columnId, departmentId, aggregation);
+		Object value ;
+		if(location_id != 0L) {
+			List<Long> getlocationList = (List<Long>) request.getSession().getAttribute("getLocationList");
+			System.out.println(getlocationList);
+		 value = reportViwer.findSumofColumn(columnId, departmentId, aggregation,where, getlocationList);
+		}
+		else {
+			List<Long> filterbserviceId = (List<Long>) request.getSession().getAttribute("filterbserviceId");
+			List<Long> filterbdisttId = (List<Long>) request.getSession().getAttribute("filterbdisttId");
+			List<Long> filterbdeptId = (List<Long>) request.getSession().getAttribute("nDeptIdName");
+		 value = reportViwer.findAggregationCombinedJson(filterbserviceId,
+					 filterbdisttId,  filterbdeptId,  where, aggregation,  columnId);
+		}
 		model.put("sum", value);
 
 		return ResponseEntity.ok(value);
 
+	}
+	
+	public Map<String, Long> findAttributeMap(Long baseServiceId){
+		
+		List<AttributeMasterDataSql> data = attributeMasterDataSqlService.findByBaseServiceID(baseServiceId);
+		Map<String,Long> values = new LinkedHashMap<>();
+		
+		for(AttributeMasterDataSql s :data) {
+			values.put(s.getAttributeLabel(),s.getAttributeID());
+		}
+		return values;
+		
 	}
 
 }

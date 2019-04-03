@@ -22,7 +22,8 @@ public interface ReportViwerDAO {
 	
 	public Long findCount(Long serviceId, List<Long> locationvalues,String commonJson);
 	
-	
+	public Object findAggregationCombinedJson(List<Long> filterbserviceId,
+			List<Long> filterbdisttId, List<Long> filterbdeptId, String abc, String agr, String column);
 	public List<ApplInfoJson> findByCombinedJson(Long serviceId,  List<Long> locationvalues, String commonJson);
 
 	
@@ -46,7 +47,7 @@ public interface ReportViwerDAO {
 	public JSONArray ColumnServiceCountByDeprt(String departmentId, Character c) throws JSONException;
 	
 	
-	public Object findSumofColumn(String ColumnId, String departmentId, String aggregation);
+	public Object findSumofColumn(String ColumnId, String departmentId, String aggregation, String abc , List<Long> locationlist);
 	
 	
 	public JSONArray selectWhereColumnsForReport(String groupByDataColumnsForQuery, String abc, String groupByString, int size,
@@ -68,4 +69,7 @@ public interface ReportViwerDAO {
 
 	public List<ReportBean> findByDepartmentIdAndIsAdminReportAndServiceId(Long department_id, char c,
 			List<Long> userAllocatedServices);
+	
+	
+	public JSONArray partialSum(String column, Pageable pageable );
 }

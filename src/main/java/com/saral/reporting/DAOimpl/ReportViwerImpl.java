@@ -26,7 +26,10 @@ import com.saral.reporting.model.HrOrgUnits;
 import com.saral.reporting.model.ReportBean;
 import com.saral.reporting.repo.ApplInfoJsonRepository;
 import com.saral.reporting.utils.CommonUtils;
+import com.saral.reporting.utils.JsonUtils;
 import com.saral.reporting.utils.StringConstants;
+
+import net.minidev.json.JSONUtil;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
@@ -34,7 +37,7 @@ import org.hibernate.criterion.Restrictions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import org.apache.commons.lang3.StringUtils;
 @Service
 public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 
@@ -42,12 +45,12 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 	ApplInfoJsonRepository applInfoJsonRepository;
 
 	@Autowired
-	private SessionFactory sessionFactory;
+	private SessionFactory sessionFactory1;
 
 	@PersistenceContext
 	private EntityManager manager;
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	public Page<ApplInfoJson> findByCombinedJson(Long serviceId, Pageable pageable, List<Long> locationvalues,
 			String commonJson) {
 
@@ -86,7 +89,7 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 
 	public Long findCount(Long serviceId, List<Long> locationvalues, String commonJson) {
 
-		Criteria criteria = sessionFactory.openSession().createCriteria(ApplInfoJson.class);
+		Criteria criteria = sessionFactory1.openSession().createCriteria(ApplInfoJson.class);
 
 		if (CommonUtils.isNotEmpty(serviceId)) {
 			criteria.add(Restrictions.eq("serviceId", serviceId));
@@ -123,22 +126,15 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 
 		List<ApplInfoJson> results = (List<ApplInfoJson>) getHibernateTemplate().findByCriteria(criteria);
 
-		/*
-		 * if (commonJson=="") {
-		 * 
-		 * return (List<ApplInfoJson>)
-		 * getHibernateTemplate().find(QueryConstants.GET_REPORTVIWER_DATE,
-		 * serviceId,locationvalue); } else { return (List<ApplInfoJson>)
-		 * getHibernateTemplate().find(QueryConstants.GET_REPORTVIWER,
-		 * serviceId,locationvalue,commonJson); }
-		 */
+	
 		return results;
 
 	}
 
 	@Override
 	public Long findCountForDept(String filterString) {
-		Criteria criteria = sessionFactory.openSession().createCriteria(ApplInfo.class);
+		@SuppressWarnings("deprecation")
+		Criteria criteria = sessionFactory1.openSession().createCriteria(ApplInfo.class);
 
 		if (CommonUtils.isNotEmpty(filterString)) {
 			criteria.add(Restrictions.sqlRestriction(filterString));
@@ -153,7 +149,7 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 	@Override
 	public Long findCountForAdmin(List<Long> filterbserviceId, List<Long> filterbdisttId, List<Long> filterbdeptId,
 			String abc) {
-		Criteria criteria = sessionFactory.openSession().createCriteria(ApplInfo.class);
+		Criteria criteria = sessionFactory1.openSession().createCriteria(ApplInfo.class);
 		System.out.println("filterbdeptId" + filterbdeptId);
 
 		if (filterbdeptId.size() > 0) {
@@ -212,6 +208,50 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 		 * serviceId,locationvalue,commonJson); }
 		 */
 		return (Page<ApplInfo>) pageImpianto;
+
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object findAggregationCombinedJson(List<Long> filterbserviceId, List<Long> filterbdisttId,
+			List<Long> filterbdeptId, String abc, String agr, String column) {
+
+		// criteriaQuery=
+		DetachedCriteria criteria = DetachedCriteria.forClass(ApplInfo.class);
+String col = ApplInfo.returnColumnPojoName(column);
+		if (filterbdeptId.size() > 0) {
+			criteria.add(Restrictions.in("departmentId", filterbdeptId));
+		}
+
+		if (filterbserviceId.size() > 0) {
+			criteria.add(Restrictions.in("serviceId", filterbserviceId));
+		}
+
+		if (CommonUtils.isNotEmpty(abc)) {
+			criteria.add(Restrictions.sqlRestriction(abc));
+
+		}
+		if (agr.equalsIgnoreCase("sum")) {
+			criteria.setProjection(Projections.sum(col));
+
+		}
+		if (agr.equalsIgnoreCase("avg")) {
+			criteria.setProjection(Projections.avg(col));
+
+		}
+
+		if (agr.equalsIgnoreCase("count")) {
+			criteria.setProjection(Projections.count(col));
+
+		}
+		Object results = null;
+try {
+	results  = getHibernateTemplate().findByCriteria(criteria);
+}catch(Exception e) {
+	results = 0;
+	
+}System.out.println(results);
+		return results;
 
 	}
 
@@ -407,16 +447,29 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object findSumofColumn(String columnId, String departmentId, String aggr) {
+	public Object findSumofColumn(String columnId, String departmentId, String aggr, String where, List<Long> locationList) {
 		String Query = "";
+	String whereconcat = "";	
+	String loc = "";
+				if(!where.equals("")) {
+					whereconcat = " and " + where ;
+				}
+				else {
+					whereconcat = "";
+				}
+				
+				if (locationList.size()>0) {
+					loc = "and  location_value in("+StringUtils.join(locationList, ',')+")"; 
+				}
 		if (aggr.equalsIgnoreCase("sum") || aggr.equalsIgnoreCase("avg")) {
+			
 			Query = "select " + aggr + "(CASE WHEN  combined_json->>'" + columnId
-					+ "'~E'^\\\\d+$' THEN  cast(combined_json->> '" + columnId + "'as Int) ELSE 0  end) from "
+					+ "'~E'^[+-]?([0-9]*[.])?[0-9]+' THEN  cast(combined_json->> '" + columnId + "'as float) ELSE 0  end) from "
 					+ StringConstants.TABLE + ".r_app_json where " + "combined_json @> '{ \"department_id\" : "
-					+ departmentId + " }'";
+					+ departmentId + " }' "+ whereconcat  + loc;
 		} else if (aggr.equalsIgnoreCase("count")) {
 			Query = "select count(combined_json ->>'" + columnId + "')  from " + StringConstants.TABLE + ".r_app_json "
-					+ "where combined_json @> '{ \"department_id\" : " + departmentId + " }'";
+					+ "where combined_json @> '{ \"department_id\" : " + departmentId + " }' "+ whereconcat  + loc;
 		}
 		List<Object> results = (List<Object>) manager.createNativeQuery(Query).getResultList();
 		System.out.println(results.get(0));
@@ -669,4 +722,83 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 		return reportList;
 
 	}
-}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public JSONArray partialSum(String columns,Pageable pageable ) {
+		// TODO Auto-generated method stub
+		String value = JsonUtils.partialSumJoiner(columns);
+		List<String> arrays = Arrays.asList(columns.split("\\s*,\\s*"));
+		String query = " Select " + value + " from saral1.r_app_json ";
+		pageable = new PageRequest(pageable.getPageNumber() - 1, 150);
+		List<Object[]> results = manager.createNativeQuery(query).setMaxResults(150).setFirstResult(pageable.getOffset()).getResultList();
+		JSONArray arraygroupby = new JSONArray();
+
+		// for many columns
+		if (arrays.size() > 1 && results.size() > 0) {
+			for (Object[] l : results) {
+				JSONObject json = new JSONObject();
+				for (int i = 0; i < arrays.size(); i++) {
+
+					List<Object> list = Arrays.asList(l);
+					if (list.get(i) == null) {
+
+						try {
+							json.put(arrays.get(i).replaceAll("\"", ""), "NA");
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+
+					} else if ((list.get(i)).equals(null) || (list.get(i)).equals("null")) {
+
+						try {
+							json.put(arrays.get(i).replaceAll("\"", ""), "NA");
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+					else {
+						try {
+							json.put(arrays.get(i).replaceAll("\"", ""), list.get(i));
+						} catch (JSONException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+
+				arraygroupby.put(json);
+			}
+
+			return arraygroupby;
+		} else if (arrays.size() == 1 && results.size() > 0) {
+			System.out.println("i am here for one column--------->" + results.size());
+			for (Object l : results) {
+
+				JSONObject json = new JSONObject();
+				try {
+					json.put(arrays.get(0).replaceAll("\"", ""), l);
+				} catch (JSONException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				arraygroupby.put(json);
+			}
+
+			return arraygroupby;
+		} else {
+			JSONObject json = new JSONObject();
+			try {
+				json.put("No_value_Selected", "No_records_found");
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			arraygroupby.put(json);
+			return arraygroupby;
+	}
+
+}}

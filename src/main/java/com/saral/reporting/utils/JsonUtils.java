@@ -3,6 +3,7 @@ package com.saral.reporting.utils;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -752,5 +753,25 @@ public class JsonUtils {
 		return listofArrays;
 
 	}
+	
+	public static String partialSumJoiner(String col) {
+		int count = 0;
+		List<String> itemCol = Arrays.asList(col.split("\\s*,\\s*"));
+		StringJoiner joiner = new StringJoiner(" , ");
+		String builder = "";
+		for(String s : itemCol) {
+			count = count + 1;
+			builder = " sum(CASE WHEN  combined_json->>"+"'" + s + "'~E'!(~ | -)' and combined_json->>" + "'" + s + ""
+					+ "'~E'^[+-]?([0-9]*[.])?[0-9]+'"
+
+					+ " THEN  cast(combined_json->> " + "'" + s + ""
+					+ "'as float) ELSE 0 end)  as " +"col"+count+ " "  ;
+			joiner.add(builder);
+			
+		}
+		
+		return joiner.toString();
+		
+	} 
 
 }

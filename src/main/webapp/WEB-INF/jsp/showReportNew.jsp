@@ -1349,6 +1349,20 @@ Highcharts.chart('stackedbar', {
 				});
 			}
 			
+			function showTaskInfo(applId,serviceId){
+				$.ajax({
+					type : "GET",
+					url : '/fetchTaskInfoData,
+					data : {
+						applId : applId,
+						serviceId :serviceId
+					},
+					success : function(data) {
+						
+					}
+				});
+			}
+			
 			function refreshData() {				
 				//create json of table values
 				var table1 = $('#rpODConditionGridView').tableToJSON();
