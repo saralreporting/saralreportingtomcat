@@ -219,7 +219,7 @@
 											<label class="cus-labels" for="tooltip">Tool-tip:</label>
 										</div>
 										<div class="col-sm-8">
-											<input type="text" class="form-control" id="tooltip" placeholder="Enter Tool-tip" name="tooltip">
+											<input type="text" class="form-control" id="tooltip" placeholder="Enter Tool-tip" name="tooltip" required="required">
 										</div>
 									</div>
 
@@ -1038,7 +1038,16 @@
 			}
 			
 			//Submit function to calculate values
-	        MyJsonFunction = function(){         
+	        MyJsonFunction = function(){
+	        	 var repName = $("#rpName").val();
+				 var tooltip = $("#tooltip").val();
+	        	 if(repName=="" || repName==null){
+	        		 alert("Please Enter Report Name in Step 2");
+	        		 return false;
+	        	 }else if(tooltip=="" || tooltip==null){
+	        		 alert("Please Enter Tooltip in Step 2");
+	        		 return false;
+	        	 }
 	             var abcB = $("#JSONTEXTB").text();
 	             var abc = $("#JSONTEXT").text(); 
 	             if(abc!="" && abcB!=""){

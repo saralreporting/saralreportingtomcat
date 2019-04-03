@@ -234,7 +234,7 @@
 											<label class="cus-labels" for="tooltip">Tool-tip:</label>
 										</div>
 										<div class="col-sm-8">
-											<input type="text" class="form-control" id="tooltip" placeholder="Enter Tool-tip" name="tooltip">
+											<input type="text" class="form-control" id="tooltip" placeholder="Enter Tool-tip" name="tooltip" required="required">
 										</div>
 									</div>
 
@@ -1055,7 +1055,17 @@
 			}
 			
 			//Submit function to calculate values
-	        MyJsonFunction = function(){         
+	        MyJsonFunction = function(){
+	        	 var repName = $("#rpName").val();
+				 var tooltip = $("#tooltip").val();
+	        	 if(repName=="" || repName==null){
+	        		 alert("Please Enter Report Name in Step 2");
+	        		 return false;
+	        	 }
+	        	 if(tooltip=="" || tooltip==null){
+	        		 alert("Please Enter Tooltip in Step 2");
+	        		 return false;
+	        	 }
 	             var abcB = $("#JSONTEXTB").text();
 	             var abc = $("#JSONTEXT").text(); 
 	             if(abc!="" && abcB!=""){
@@ -1142,8 +1152,6 @@
 				contentType : 'application/json',
 				success : function(responseJson) {
 					console.log(responseJson);
-					 $("#departmentNames").show();
-					 $("#selcol").show();
 					 //$("#reprt2").show();
 					 var $select = $("#selectedDeptrtmnt");                         
 				        $select.find("option").remove();
@@ -1203,13 +1211,15 @@
 	    				data : {},
 	    				success : function(responseJsonAppInfoCol) {
 	    					$("#selcol1").show();
-	    					  $('#departmentID').val($('#selectedDeptrtmnt').val());
-	    					  $('#serviceID').val(0);
+	    					$('#departmentID').val($('#selectedDeptrtmnt').val());
+	    					$('#serviceID').val(0);
 	    					console.log(responseJsonAppInfoCol);
+	    					$("#departmentNames").show();
+	   					 	$("#selcol").show();
 	    					$('#ContentPlaceHolder2_CheckBoxList2').empty();
-	    						   $.each(responseJsonAppInfoCol, function(key, value) {               
-	    				           		$('#ContentPlaceHolder2_CheckBoxList2').append('<input type="checkbox"  name="colmn" value="'+ key +'"/> ' +  '<label for="'+ key +'" >'+value.trim() +'</label>' +'<br/>');
-	    				        });
+   						 	$.each(responseJsonAppInfoCol, function(key, value) {               
+   				           		$('#ContentPlaceHolder2_CheckBoxList2').append('<input type="checkbox"  name="colmn" value="'+ key +'"/> ' +  '<label for="'+ key +'" >'+value.trim() +'</label>' +'<br/>');
+	    				    });
 	    					initColJs();	       
 	    				}
 	    			});
@@ -1230,9 +1240,9 @@
 							}else{
 							console.log("My ajax 1");
 							console.log(result);
-							 $('#customDesign').text(result);
-							 console.log("My ajax");
-							 e.preventDefault();
+							$('#customDesign').text(result);
+							console.log("My ajax");
+							e.preventDefault();
 							}
 						}
 		            });
