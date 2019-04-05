@@ -177,7 +177,7 @@
 		$("#output").hide();
 		});
 		$('#exampleModal').modal({backdrop: 'static', keyboard: false}) 
-		setInterval(function () {document.getElementById("click1").click();}, 3500);
+		setInterval(function () {document.getElementById("click1").click();}, 3000);
 		});
 		</script>
 
@@ -487,6 +487,40 @@
 												<!-- <a href="/reportExportCSV" class="btn btn-default">CSV Testing</a> -->
 
 											</div>
+											
+											<!-- Modal -->
+											<div class="modal fade" id="myModal" role="dialog">
+											  <div class="modal-dialog" style="width: 90%">
+											    
+											     <!-- Modal content-->
+											     <div class="modal-content">
+											      <div class="modal-header">
+											        <button type="button" class="close" data-dismiss="modal">&times;</button>
+											        <h4 class="modal-title">Task Flow Detail</h4>
+											      </div>
+											      <div class="modal-body">
+											        <p>Task Flow</p>
+											        <table id="exampleTableModal" class="table table-bordered table-condensed table-hover table-striped datatable">
+														<thead>
+															<tr>
+																<th>ID</th>
+																<th>Task Name</th>
+																<th>Task Type</th>
+																<th>Execution Time</th>
+																<th>Action</th>
+															</tr>
+														</thead>
+														<tbody id="tbodyid"></tbody>
+													</table>
+											      </div>
+											      <div class="modal-footer" >
+											        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+											      </div>
+											    </div>
+											      
+											  </div>
+											</div>
+											
 											<div id="exampleNoData" style="margin-left: initial;width: 100%;border-style: groove;border-width: thin;padding-top: 2%;">
 												<label id="exampleNoDataMessage"></label>
 												<a href="/fetchReportList"	class="btn btn-default">Go Back</a> 
@@ -1349,16 +1383,30 @@ Highcharts.chart('stackedbar', {
 				});
 			}
 			
-			function showTaskInfo(applId,serviceId){
+			function showTaskInfo(applId,serviceId,versionNo){
 				$.ajax({
 					type : "GET",
-					url : '/fetchTaskInfoData,
+					url : '/fetchTaskInfoData',
 					data : {
 						applId : applId,
-						serviceId :serviceId
+						serviceId :serviceId,
+						versionNo : versionNo
 					},
 					success : function(data) {
-						
+						console.log(data);
+						data = JSON.parse(data);
+						$("#tbodyid").empty();
+						for(var i=0;i<data.length;i++)
+			    	       {
+			    	            var tr="<tr>";
+			    	            var td1="<td>"+data[i]["id"]+"</td>";
+			    	            var td2="<td>"+data[i]["task_name"]+"</td>";
+			    	            var td3="<td>"+data[i]["task_type"]+"</td>";
+			    	        	var td4="<td>"+data[i]["executed_time"]+"</td>";
+			    	        	var td5="<td>"+data[i]["Action"]+"</td></tr>";
+			    	        	$("#exampleTableModal tbody").append(tr+td1+td2+td3+td4+td5); 
+			    	       }
+						$('#myModal').modal('show');
 					}
 				});
 			}

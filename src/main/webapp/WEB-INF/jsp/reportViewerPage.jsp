@@ -140,11 +140,13 @@
 						<c:url value="/fetchReportList" var="pagedLink">
 							<c:param name="p" value="~" />
 						</c:url>
-
-						<tg:paging pagedListHolder="${pagedListHolder}"
-							pagedLink="${pagedLink}" />
+						
 							
 							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 table-responsive cus-widget-box2">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
+						<tg:paging pagedListHolder="${pagedListHolder}"
+							pagedLink="${pagedLink}" />
+						</div>
 						<table class="table table-striped table-bordered table-hover dataTable no-footer cus-grids-table cus-text-center">
 							<tr>
 								<th style="width: 5%;">Id</th>
@@ -164,9 +166,12 @@
 								</tr>
 							</c:forEach>
 						</table>
-						</div>
+							<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
 						<tg:paging pagedListHolder="${pagedListHolder}"
 							pagedLink="${pagedLink}" />
+						</div>
+						</div>
+						
 		
 					</div><!-- /.page-content -->
 				</div>

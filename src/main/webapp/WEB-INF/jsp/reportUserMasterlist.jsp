@@ -136,7 +136,7 @@
 											<th scope="row">User Detail</th>
 											<th scope="row">Mobile Number</th>
 											<th scope="row">Email</th>
-											<th scope="row">State</th>
+											<!-- <th scope="row">State</th> -->
 											<th scope="row">Modify</th>
 											<th scope="row">Delete</th>
 										</tr>
@@ -151,7 +151,7 @@
 												<td>${ReportUserMaster.userDetail}</td>
 												<td>${ReportUserMaster.mobilenumber}</td>
 												<td>${ReportUserMaster.email}</td>
-												<td>${ReportUserMaster.stateId}</td>
+												<%-- <td>${ReportUserMaster.stateId}</td> --%>
 												<td><spring:url
 														value="updateReportUserMaster?id=${ReportUserMaster.userDataId }"
 														var="updateURL" /> <a class="cus-mod-more2"

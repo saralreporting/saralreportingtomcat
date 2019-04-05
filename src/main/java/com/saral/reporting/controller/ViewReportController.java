@@ -66,14 +66,15 @@ import com.saral.reporting.service.ReportBeanService;
 import com.saral.reporting.service.ServiceMasterService;
 import com.saral.reporting.utils.JsonUtils;
 import org.apache.commons.lang3.StringUtils;
+
 @Transactional
 @Controller
 
 @SessionAttributes({ "sign_no", "reportId", "service_id", "hm", "department_level_name", "department_id",
 		"designation_id", "designation_name", "selectedOrder", "selectedOrder", "deptidwithNameSelectedBU",
-		"departmentIdOfReport" ,"where", "nDeptIdName" ,"getLocationList"})
+		"departmentIdOfReport", "where", "nDeptIdName", "getLocationList" })
 public class ViewReportController implements Serializable {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(ViewReportController.class);
 	/**
 	 * 
@@ -105,8 +106,7 @@ public class ViewReportController implements Serializable {
 	HrOrgLocatedAtLevelsService hrOrgLocatedAtLevelsService;
 	@Autowired
 	AttributeMasterDataSqlService attributeMasterDataSqlService;
-	
-	
+
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = { "/fetchReportList" }, method = RequestMethod.GET)
 	public String reportViewPage(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
@@ -118,11 +118,11 @@ public class ViewReportController implements Serializable {
 		if (department_id == 0L) {
 			listReport = reportBeanService.findByIsAdminReport('Y');
 		} else {
-			List<Long> userAllocatedServices =  (List<Long>) request.getSession().getAttribute("saralUserServiceList");
+			List<Long> userAllocatedServices = (List<Long>) request.getSession().getAttribute("saralUserServiceList");
 			System.out.println("This is the list we get from the session :" + userAllocatedServices);
-			listReport = reportViwer.findByDepartmentIdAndIsAdminReportAndServiceId(department_id, 'N', userAllocatedServices);
+			listReport = reportViwer.findByDepartmentIdAndIsAdminReportAndServiceId(department_id, 'N',
+					userAllocatedServices);
 		}
-
 
 		// List<ReportBean> listReport =
 		// reportBeanService.findBySignNo(sign_no);
@@ -297,7 +297,7 @@ public class ViewReportController implements Serializable {
 				System.out.println(where);
 				System.out.println("my complete query" + abc);
 
-			} else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
+			}	 else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
 
 				orderby = JsonUtils.getSortingJoinerReport(listReport.getOrderCondition());
 				if (abc == "" || abc.equals("")) {
@@ -356,6 +356,7 @@ public class ViewReportController implements Serializable {
 				// map attributes in map
 				Map<String, Object> maptotal = temp.getCombinedJson();
 				System.out.println( "applid" + maptotal.get("appl_id") );
+				maptotal.put("view","<a href=javascript:void(0); onclick=showTaskInfo("+temp.getApplId()+","+ temp.getServiceId()+")>View</a>");
 				for (String s : cols) {
 
 					if (!maptotal.containsKey(s)) {
@@ -373,6 +374,7 @@ public class ViewReportController implements Serializable {
 				listofMap.add(mapFromString);
 
 			});
+			joiner.add("view");
 			System.out.println("ssssssss" + listofMap.size());
 			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), joiner.toString());
 			String result = SquigglyUtils.stringify(objectMapper, listofMap);
@@ -473,15 +475,14 @@ public class ViewReportController implements Serializable {
 			List<ApplInfo> applListwithView = new ArrayList<>();
 			for(ApplInfo l : applList) {
 				//System.out.println(l);
-				//a href="javascript:void(0);" onclick="list('2')"
-				//a href="/fetchTaskInfo?applId=578565&amp;serviceId=983"
-				//<a href="javascript:void(0);" onclick="showTaskInfo(510617,887" )="">
 				//l.setView("<a href=/fetchTaskInfo?applId="+ l.getApplId() +"&serviceId="+l.getServiceId()+ ">View</a>");
-				l.setView("<a href=javascript:void(0); onclick=showTaskInfo('"+l.getApplId()+"','"+l.getServiceId()+"')>View</a>");
+				l.setView("<a href=javascript:void(0); onclick=showTaskInfo("+l.getApplId()+","+ l.getServiceId()+")>View</a>");
 				applListwithView.add(l);
 				
 			}
 			System.out.println(applListwithView);
+			
+			
 			JSONParser parser = new JSONParser();
 			JSONObject array = (JSONObject) parser.parse(jsonString);
 			// System.out.println(array);
@@ -520,8 +521,8 @@ public class ViewReportController implements Serializable {
 				String servColL = servCol.substring(0, servCol.length() - 1);
 				joiner.add(servColL);
 			}
-			//joiner.add("view");
-			System.out.println("merz view joiner "+ joiner);
+//joiner.add("view");
+System.out.println("merz view joiner "+ joiner);
 			ApplInfo applInfo = new ApplInfo();
 			Map<String, Object> listofColsMap = applInfo.getColumnNamesWithPojoVariables();
 
@@ -620,10 +621,10 @@ public class ViewReportController implements Serializable {
 				List<Long> childList2 = childListComplete.stream().map(urEntity -> urEntity.getOrgUnitCode())
 						.collect(Collectors.toList());
 				finalList.addAll(childList2);
-				
+
 				parentIds.clear();
 				parentIds.addAll(childList2);
-				
+
 			}
 
 			return finalList;
@@ -632,32 +633,33 @@ public class ViewReportController implements Serializable {
 	}
 
 	/*
-	 * This function is used to show "selected column" data in Pie-Chart in View Report module
+	 * This function is used to show "selected column" data in Pie-Chart in View
+	 * Report module
 	 * 
-	*/
-	@RequestMapping(value = "/checkColumnCount", method = {RequestMethod.GET }, produces = "application/json;charset=UTF-8")
+	 */
+	@RequestMapping(value = "/checkColumnCount", method = {
+			RequestMethod.GET }, produces = "application/json;charset=UTF-8")
 	@ResponseBody
-	public ResponseEntity<?> checkColumnCount(ModelMap model, @RequestParam String id, @RequestParam Long depId,
+	public ResponseEntity<?> checkColumnCount(ModelMap model, @RequestParam String id, Long depId,
 			HttpServletRequest request) throws ServletException, IOException {
 		Long depIds = (Long) request.getSession().getAttribute("department_id");
 		System.out.println(depIds);
 		org.json.JSONArray jsonArray = null;
 		Long servID = (Long) request.getSession().getAttribute("service_id");
-		if(depIds!=0L && depIds!=null){
-				jsonArray = reportViwer.ColumnJsonbCount(id, servID);
-				System.out.println("Inside non-Admin service - column wise piechart");
-		// long count = 0L;
-		}
-		else {
-			if(servID != 0L){
+		if (depIds != 0L && depIds != null) {
+			jsonArray = reportViwer.ColumnJsonbCount(id, servID);
+			System.out.println("Inside non-Admin service - column wise piechart");
+			// long count = 0L;
+		} else {
+			if (servID != 0L) {
 				jsonArray = reportViwer.ColumnJsonbCount(id, servID);
 				System.out.println("Inside Admin service - column wise piechart");
-			}else{
+			} else {
 				jsonArray = reportViwer.ColumnJsonbCountForAdmin(id, depId);
 				System.out.println("Inside Admin department - column wise piechart");
 			}
 		}
-		
+
 		if (jsonArray.length() > 0) {
 
 			String jsonCol = new Gson().toJson(jsonArray);
@@ -668,6 +670,7 @@ public class ViewReportController implements Serializable {
 		}
 
 	}
+
 	// To get count of services for selected deparment
 	@RequestMapping(value = "/checkServiceCountForGraph", method = {
 			RequestMethod.GET }, produces = "application/json;charset=UTF-8")
@@ -694,47 +697,43 @@ public class ViewReportController implements Serializable {
 	public ResponseEntity<?> getSumColum(ModelMap model, @RequestParam String columnId, String departmentId,
 			@RequestParam String aggregation, HttpServletRequest request)
 			throws ServletException, IOException, ParseException {
-		
-
-        
 
 		Long repId = (Long) request.getSession().getAttribute("reportId");
 		Long servID = (Long) request.getSession().getAttribute("service_id");
 		Long location_id = (Long) request.getSession().getAttribute("location_Id");
-		
+
 		System.out.println(location_id);
 		String where = (String) request.getSession().getAttribute("where");
 		System.out.println(where);
 		System.out.println(servID);
-		Object value ;
-		if(location_id != 0L) {
+		Object value;
+		if (location_id != 0L) {
 			List<Long> getlocationList = (List<Long>) request.getSession().getAttribute("getLocationList");
 			System.out.println(getlocationList);
-		 value = reportViwer.findSumofColumn(columnId, departmentId, aggregation,where, getlocationList);
-		}
-		else {
+			value = reportViwer.findSumofColumn(columnId, departmentId, aggregation, where, getlocationList);
+		} else {
 			List<Long> filterbserviceId = (List<Long>) request.getSession().getAttribute("filterbserviceId");
 			List<Long> filterbdisttId = (List<Long>) request.getSession().getAttribute("filterbdisttId");
 			List<Long> filterbdeptId = (List<Long>) request.getSession().getAttribute("nDeptIdName");
-		 value = reportViwer.findAggregationCombinedJson(filterbserviceId,
-					 filterbdisttId,  filterbdeptId,  where, aggregation,  columnId);
+			value = reportViwer.findAggregationCombinedJson(filterbserviceId, filterbdisttId, filterbdeptId, where,
+					aggregation, columnId);
 		}
 		model.put("sum", value);
 
 		return ResponseEntity.ok(value);
 
 	}
-	
-	public Map<String, Long> findAttributeMap(Long baseServiceId){
-		
+
+	public Map<String, Long> findAttributeMap(Long baseServiceId) {
+
 		List<AttributeMasterDataSql> data = attributeMasterDataSqlService.findByBaseServiceID(baseServiceId);
-		Map<String,Long> values = new LinkedHashMap<>();
-		
-		for(AttributeMasterDataSql s :data) {
-			values.put(s.getAttributeLabel(),s.getAttributeID());
+		Map<String, Long> values = new LinkedHashMap<>();
+
+		for (AttributeMasterDataSql s : data) {
+			values.put(s.getAttributeLabel(), s.getAttributeID());
 		}
 		return values;
-		
+
 	}
 
 }
