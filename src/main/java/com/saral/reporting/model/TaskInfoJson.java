@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 
 @Entity
-@Table(name = "tbl_taskinfo_json", schema = "saral1", catalog = "saral1")
+@Table(name = "tbl_taskinfo_json", schema = "saral1")
 public class TaskInfoJson {
 
 	@Id
@@ -27,12 +27,8 @@ public class TaskInfoJson {
 
 	@Column(name = "appl_id")
 	private Long applId;
-	
-	
 	@Column(name = "process_id")
 	private Long currentProcessId;
-	
-	
 	@Column(name = "task_info")
 	@Type(type = "JsonDataUserType")
 	private Map<String, Object> taskInfo;
@@ -52,6 +48,12 @@ public class TaskInfoJson {
 	@Column(name = "combinedtask_json")
 	@Type(type = "JsonDataUserType")
 	private Map<String, Object> combinedtaskJson;
+	
+
+	@Column(name = "task_id")
+	
+	private Long taskId;
+
 
 	public Long getId() {
 		return id;
@@ -115,6 +117,22 @@ public class TaskInfoJson {
 
 	public void setCombinedtaskJson(Map<String, Object> combinedtaskJson) {
 		this.combinedtaskJson = combinedtaskJson;
+	}
+
+	public Long getCurrentProcessId() {
+		return currentProcessId;
+	}
+
+	public void setCurrentProcessId(Long currentProcessId) {
+		this.currentProcessId = currentProcessId;
+	}
+
+	public Long getTaskId() {
+		return taskId;
+	}
+
+	public void setTaskId(Long taskId) {
+		this.taskId = taskId;
 	}
 
 }

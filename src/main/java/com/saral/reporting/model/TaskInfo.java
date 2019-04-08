@@ -11,7 +11,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity 
-@Table(name="tbl_taskinfo",schema="saral1", catalog="saral1")
+@Table(name="tbl_taskinfo",schema="saral1")
 public class TaskInfo {
 
 	@Id

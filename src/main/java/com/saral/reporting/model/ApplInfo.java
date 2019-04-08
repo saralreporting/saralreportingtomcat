@@ -1,5 +1,6 @@
 package com.saral.reporting.model;
 
+
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.HashMap;
@@ -12,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 @Entity
@@ -56,12 +59,14 @@ public class ApplInfo {
 	private String submissionLocation;
 
 	@Column(name = "submission_date")
-	private String submissionDate;
+	@Temporal(TemporalType.DATE)
+	private Date submissionDate;
 
 	@Column(name = "payment_mode")
 	private String paymentMode;
 
 	@Column(name = "payment_date")
+	@Temporal(TemporalType.DATE)
 	private Date payment_date;
 
 	@Column(name = "reference_no")
@@ -81,10 +86,9 @@ public class ApplInfo {
 
 	@Column(name = "sub_version")
 	private Long subVersion;
-	
+
 	@Transient
-	private String view;
-	
+	private String  view;
 	public Long getAid() {
 		return aid;
 	}
@@ -173,11 +177,11 @@ public class ApplInfo {
 		this.submissionLocation = submissionLocation;
 	}
 
-	public String getSubmissionDate() {
+	public Date getSubmissionDate() {
 		return submissionDate;
 	}
 
-	public void setSubmissionDate(String submissionDate) {
+	public void setSubmissionDate(Date submissionDate) {
 		this.submissionDate = submissionDate;
 	}
 
@@ -244,6 +248,7 @@ public class ApplInfo {
 	public void setSubVersion(Long subVersion) {
 		this.subVersion = subVersion;
 	}
+	
 
 	public String getView() {
 		return view;
@@ -252,7 +257,9 @@ public class ApplInfo {
 	public void setView(String view) {
 		this.view = view;
 	}
-	
+
+
+
 	@Override
 	public String toString() {
 		return "ApplInfo [aid=" + aid + ", departmentId=" + departmentId + ", departmentName=" + departmentName
@@ -308,5 +315,5 @@ public class ApplInfo {
 			}
 		return s;
 		}
+	}
 
-}

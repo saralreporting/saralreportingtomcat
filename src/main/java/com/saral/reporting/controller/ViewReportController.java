@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -204,7 +205,8 @@ public class ViewReportController implements Serializable {
 		// request.getSession().getAttribute("filterString");
 		List<Long> filterbserviceId = (List<Long>) request.getSession().getAttribute("filterbserviceId");
 		List<Long> filterbdisttId = (List<Long>) request.getSession().getAttribute("filterbdisttId");
-		//List<Long> filterbdeptId = (List<Long>) request.getSession().getAttribute("filterbdeptId");
+		// List<Long> filterbdeptId = (List<Long>)
+		// request.getSession().getAttribute("filterbdeptId");
 
 		Long department_id = (Long) request.getSession().getAttribute("department_id");
 
@@ -297,7 +299,7 @@ public class ViewReportController implements Serializable {
 				System.out.println(where);
 				System.out.println("my complete query" + abc);
 
-			}	 else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
+			} else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
 
 				orderby = JsonUtils.getSortingJoinerReport(listReport.getOrderCondition());
 				if (abc == "" || abc.equals("")) {
@@ -333,7 +335,7 @@ public class ViewReportController implements Serializable {
 			System.out.println("initCol" + initCol.length());
 			System.out.println("servCol" + servCol.length());
 			StringJoiner joiner = new StringJoiner(",");
-
+			joiner.add("view");
 			if ((initCol.length() > 0) && (servCol.length() > 0)) {
 				System.out.println("Inside First condition block");
 				String initColL = initCol.substring(0, initCol.length() - 1);
@@ -346,8 +348,7 @@ public class ViewReportController implements Serializable {
 				String servColL = servCol.substring(0, servCol.length() - 1);
 				joiner.add(servColL);
 			}
-			
-		
+
 			List<String> cols = Arrays.asList(joiner.toString().split("\\s*,\\s*"));
 			// Fetch applInfoNode from List
 			System.out.println(cols);
@@ -355,8 +356,9 @@ public class ViewReportController implements Serializable {
 				// map applinfo in map
 				// map attributes in map
 				Map<String, Object> maptotal = temp.getCombinedJson();
-				System.out.println( "applid" + maptotal.get("appl_id") );
-				maptotal.put("view","<a href=javascript:void(0); onclick=showTaskInfo("+temp.getApplId()+","+ temp.getServiceId()+","+temp.getVersionNo()+")>View</a>");
+				System.out.println("applid" + maptotal.get("appl_id"));
+				maptotal.put("view", "<a href=javascript:void(0); onclick=showTaskInfo(" + temp.getApplId() + ","
+						+ temp.getServiceId() + "," + temp.getVersionNo() + ")>View</a>");
 				for (String s : cols) {
 
 					if (!maptotal.containsKey(s)) {
@@ -366,6 +368,12 @@ public class ViewReportController implements Serializable {
 					}
 
 				}
+				if (maptotal.containsKey("submission_location")) {
+
+					Object value = maptotal.get("submission_location");
+					String[] arr = value.toString().split("~");
+					maptotal.put("submission_location", arr[2]);
+				}
 
 				// merging map
 				Map<String, Object> mapFromString = new LinkedHashMap<>();
@@ -374,11 +382,11 @@ public class ViewReportController implements Serializable {
 				listofMap.add(mapFromString);
 
 			});
-			joiner.add("view");
+
 			System.out.println("ssssssss" + listofMap.size());
 			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), joiner.toString());
 			String result = SquigglyUtils.stringify(objectMapper, listofMap);
-
+			List<String> items = Arrays.asList(joiner.toString().split("\\s*,\\s*"));
 
 			for (ReportSelectColumn s : L1) {
 
@@ -386,8 +394,17 @@ public class ViewReportController implements Serializable {
 				// s.getReportSelectedColumnName());
 
 				result = result.replace("\"" + s.getReportSelectedColumnId() + "\":",
-						"\"" + s.getReportSelectedColumnName().replaceAll("\\/", "\\_").replaceAll(" ", "\\_") + "\":");
+						"\"" + s.getReportSelectedColumnName() + "\":");
+				Collections.replaceAll(items, s.getReportSelectedColumnId(), s.getReportSelectedColumnName());
+
 			}
+			System.out.println(items);
+
+			Gson gson = new Gson();
+			// convert your list to json
+			String jsonCartList = gson.toJson(items);
+			model.put("joiner", jsonCartList);
+
 			Integer totalPages = (int) (countMax / 150);
 			if (countMax % 150 == 0) {
 
@@ -434,7 +451,7 @@ public class ViewReportController implements Serializable {
 
 			model.put("ErrorReport", "");
 			List<ReportSelectColumn> listCol = listReport.getReportSelectColumnList();
-			
+
 			String orderby = "";
 			if (request.getSession().getAttribute("selectedCol") != null) {
 
@@ -446,10 +463,10 @@ public class ViewReportController implements Serializable {
 				if (abc == "" || abc.equals("")) {
 					abc = "this_.department_id = this_.department_id ";
 				}
-				
+
 				model.put("where", abc);
 				abc = abc.concat(orderby);
-			
+
 				System.out.println("my complete query" + abc);
 
 			} else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
@@ -467,22 +484,27 @@ public class ViewReportController implements Serializable {
 
 			Page<ApplInfo> list = reportViwer.findByCombinedJsonAdminReport(filterbserviceId, pageable, filterbdisttId,
 					nDeptIdName, abc, orderby);
-			System.out.println(list.getContent().get(0).getServiceId());
+
 			ObjectMapper mapper1 = new ObjectMapper();
 			String jsonString = mapper1.writeValueAsString(list);
-			System.out.println("Our Main list Size " + list.getSize());
+
 			List<ApplInfo> applList = list.getContent();
 			List<ApplInfo> applListwithView = new ArrayList<>();
-			for(ApplInfo l : applList) {
-				//System.out.println(l);
-				//l.setView("<a href=/fetchTaskInfo?applId="+ l.getApplId() +"&serviceId="+l.getServiceId()+ ">View</a>");
-				l.setView("<a href=javascript:void(0); onclick=showTaskInfo("+l.getApplId()+","+ l.getServiceId()+","+l.getVersionNo()+")>View</a>");
+			for (ApplInfo l : applList) {
+				// System.out.println(l);
+				// l.setView("<a href=/fetchTaskInfo?applId="+ l.getApplId()
+				// +"&serviceId="+l.getServiceId()+ ">View</a>");
+				l.setView("<a href=javascript:void(0); onclick=showTaskInfo(" + l.getApplId() + "," + l.getServiceId()
+						+ "," + l.getVersionNo() + ")>View</a>");
 				applListwithView.add(l);
-				
+
+				String value = l.getSubmissionLocation();
+				String[] arr = value.toString().split("~");
+				l.setSubmissionLocation(arr[2]);
+
 			}
+
 			System.out.println(applListwithView);
-			
-			
 			JSONParser parser = new JSONParser();
 			JSONObject array = (JSONObject) parser.parse(jsonString);
 			// System.out.println(array);
@@ -522,15 +544,13 @@ public class ViewReportController implements Serializable {
 				joiner.add(servColL);
 			}
 //joiner.add("view");
-System.out.println("merz view joiner "+ joiner);
+			System.out.println("merz view joiner " + joiner);
 			ApplInfo applInfo = new ApplInfo();
 			Map<String, Object> listofColsMap = applInfo.getColumnNamesWithPojoVariables();
 
 			// ObjectMapper mapperForColms = new ObjectMapper();
 			ObjectMapper objectMapper1 = Squiggly.init(new ObjectMapper(), joiner.toString());
 			String result1 = SquigglyUtils.stringify(objectMapper1, listofColsMap);
-			
-		
 
 			final ObjectMapper mapper = new ObjectMapper();
 			Map<String, String> mapFromString = new LinkedHashMap<>();
@@ -540,25 +560,27 @@ System.out.println("merz view joiner "+ joiner);
 			} catch (IOException e) {
 
 			}
-			
-			List<String> result4 = mapFromString.values().stream()
-					.collect(Collectors.toList());
-			
-			//String valueString = String.join(",", mapFromString.values());
-		
-			
-			result4.add(0,"view");
-			System.out.println("sasasasa"+result4);
+
+			List<String> result4 = mapFromString.values().stream().collect(Collectors.toList());
+
+			// String valueString = String.join(",", mapFromString.values());
+
+			result4.add(0, "view");
+			System.out.println("sasasasa" + result4);
 			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), StringUtils.join(result4, ','));
 			String result = SquigglyUtils.stringify(objectMapper, applListwithView);
 
 			for (ReportSelectColumn s : L1) {
 
 				result = result.replace("\"" + s.getReportSelectedColumnId() + "\":",
-						"\"" + s.getReportSelectedColumnName().replaceAll("\\/", "\\_").replaceAll(" ", "\\_") + "\":");
-			}
-			
+						"\"" + s.getReportSelectedColumnName() + "\":");
 
+			}
+
+			Gson gson = new Gson();
+			// convert your list to json
+			String jsonCartList = gson.toJson(result4);
+			model.put("joiner", jsonCartList);
 			Integer totalPages = (int) (countMax / 150);
 			if (countMax % 150 == 0) {
 
@@ -581,7 +603,8 @@ System.out.println("merz view joiner "+ joiner);
 			model.put("reportId", repId);
 			model.put("service_id", servID);
 
-			//System.out.println("Inside second loop where records are greater than 6000 ==== FINAL");
+			// System.out.println("Inside second loop where records are greater than 6000
+			// ==== FINAL");
 
 			JsonUtils.pageModel(model, list);
 			long pNumber = ((pageable.getPageNumber() - 1) * 150);
@@ -592,7 +615,7 @@ System.out.println("merz view joiner "+ joiner);
 			model.addAttribute("totalPages", totalPages);
 			model.addAttribute("listCol", listCol);
 			return "showReportNew";
-			
+
 		}
 
 	}

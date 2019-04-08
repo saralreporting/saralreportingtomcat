@@ -1331,8 +1331,9 @@ Highcharts.chart('stackedbar', {
 		        var exampleRecord = data[0];
 		        
 		        //get keys in object. This will only work if your statement remains true that all objects have identical keys
-		        var keys = Object.keys(exampleRecord);
-		        
+		        //var keys = Object.keys(exampleRecord);
+		        var keys =${joiner};
+		        console.log(keys);
 		        //for each key, add a column definition
 		        keys.forEach(function(k) {
 		          cols.push({

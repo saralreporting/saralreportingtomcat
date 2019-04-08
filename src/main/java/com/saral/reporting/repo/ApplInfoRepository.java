@@ -22,6 +22,11 @@ public interface ApplInfoRepository extends JpaRepository<ApplInfo, Long> {
 	           "GROUP BY " +
 	           "    v.departmentName order by  COUNT(v) desc ")
 	  List<DeparmentAdminCountUtills> findTop5ApplInfoCount(Pageable pagebale);
+ 
+	Long countByServiceId(Long serviceId);
+	long count(); 
 
-	
+	//ApplInfo findBySubmissionDate(Long applId);
+
+	ApplInfo findByApplId(Long applId);
 }

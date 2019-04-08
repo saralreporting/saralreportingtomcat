@@ -121,4 +121,47 @@
 		<put-attribute name="topMenu" value="" />
 		<!-- <put-attribute name="sideMenu" value=""/> -->
 	</definition>
+	
+	<definition name="error" extends="base-definition">
+		<put-attribute name="title" value="error" />
+		<put-attribute name="body" value="/WEB-INF/jsp/error.jsp" />
+
+		<put-attribute name="footer" value="" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="menu" value="" />
+		<put-attribute name="topMenu" value="" />
+		<!-- <put-attribute name="sideMenu" value=""/> -->
+	</definition>
+	
+	<definition name="error-404" extends="base-definition">
+		<put-attribute name="title" value="error-" />
+		<put-attribute name="body" value="/WEB-INF/jsp/error-404.jsp" />
+
+		<put-attribute name="footer" value="" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="menu" value="" />
+		<put-attribute name="topMenu" value="" />
+		<!-- <put-attribute name="sideMenu" value=""/> -->
+	</definition>
+	
+	<definition name="error-500" extends="base-definition">
+		<put-attribute name="title" value="error" />
+		<put-attribute name="body" value="/WEB-INF/jsp/error-500.jsp" />
+
+		<put-attribute name="footer" value="" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="menu" value="" />
+		<put-attribute name="topMenu" value="" />
+		<!-- <put-attribute name="sideMenu" value=""/> -->
+	</definition>
+		<definition name="maintainance" extends="base-definition">
+		<put-attribute name="title" value="maintainence" />
+		<put-attribute name="body" value="/WEB-INF/jsp/maintainance.jsp" />
+
+		<put-attribute name="footer" value="" />
+		<put-attribute name="header" value="" />
+		<put-attribute name="menu" value="" />
+		<put-attribute name="topMenu" value="" />
+		<!-- <put-attribute name="sideMenu" value=""/> -->
+	</definition>
 </tiles-definitions>
