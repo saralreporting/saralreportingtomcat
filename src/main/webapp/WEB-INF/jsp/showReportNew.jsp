@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="assets/css/newcss/pivot.css" />
 <link rel="stylesheet"
 	href="assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+<link rel="stylesheet"	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
 
 
 <!-- page specific plugin styles -->
@@ -512,6 +513,21 @@
 														</thead>
 														<tbody id="tbodyid"></tbody>
 													</table>
+													<%-- <div class="infobox infobox-blue2">
+														<div class="infobox-progress">
+															<div class="easy-pie-chart percentage" data-percent="42" data-size="46" style="height: 46px; width: 46px; line-height: 45px;">
+																<span class="percent">42</span>%
+															<canvas height="46" width="46"></canvas></div>
+														</div>
+			
+														<div class="infobox-data">
+															<span class="infobox-text">Task</span>
+															Completion
+														</div>
+													</div> --%>
+													<div id="prgrsdiv" class="progress progress-striped pos-rel active" data-percent="10%" style="margin-top: 1%;">
+														<div id="prgrsdivbar" class="progress-bar progress-bar-success" style="width:10%;"></div>
+													</div>
 											      </div>
 											      <div class="modal-footer" >
 											        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -723,6 +739,7 @@
 	<!-- ace scripts -->
 	<script src="assets/js/ace-elements.min.js"></script>
 	<script src="assets/js/ace.min.js"></script>
+	<!-- <script src="assets/js/jquery.easypiechart.min.js"></script> -->
 
 	<!-- inline scripts related to this page -->
 	<script type="text/javascript">
@@ -1383,7 +1400,8 @@ Highcharts.chart('stackedbar', {
 				});
 			}
 			
-			function showTaskInfo(applId,serviceId,versionNo){
+			
+			function showTaskInfo(applId,serviceId,versionNo){ 
 				$.ajax({
 					type : "GET",
 					url : '/fetchTaskInfoData',
@@ -1394,19 +1412,51 @@ Highcharts.chart('stackedbar', {
 					},
 					success : function(data) {
 						console.log(data);
-						data = JSON.parse(data);
+						//data = JSON.parse(data);
+						var tabledata = data.data;
+						console.log(tabledata);
+						tabledata = JSON.parse(tabledata);
+						console.log(tabledata);
 						$("#tbodyid").empty();
-						for(var i=0;i<data.length;i++)
+						for(var i=0;i<tabledata.length;i++)
 			    	       {
 			    	            var tr="<tr>";
-			    	            var td1="<td>"+data[i]["id"]+"</td>";
-			    	            var td2="<td>"+data[i]["task_name"]+"</td>";
-			    	            var td3="<td>"+data[i]["task_type"]+"</td>";
-			    	        	var td4="<td>"+data[i]["executed_time"]+"</td>";
-			    	        	var td5="<td>"+data[i]["Action"]+"</td></tr>";
+			    	            var td1="<td>"+tabledata[i]["id"]+"</td>";
+			    	            var td2="<td>"+tabledata[i]["task_name"]+"</td>";
+			    	            var td3="<td>"+tabledata[i]["task_type"]+"</td>";
+			    	            
+			    	            var dateString = tabledata[i]["executed_time"];
+			    	            var date = new Date(dateString);
+			    	            var newdate = date.toLocaleString();
+			    	            //var newdate = date.toDateString();
+			    	            var td4="<td>"+newdate+"</td>";
+			    	        	
+			    	        	var valueAc = tabledata[i]["Action"];
+			    	        	if ((valueAc == 'N.A.') || (valueAc == undefined)){
+	                            	var td5="<td style='color:blue;'>N.A.</td></tr>";
+			    	       		}else if ((valueAc == 'Forward') || (valueAc.includes("Forward")) || (valueAc.includes("forward"))){
+			    	        		var td5="<td style='color:orange;'>"+valueAc+"</td></tr>";
+			    	        	}else if ((valueAc == 'Reject') || (valueAc.includes("Reject")) || (valueAc.includes("reject"))){
+	                            	var td5="<td style='color:Red;'>"+valueAc+"</td></tr>";
+			    	       		}else if ((valueAc == 'Deliver') || (valueAc.includes("Deliver")) || (valueAc.includes("deliver"))){
+	                            	var td5="<td style='color:green;'>"+valueAc+"</td></tr>";
+			    	       		}else { 
+	                                var td5="<td>"+valueAc+"</td></tr>";
+	                                //var td5="<td>"+tabledata[i]["Action"]+"</td></tr>";
+			    	       		}	
+			    	        	
 			    	        	$("#exampleTableModal tbody").append(tr+td1+td2+td3+td4+td5); 
 			    	       }
-						$('#myModal').modal('show');
+						var percentage = data.percentage;
+						if(percentage=="Infinity" || percentage=="NaN"){
+							$("#prgrsdiv").attr("data-percent","0%");
+							$("#prgrsdivbar").css("width","0%");
+							$('#myModal').modal('show');	
+						}else{
+							$("#prgrsdiv").attr("data-percent",percentage+"%");
+							$("#prgrsdivbar").css("width",percentage+"%");
+							$('#myModal').modal('show');
+						}
 					}
 				});
 			}

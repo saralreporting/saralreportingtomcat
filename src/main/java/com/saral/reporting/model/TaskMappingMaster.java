@@ -2,13 +2,21 @@ package com.saral.reporting.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "taskmappingmaster", schema = "saral", catalog = "saral")
+@Table(name = "taskmappingmaster", schema = "saral")
 public class TaskMappingMaster {
-	
+
+	@Id
+	@GeneratedValue(generator = "taskmappingmaster_tid_seq")
+	@SequenceGenerator(name = "taskmappingmaster_tid_seq", sequenceName = "saral.taskmappingmaster_tid_seq", initialValue = 1)
+	@Column(name = "id")
+	private Long id;
+
 	@Column(name = "service_id")
 	private Long serviceId;
 	
@@ -30,9 +38,7 @@ public class TaskMappingMaster {
 	@Column(name = "to_task_name")
 	private String toTaskName;
 	
-	@Id
-	@Column(name = "id")
-	private Long id;
+
 
 	public Long getServiceId() {
 		return serviceId;

@@ -356,7 +356,7 @@ public class ViewReportController implements Serializable {
 				// map attributes in map
 				Map<String, Object> maptotal = temp.getCombinedJson();
 				System.out.println( "applid" + maptotal.get("appl_id") );
-				maptotal.put("view","<a href=javascript:void(0); onclick=showTaskInfo("+temp.getApplId()+","+ temp.getServiceId()+")>View</a>");
+				maptotal.put("view","<a href=javascript:void(0); onclick=showTaskInfo("+temp.getApplId()+","+ temp.getServiceId()+","+temp.getVersionNo()+")>View</a>");
 				for (String s : cols) {
 
 					if (!maptotal.containsKey(s)) {
@@ -476,7 +476,7 @@ public class ViewReportController implements Serializable {
 			for(ApplInfo l : applList) {
 				//System.out.println(l);
 				//l.setView("<a href=/fetchTaskInfo?applId="+ l.getApplId() +"&serviceId="+l.getServiceId()+ ">View</a>");
-				l.setView("<a href=javascript:void(0); onclick=showTaskInfo("+l.getApplId()+","+ l.getServiceId()+")>View</a>");
+				l.setView("<a href=javascript:void(0); onclick=showTaskInfo("+l.getApplId()+","+ l.getServiceId()+","+l.getVersionNo()+")>View</a>");
 				applListwithView.add(l);
 				
 			}
