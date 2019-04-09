@@ -42,11 +42,10 @@
 <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
 <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
 
-<link href="assets/css-new/owl.carousel.css" rel="stylesheet">
-<link href="assets/css-new/owl.theme.default.min.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/owl.carousel.css" />
+<link rel="stylesheet" href="assets/css/owl.theme.default.min.css" />
 
-<link href="assets/css-new/magnific-popup.css" rel="stylesheet">
-<link href="assets/css-new/owl.carousel.css" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/magnific-popup.css" />
 <style>
 #exampleModal {
 	margin-top: 15%;
@@ -601,6 +600,7 @@
 																	</div>
 																	<a href="javascript:void(0);"
 																			onclick="refreshData()">Apply Filter</a>
+																	<input type="hidden" id="odrbyFromSession" name="odrbyFromSession" />
 																</div>	
 															</div>
 														</div>
@@ -732,7 +732,7 @@
 	<script src="assets/js/chartjs/highcharts.js"></script>
 	<script src="assets/js/chartjs/export-data.js"></script>
 	<script src="assets/js/chartjs/exporting.js"></script>
-
+	<script src="/js/underscore-min.js"></script>
 
 
 
@@ -1119,6 +1119,7 @@ Highcharts.chart('barchart', {
         ]
     } );
 } ); */
+
 //Grouped Bar 
 function higrpbar(data){
 	var jsonVar = JSON.stringify(data);
@@ -1375,6 +1376,33 @@ Highcharts.chart('stackedbar', {
 		        table.clear();
 		        table.rows.add(data).draw();
 		        $("#example").children("tbody").children("tr").css("background-color", "#${tableColor}");
+		        
+		        try{
+		        	
+		        	if(_.isEmpty(${selectedCol})){
+		        		console.log("Empty Empty Empty Empty Empty Empty Empty Empty");
+		        	}else{
+		        		var selectedCol = ${selectedCol}
+				        console.log("asdadasdasdasdasd" + JSON.stringify(selectedCol));
+				        //var ordrObj= ${listReport.getOrderCondition()}
+				        $("#odrbyFromSession").val(JSON.stringify(selectedCol));
+				        selectedCol = selectedCol.Order;
+		            	console.log(selectedCol);
+		    	        for(var i=0;i<selectedCol.length;i++)
+		    	        {
+		    	            var tr="<tr>";
+		    	            var td0 = "<td><input type='checkbox' name='recordgridodr' id='recordgridodr'></td>"
+		    	            var td1="<td style='display:none;'>"+selectedCol[i]["ColumnId"]+"</td>";
+		    	            var td2="<td>"+selectedCol[i]["Column"]+"</td>";
+		    	            var td3="<td>"+selectedCol[i]["Order"]+"</td></tr>";
+		    	            
+		    	          $("#rpODConditionGridView tbody").append(tr+td0+td1+td2+td3); 
+		    	        }
+		        	}
+		        }catch(err)
+		        {
+		        	console.log(err.message);
+		        }
 			}
 	           
 	}
@@ -1449,11 +1477,12 @@ Highcharts.chart('stackedbar', {
 			    	        	$("#exampleTableModal tbody").append(tr+td1+td2+td3+td4+td5); 
 			    	       }
 						var percentage = data.percentage;
-						if(percentage=="Infinity" || percentage=="NaN"){
+						if(percentage=="Infinity" || percentage=="NaN" || percentage==undefined || percentage==null){
 							$("#prgrsdiv").attr("data-percent","0%");
 							$("#prgrsdivbar").css("width","0%");
 							$('#myModal').modal('show');	
 						}else{
+							percentage = Math.round(percentage);
 							$("#prgrsdiv").attr("data-percent",percentage+"%");
 							$("#prgrsdivbar").css("width",percentage+"%");
 							$('#myModal').modal('show');

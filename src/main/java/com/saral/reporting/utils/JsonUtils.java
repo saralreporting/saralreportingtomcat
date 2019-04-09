@@ -298,56 +298,57 @@ public class JsonUtils {
 		String builer = "";
 		System.out.println(objarray.size());
 		if(objarray.size() >0) {
-		for (Object o1 : objarray) {
-			System.out.println(o1);
-
-			JSONObject json = (JSONObject) o1;
-			if (json.get("And Or").toString().equals("and")) {
-				builer =  "this_."+ json.get("ColumnId").toString()  + " = '" + json.get("Value").toString() +"'";
-					System.out.println(builer);
-
-					joiner1.add(builer);
-			}
-
-			else if (json.get("And Or").toString().equals("or")) {
-
-				//System.out.println(json.get("version_no"));
-				
-					// System.out.println("ssss" + json.get("Column").toString());
+			for (Object o1 : objarray) {
+				System.out.println(o1);
+	
+				JSONObject json = (JSONObject) o1;
+				if (json.get("And Or").toString().equals("and")) {
+					builer =  "this_."+ json.get("ColumnId").toString()  + " = '" + json.get("Value").toString() +"'";
+						System.out.println(builer);
+	
+						joiner1.add(builer);
+				}
+	
+				else if (json.get("And Or").toString().equals("or")) {
+	
 					//System.out.println(json.get("version_no"));
-					builder =  "this_."+ json.get("ColumnId").toString()  + " = '" + json.get("Value").toString() +"'";
-					System.out.println(builder);
-
-					joinerOr.add(builder);
+					
+						// System.out.println("ssss" + json.get("Column").toString());
+						//System.out.println(json.get("version_no"));
+						builder =  "this_."+ json.get("ColumnId").toString()  + " = '" + json.get("Value").toString() +"'";
+						System.out.println(builder);
+	
+						joinerOr.add(builder);
+				}
+				and = joiner1.toString();
+				System.out.println("1 am here" + and);
+				or = joinerOr.toString().trim();
+				System.out.println("1 am here21" + or);
 			}
-			and = joiner1.toString();
-			System.out.println("1 am here" + and);
-			or = joinerOr.toString().trim();
-			System.out.println("1 am here21" + or);
+			
+	
+			String totalResult = "";
+			if (and.equalsIgnoreCase("")  && or.equalsIgnoreCase("")) {
+				System.out.println("1 am here 1");
+				totalResult = "";
+			} else if (!and.equalsIgnoreCase("")  && or.equalsIgnoreCase("")) {
+				System.out.println();
+				System.out.println("1 am here21");
+	
+				totalResult = "(" + and + ")";
+			} else if (and.equalsIgnoreCase("")  && !or.equalsIgnoreCase("")) {
+				System.out.println("1 am here31");
+	
+				totalResult = "( this_.department_id = '"+deptID +"' and ("+ or + "))";
+			}
+	
+			else if (!and.equalsIgnoreCase("")  && !or.equalsIgnoreCase("")) {
+				System.out.println("1 am here41");
+	
+				totalResult = "(" + and + ")" + " or " + "( this_.department_id = '"+deptID +"' and ("+ or + "))";
+			}
+			return totalResult;
 		}
-		
-
-		String totalResult = "";
-		if (and.equalsIgnoreCase("")  && or.equalsIgnoreCase("")) {
-			System.out.println("1 am here 1");
-			totalResult = "";
-		} else if (!and.equalsIgnoreCase("")  && or.equalsIgnoreCase("")) {
-			System.out.println();
-			System.out.println("1 am here21");
-
-			totalResult = "(" + and + ")";
-		} else if (and.equalsIgnoreCase("")  && !or.equalsIgnoreCase("")) {
-			System.out.println("1 am here31");
-
-			totalResult = "( this_.department_id = '"+deptID +"' and ("+ or + "))";
-		}
-
-		else if (!and.equalsIgnoreCase("")  && !or.equalsIgnoreCase("")) {
-			System.out.println("1 am here41");
-
-			totalResult = "(" + and + ")" + " or " + "( this_.department_id = '"+deptID +"' and ("+ or + "))";
-		}
-		return totalResult;}
 		return "";
 	}
 	
