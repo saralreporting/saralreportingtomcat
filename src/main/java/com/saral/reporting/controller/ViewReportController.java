@@ -120,7 +120,14 @@ public class ViewReportController implements Serializable {
 			listReport = reportBeanService.findByIsAdminReport('Y');
 		} else {
 			List<Long> userAllocatedServices = (List<Long>) request.getSession().getAttribute("saralUserServiceList");
+			String hmfromSession = (String) request.getSession().getAttribute("hm");
+			System.out.println("Roles From the session" + hmfromSession);
+			
 			System.out.println("This is the list we get from the session :" + userAllocatedServices);
+			if(hmfromSession.contains("State Service Definer")){
+				userAllocatedServices.clear();
+				System.out.println("This is the list we get from the session inside loop:" + userAllocatedServices);
+			}
 			listReport = reportViwer.findByDepartmentIdAndIsAdminReportAndServiceId(department_id, 'N',
 					userAllocatedServices);
 		}
@@ -276,6 +283,7 @@ public class ViewReportController implements Serializable {
 		if (countMax == 0L) {
 
 			model.put("ErrorReport", "No Record found for selected Report");
+			model.put("joiner","[]");
 			model.addAttribute("addresses", "\"NO Result\"");
 			return "showReportNew";
 

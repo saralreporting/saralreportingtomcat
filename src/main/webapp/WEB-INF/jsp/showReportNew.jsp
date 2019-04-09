@@ -1310,6 +1310,13 @@ Highcharts.chart('stackedbar', {
 	
 		function CreateTableFromJSON() {
 			var errMessage = "${ErrorReport}";
+
+			if(${joiner}.length>0){
+	      		var keys = ${joiner};
+	        }
+	        else{
+	        	var keys = ["sd"];
+	        }
 			if(errMessage=="No Record found for selected Report"){
 				$('#example').hide();
 				$('#exampleFooter').hide();
@@ -1333,8 +1340,8 @@ Highcharts.chart('stackedbar', {
 		        
 		        //get keys in object. This will only work if your statement remains true that all objects have identical keys
 		        //var keys = Object.keys(exampleRecord);
-		        var keys =${joiner};
-		        console.log(keys);
+		        //var keys =${joiner};
+		        //console.log(keys);
 		        //for each key, add a column definition
 		        keys.forEach(function(k) {
 		          cols.push({
