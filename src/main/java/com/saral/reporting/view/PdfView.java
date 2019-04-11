@@ -3,6 +3,7 @@ package com.saral.reporting.view;
 import com.saral.reporting.utils.JsonUtils;
 import com.saral.reporting.view.AbstractPdfView;
 import com.itextpdf.text.*;
+import com.itextpdf.text.html.WebColors;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -19,7 +20,7 @@ import java.util.Map;
 
 public class PdfView extends AbstractPdfView {
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
 	protected void buildPdfDocument(Map<String, Object> model, Document document, PdfWriter writer,
 			HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -28,7 +29,17 @@ public class PdfView extends AbstractPdfView {
 		System.out.println("I am here at first line");
 		Map<String,Object> map = (Map<String, Object>) model.get("applInfoJsonwithGroupByForPDF");
 		JSONArray output = (JSONArray) map.get("applInfoJsonForPDF");
-		document.add(new Paragraph("Generated Report " + LocalDate.now()));
+		//String rpName = (String) map.get("reportName");
+		//String reportPurpose = (String) map.get("reportPurpose");
+		//String organisationName = (String) map.get("organisationName");tableColor
+		document.add(new Paragraph("Report Name : " + (String) map.get("reportName")));
+		document.add(new Paragraph("Report Purpose : " + (String) map.get("reportPurpose")));
+		document.add(new Paragraph("Department Name : " + (String) map.get("organisationName")));
+		Long servID = (Long) request.getSession().getAttribute("service_id");
+		if((servID != 0L) && (servID != 1L) && (servID != null)){
+			document.add(new Paragraph("Service Name : " + (String) map.get("serviceName")));
+		}
+		document.add(new Paragraph("Report Generated On : " + LocalDate.now()));
 		document.add(new Paragraph("Total Records = " + output.length()));
 
 		System.out.println("I am here at second line");
@@ -68,7 +79,8 @@ public class PdfView extends AbstractPdfView {
 		}
 
 		System.out.println("I am here one two three output.length()");
-
+		String tableColor = (String) map.get("tableColor");
+		PdfPCell cellfordata = new PdfPCell();
 		for (int j = 0; j < output.length(); j++) {
 			JSONObject json2 = output.getJSONObject(j);
 
@@ -78,11 +90,13 @@ public class PdfView extends AbstractPdfView {
 				
 				Object val = json2.get(key2);
 				//System.out.println("key:"+key2 +" val:" +val);
-				table.addCell(val.toString());
+				cellfordata.setPhrase(new Phrase(val.toString()));
+				cellfordata.setBackgroundColor(WebColors.getRGBColor(tableColor));
+				table.addCell(cellfordata);
+				//table.addCell(val.toString());
 			}
 
 		}
-		
 		JSONArray output1 = (JSONArray) map.get("groupByDataForPDF");
 	
 		

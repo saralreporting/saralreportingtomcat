@@ -59,7 +59,7 @@
 			</button>
 
 			<div class="navbar-header pull-left">
-				<a href="index.html" class="navbar-brand"> <small> <i
+				<a href="/welcome" class="navbar-brand"> <small> <i
 						class="fa fa-leaf"></i> Saral Haryana - Reporting Tool
 				</small>
 				</a>

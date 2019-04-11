@@ -34,11 +34,14 @@ public abstract class AbstractPdfView extends AbstractView {
         ByteArrayOutputStream baos = createTemporaryOutputStream();
 
         // Apply preferences and build metadata.
-        Document document = new Document(PageSize.A4.rotate(), 36, 36, 54, 36);
+        Document document = new Document(PageSize.A4.rotate(), 36, 36, 90, 90);
         PdfWriter writer = PdfWriter.getInstance(document, baos);
         prepareWriter(model, writer, request);
         buildPdfMetadata(model, document, request);
 
+		HeaderFooterPageEvent hfpe = new HeaderFooterPageEvent();
+		writer.setPageEvent(hfpe);
+        
         // Build PDF document.
         document.open();
         buildPdfDocument(model, document, writer, request, response);

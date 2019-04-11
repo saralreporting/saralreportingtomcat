@@ -1235,7 +1235,8 @@
 							
 							if(result="Report has been saved"){
 								alert(result);
-								window.location.href='/DesignAdminDeptReptPage';
+								//window.location.href='/DesignAdminDeptReptPage';
+								window.location.href='/fetchReportList';
 							}else{
 							console.log("My ajax 1");
 							console.log(result);

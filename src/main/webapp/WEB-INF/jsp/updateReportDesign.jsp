@@ -4,6 +4,7 @@
 <%@ taglib prefix="tg" tagdir="/WEB-INF/tags"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 
 
@@ -169,12 +170,15 @@
 							pagedLink="${pagedLink}" />
 				
 					
-					<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" id="hdndivval" style="margin-top: 15px;">
-					<spring:url	value="/DesignReptPage" var="newUrl" /> 
-										<a class="cus-next-bttn" href="${newUrl}" role="button">Desing New Report</a>
-								<input type="hidden" name="deptid" value=${department_id} id="deptid" />
-								<input type="hidden" name="deptid" value=${sign_no} id="sign_no" />
-					</div>
+						<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center" id="hdndivval" style="margin-top: 15px;">
+							<sec:authorize access="hasRole('SDEF')">
+								<spring:url	value="/DesignReptPage" var="newUrl" />
+								<a class="cus-next-bttn" href="${newUrl}" role="button">Design New Report</a>
+							</sec:authorize>
+							<input type="hidden" name="deptid" value=${department_id} id="deptid" />
+							<input type="hidden" name="deptid" value=${sign_no} id="sign_no" />
+						</div>
+					
 					</div>
 				</div>
 				<!-- /.page-content -->

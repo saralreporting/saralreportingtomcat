@@ -734,8 +734,6 @@
 	<script src="assets/js/chartjs/exporting.js"></script>
 	<script src="/js/underscore-min.js"></script>
 
-
-
 	<!-- ace scripts -->
 	<script src="assets/js/ace-elements.min.js"></script>
 	<script src="assets/js/ace.min.js"></script>
@@ -1375,8 +1373,10 @@ Highcharts.chart('stackedbar', {
 			        columnDefs: [
 			            { width: 200, targets: 0 }
 			        ],
-			        autoWidth: false
-			       
+			        autoWidth: false,
+			        rowGroup: {
+			            dataSrc: 2
+			        }
 		        });
 		        
 		        //add data and draw

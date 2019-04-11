@@ -43,11 +43,15 @@ import com.saral.reporting.model.ApplInfoJson;
 import com.saral.reporting.model.HrOrgLocatedAtLevels;
 import com.saral.reporting.model.HrOrgUnits;
 import com.saral.reporting.model.ReportBean;
+import com.saral.reporting.model.ReportOrganizations;
 import com.saral.reporting.model.ReportSelectColumn;
+import com.saral.reporting.model.ServiceMaster;
 import com.saral.reporting.service.ApplInfoJsonService;
 import com.saral.reporting.service.HrOrgLocatedAtLevelsService;
 import com.saral.reporting.service.HrOrgUnitsService;
 import com.saral.reporting.service.ReportBeanService;
+import com.saral.reporting.service.ReportDomainService;
+import com.saral.reporting.service.ServiceMasterService;
 import com.saral.reporting.utils.JsonUtils;
 import com.saral.reporting.utils.StringConstants;
 import com.saral.reporting.view.CsvView;
@@ -63,6 +67,9 @@ public class ReportExportController {
 
 	@Autowired
 	ReportBeanService reportBeanService;
+	
+	@Autowired
+	private ReportDomainService reportDomainService;
 
 	@Autowired
 	FileDownloadController fileDownloadController;
@@ -72,6 +79,9 @@ public class ReportExportController {
 
 	@Autowired
 	ReportViwerDAO reportViwer;
+	
+	@Autowired
+	ServiceMasterService serviceMasterService;
 	
 	
 	@Autowired
@@ -117,12 +127,24 @@ public class ReportExportController {
 		String output = CommonFunctionForExport(res, rep);
 
 		String arr[] = output.split("===");
+		Long repId = (Long) res.getSession().getAttribute("reportId");
+		ReportBean listReport = reportBeanService.findByReportId(repId);
 		JSONArray jsonArray = new JSONArray(arr[0]);
 		JSONArray jsonArray1 = new JSONArray(arr[1]);
 		Map<String, Object> map =  new LinkedHashMap<>();
 		map.put("applInfoJsonForPDF", jsonArray);
 		map.put("groupByDataForPDF", jsonArray1);
-
+		map.put("reportName", listReport.getReportName());
+		map.put("reportPurpose", listReport.getTooltip());
+		map.put("tableColor", listReport.getTableColor());
+		Long deptidwithNameSelectedBU = (Long) res.getSession().getAttribute("deptidwithNameSelectedBU");
+		ReportOrganizations reportOrganizations =reportDomainService.findByOrgCode(deptidwithNameSelectedBU);
+		map.put("organisationName", reportOrganizations.getOrgName());
+		Long servID = (Long) res.getSession().getAttribute("service_id");
+		if((servID != 0L) && (servID != 1L) && (servID != null)){
+			ServiceMaster serviceMaster = serviceMasterService.findByServiceCode(servID.toString());
+			map.put("serviceName", serviceMaster.getServiceName());
+		}
 		return new ModelAndView(new PdfView(), "applInfoJsonwithGroupByForPDF", map);
 	}
 
