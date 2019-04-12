@@ -110,9 +110,9 @@
 								<option value="0">Please Select</option>
 							</select> 
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
+						<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
 							<input type="submit" class="btn btn-purple no-border cus-get-col" id="getServicesOrg" value="Get Services" />
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="col-lg-6 col-md-6 col-xs-12" id="reprt2" style="background-color: aliceblue; margin-bottom: 15px; padding: 0;">
@@ -125,9 +125,9 @@
 								<option value="0">Please Select</option>
 							</select> 
 						</div>
-						<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
+						<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
 							<input type="submit" class="btn btn-purple no-border cus-get-col" id="getcol" value="Get Columns" />
-						</div>
+						</div> -->
 					</div>
 				</div>
 				<div class="hr hr32 hr-dotted"></div>
@@ -1133,11 +1133,15 @@
 				}
 			});
 	    		
-			$('#getServicesOrg').click(function() {
+			$('#selectedDeptrtmnt').change(function() {
+			//$('#getServicesOrg').click(function() {
    			 var orgid = $('#selectedDeptrtmnt').val();
    			 console.log(orgid);
    			 if(orgid=="0" || orgid==""){
    				 alert("Please select Organisation from drop-down");
+   				 var $select = $("#selectedRecord");                         
+			     $select.find("option").remove();
+			     $("<option>").val(0).text("Please Select").appendTo($select);	
    				 return false;
    			 }
 			$.ajax({
@@ -1163,10 +1167,12 @@
    		});
 	    		
 	    		
-	    		$('#getcol').click(function() {
+	    		/* $('#getcol').click(function() { */
+	    			$('#selectedRecord').change(function() {
 	    			 var sid = $('#selectedRecord').val();
 	    			 if(sid=="0" || sid==""){
 	    				 alert("Please select Service from drop-down");
+	    				 $('#ContentPlaceHolder1_CheckBoxList1').empty();
 	    				 return false;
 	    			 }
 	    			$.ajax({
@@ -1196,7 +1202,8 @@
 	    		
 	    		
 	    		//To fetch where conditions #rpWhrCondition
-	    		$('#getcol').click(function() {
+	    		/* $('#getcol').click(function() { */
+	    			$('#selectedRecord').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchWhereConditions',
@@ -1215,7 +1222,8 @@
 	    		});
 	    		
 	    		//To fetch Having conditions #rphvngCondition
-	    		$('#getcol').click(function() {
+	    		/* $('#getcol').click(function() { */
+	    		$('#selectedRecord').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchHavingConditions',
@@ -1234,7 +1242,8 @@
 	    		});
 	    		
 	    		//To fetch Appl Info Columns #ContentPlaceHolder2_CheckBoxList2applInfoCollist
-	    		$('#getcol').click(function() {
+	    		/* $('#getcol').click(function() { */
+	    		$('#selectedRecord').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchApplInfoCol',

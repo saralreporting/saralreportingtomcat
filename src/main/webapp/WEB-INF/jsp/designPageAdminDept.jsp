@@ -121,9 +121,9 @@
 											<option value="0">Please Select</option>
 										</select> 
 									</div>
-									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
+								<!-- 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
 										<input type="submit" class="btn btn-purple no-border cus-get-col" id="getServicesOrg" value="Get Columns" />
-									</div>
+									</div> -->
 								</div>
 							</div>
 							<div class="col-lg-6 col-md-6 col-xs-12" id="reprt2" style="background-color: aliceblue; padding: 0; display: none;">
@@ -1164,7 +1164,8 @@
 	    	
 	    		
 	    		//To fetch where conditions #rpWhrCondition
-	    		$('#getServicesOrg').click(function() {
+	    		/* $('#getServicesOrg').click(function() { */
+	    		$('#selectedDeptrtmnt').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchWhereConditions',
@@ -1184,7 +1185,8 @@
 	    		});
 	    		
 	    		//To fetch Having conditions #rphvngCondition
-	    		$('#getServicesOrg').click(function() {
+	    		/* $('#getServicesOrg').click(function() { */
+	    		$('#selectedDeptrtmnt').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchHavingConditions',
@@ -1203,7 +1205,8 @@
 	    		});
 	    		
 	    		//To fetch Appl Info Columns #ContentPlaceHolder2_CheckBoxList2applInfoCollist
-	    		$('#getServicesOrg').click(function() {
+	    		/* $('#getServicesOrg').click(function() { */
+	    		$('#selectedDeptrtmnt').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchApplInfoCol',

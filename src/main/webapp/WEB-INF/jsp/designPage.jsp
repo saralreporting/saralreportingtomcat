@@ -106,9 +106,9 @@
 						<option value="0">Please Select</option>
 						</select> 
 					</div>
-					<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
+					<!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 cus-input-bttns">
 						<input type="submit" class="btn btn-purple no-border cus-get-col" id="getcol" value="Get Columns" />
-					</div>
+					</div> -->
 				</div>
 			</div>
 			<div class="hr hr32 hr-dotted"></div>
@@ -1144,8 +1144,8 @@
 	    				}
 	    			});
 	    		
-	    		
-	    		$('#getcol').click(function() {
+	    		$('#selectedRecord').change(function() {
+	    		/* $('#getcol').click(function() { */
 	    			 var sid = $('#selectedRecord').val();
 	    			 if(sid=="0" || sid==""){
 	    				 alert("Please select Service from drop-down");
@@ -1176,7 +1176,8 @@
 	    		
 	    		
 	    		//To fetch where conditions #rpWhrCondition
-	    		$('#getcol').click(function() {
+	    		/* $('#getcol').click(function() { */
+	    		$('#selectedRecord').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchWhereConditions',
@@ -1195,7 +1196,8 @@
 	    		});
 	    		
 	    		//To fetch Having conditions #rphvngCondition
-	    		$('#getcol').click(function() {
+	    		/* $('#getcol').click(function() { */
+	    		$('#selectedRecord').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchHavingConditions',
@@ -1214,7 +1216,8 @@
 	    		});
 	    		
 	    		//To fetch Appl Info Columns #ContentPlaceHolder2_CheckBoxList2applInfoCollist
-	    		$('#getcol').click(function() {
+	    		/* $('#getcol').click(function() { */
+	    		$('#selectedRecord').change(function() {
 	    			$.ajax({
 	    				type : "post",
 	    				url : '/fetchApplInfoCol',
