@@ -602,21 +602,6 @@
 					size: 300
 			    });
 
-
-
-
-            $(function(){
-                        $("#output").pivot(
-        [
-            {color: "blue", shape: "circle"},
-            {color: "red", shape: "triangle"}
-        ],
-        {
-            rows: ["color"],
-            cols: ["shape"]
-        }
-    );
-             });
 			});
 		</script>
 

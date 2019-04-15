@@ -616,22 +616,6 @@
 				$('.dialogs,.comments').ace_scroll({
 					size: 300
 			    });
-
-
-
-
-            $(function(){
-                        $("#output").pivot(
-        [
-            {color: "blue", shape: "circle"},
-            {color: "red", shape: "triangle"}
-        ],
-        {
-            rows: ["color"],
-            cols: ["shape"]
-        }
-    );
-             });
 			});
 		</script>
 
@@ -663,11 +647,11 @@
 <link rel="stylesheet" href="assets/css/ace-skins.min.css" />
 <link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
 
-<link href="assets/css-new/owl.carousel.css" rel="stylesheet">
-<link href="assets/css-new/owl.theme.default.min.css" rel="stylesheet">
 
-<link href="assets/css-new/magnific-popup.css" rel="stylesheet">
-<link href="assets/css-new/owl.carousel.css" rel="stylesheet">
+<link href="assets/css/owl.carousel.css" rel="stylesheet">
+<link href="assets/css/owl.theme.default.min.css" rel="stylesheet">
+
+<link href="assets/css/magnific-popup.css" rel="stylesheet">
 
 <!--[if lte IE 9]>
 		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
@@ -1115,7 +1099,7 @@
 	    		
 	    		
 	    		//To fetch where conditions #rpWhrCondition
-	    			$.ajax({
+	    			/* $.ajax({
 	    				type : "post",
 	    				url : '/fetchReportsName',
 	    				data : {},
@@ -1129,7 +1113,7 @@
    							$('#rpWhrCondition').append(newOption);
    				        });	       
 	    				}
-	    			});
+	    			}); */
 	    	
 	    		
 	    		//To fetch Having conditions #rphvngCondition
