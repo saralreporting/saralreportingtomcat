@@ -8,15 +8,15 @@ import com.saral.reporting.model.ReportBean;
 
 public interface ReportBeanRepository extends JpaRepository<ReportBean, Long> {
 
-	List<ReportBean> findBySignNo(String sign_no);
+	List<ReportBean> findBySignNoOrderByModifiedOnDesc(String sign_no);
 
 	ReportBean findByReportId(Long reportId);
 	
 	void deleteByReportId(Long reportId);
 
-	List<ReportBean> findByDepartmentId(Long department_id);
+	List<ReportBean> findByDepartmentIdOrderByModifiedOnDesc(Long department_id);
 
-	List<ReportBean> findByIsAdminReport(Character x);
+	List<ReportBean> findByIsAdminReportOrderByModifiedOnDesc(Character x);
 
-	List<ReportBean> findByDepartmentIdAndIsAdminReport(Long department_id, char c);
+	List<ReportBean> findByDepartmentIdAndIsAdminReportOrderByModifiedOnDesc(Long department_id, char c);
 }

@@ -25,7 +25,7 @@ import com.saral.reporting.service.ReportBeanService;
 		@Override
 		public List<ReportBean> findBySignNo(String sign_no) {
 			// TODO Auto-generated method stub
-			return reportBeanRepository.findBySignNo(sign_no);
+			return reportBeanRepository.findBySignNoOrderByModifiedOnDesc(sign_no);
 		}
 		
 		@Override
@@ -43,18 +43,18 @@ import com.saral.reporting.service.ReportBeanService;
 		@Override
 		public List<ReportBean> findByDepartmentId(Long department_id) {
 			// TODO Auto-generated method stub
-			return reportBeanRepository.findByDepartmentId(department_id);
+			return reportBeanRepository.findByDepartmentIdOrderByModifiedOnDesc(department_id);
 		}
 
 		@Override
 		public List<ReportBean> findByIsAdminReport(Character x) {
 			// TODO Auto-generated method stub
-			return reportBeanRepository.findByIsAdminReport(x);
+			return reportBeanRepository.findByIsAdminReportOrderByModifiedOnDesc(x);
 		}
 
 		@Override
 		public List<ReportBean> findByDepartmentIdAndIsAdminReport(Long department_id, char c) {
 			// TODO Auto-generated method stub
-			return reportBeanRepository.findByDepartmentIdAndIsAdminReport(department_id, c);
+			return reportBeanRepository.findByDepartmentIdAndIsAdminReportOrderByModifiedOnDesc(department_id, c);
 		}
 	}

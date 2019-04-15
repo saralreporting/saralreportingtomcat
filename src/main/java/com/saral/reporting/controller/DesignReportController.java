@@ -2,6 +2,7 @@ package com.saral.reporting.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -237,6 +238,9 @@ public class DesignReportController {
 		System.out.println("Report Header is" + request.getParameter("rpHeader"));
 		reportBean.setReport_header(request.getParameter("rpHeader"));
 		reportBean.setReport_footer(request.getParameter("rpFooter"));
+		Date date = new Date();
+		reportBean.setCreatedOn(date);
+		reportBean.setModifiedOn(date);
 
 		String selectedColList = request.getParameter("selectedColList");
 		System.out.println("Selected selectedColList list : " + selectedColList);

@@ -1,6 +1,7 @@
 package com.saral.reporting.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -11,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.Cascade;
 import org.json.simple.JSONArray;
@@ -105,12 +108,19 @@ public class ReportBean {
 	
 	@Column(name = "isAdminReport")
 	private Character isAdminReport;
+	
+	@Column(name = "created_on")
+	@Temporal(TemporalType.DATE)
+	private Date createdOn;
 
+	@Column(name = "modified_on")
+	@Temporal(TemporalType.DATE)
+	private Date modifiedOn;
+	
 	@SuppressWarnings("deprecation")
 	@OneToMany(cascade=CascadeType.ALL, mappedBy = "reportBean12")
 	 @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)   
 	private List<ReportSelectColumn> reportSelectColumnList;
-
 	
 	public Character getIsAdminReport() {
 		return isAdminReport;
@@ -322,6 +332,23 @@ public class ReportBean {
 		this.aggregationCls = aggregationCls;
 	}
 
+	public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+
+	public Date getModifiedOn() {
+		return modifiedOn;
+	}
+
+	public void setModifiedOn(Date modifiedOn) {
+		this.modifiedOn = modifiedOn;
+	}
+	
+
 	@Override
 	public String toString() {
 		return "ReportBean [reportId=" + reportId + ", serviceId=" + serviceId + ", departmentId=" + departmentId
@@ -331,8 +358,8 @@ public class ReportBean {
 				+ report_header + ", report_footer=" + report_footer + ", userId=" + userId + ", designationId="
 				+ designationId + ", grouping=" + grouping + ", whereCondition=" + whereCondition + ", subQuery="
 				+ subQuery + ", finalQuery=" + finalQuery + ", reportName=" + reportName + ", signNo=" + signNo
-				+ ", orderCondition=" + orderCondition + ", isAdminReport=" + isAdminReport
-				+ ", reportSelectColumnList=" + reportSelectColumnList + "]";
+				+ ", orderCondition=" + orderCondition + ", isAdminReport=" + isAdminReport + ", createdOn=" + createdOn
+				+ ", modifiedOn=" + modifiedOn + ", reportSelectColumnList=" + reportSelectColumnList + "]";
 	}
 
 	public void addReportSelectColumn(ReportSelectColumn reportSelectColumn) {
