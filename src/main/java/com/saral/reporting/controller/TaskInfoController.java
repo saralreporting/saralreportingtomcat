@@ -108,6 +108,7 @@ public class TaskInfoController implements Serializable {
 
 		}
 
+		System.out.println(count1);
 		String jsonCol = new Gson().toJson(listofMap);
 
 		for (AttributeMasterDataSql s : listAttributes) {
@@ -200,8 +201,8 @@ public class TaskInfoController implements Serializable {
 			System.out.println(result2);
 			for (String taskname : result2) {
 
-				finalmapTask.put(cnt, taskname);
-				cnt++;
+				finalmapTask.put(count1+1, taskname);
+				count1++;
 
 			}
 			System.out.println(finalmapTask);
