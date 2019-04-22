@@ -128,12 +128,14 @@ public class TaskInfoController implements Serializable {
 			if (l.containsKey("Action")) {
 
 				String value = (String) l.get("Action");
-				if (value != null) {
+
+				if (value != null && !value.equals("")) {
 					String[] arrOfStr = value.split("~");
 					l.put("Action", arrOfStr[1]);
+				} else {
+					l.put("Action", "N.A.");
+
 				}
-			} else {
-				l.put("Action", "N.A.");
 			}
 			if (l.containsKey("task_id")) {
 				Double d = (Double) l.get("task_id");
@@ -156,6 +158,7 @@ public class TaskInfoController implements Serializable {
 			}
 
 		}
+		System.out.println(mapFromString);
 
 		ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), "id,task_type,task_name,executed_time,Action");
 		String result = SquigglyUtils.stringify(objectMapper, mapFromString);
@@ -193,16 +196,19 @@ public class TaskInfoController implements Serializable {
 		taskmap.keySet().removeAll(taskValues);
 		System.out.println(taskmap);
 		List<String> result2 = new ArrayList<String>(taskmap.values());
-		System.out.println(result2);
-		for (String taskname : result2) {
+		if (result2.size() > 0) {
+			System.out.println(result2);
+			for (String taskname : result2) {
 
-			finalmapTask.put(cnt, taskname);
-			cnt ++;
+				finalmapTask.put(cnt, taskname);
+				cnt++;
 
+			}
+			System.out.println(finalmapTask);
+			data.put("PendingTasks", finalmapTask);
+		} else {
+			data.put("PendingTasks", "No Tasks Pending");
 		}
-		System.out.println(finalmapTask);
-		data.put("PendingTasks", finalmapTask);
-
 		return ResponseEntity.ok(data);
 
 	}
