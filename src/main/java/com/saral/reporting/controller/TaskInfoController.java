@@ -32,6 +32,7 @@ import com.google.gson.Gson;
 import com.saral.reporting.model.ApplInfo;
 import com.saral.reporting.model.AttributeMasterDataSql;
 import com.saral.reporting.model.TaskInfoJson;
+import com.saral.reporting.model.TaskMaster;
 import com.saral.reporting.service.ApplInfoService;
 import com.saral.reporting.service.AttributeMasterDataSqlService;
 import com.saral.reporting.service.TaskInfoJsonService;
@@ -48,7 +49,7 @@ public class TaskInfoController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
-	ApplInfoService  applInfoService;
+	ApplInfoService applInfoService;
 	@Autowired
 	TaskInfoJsonService taskInfoJsonService;
 
@@ -57,7 +58,7 @@ public class TaskInfoController implements Serializable {
 
 	@Autowired
 	TaskMasterService taskMappingMasterService;
-	
+
 	@Autowired
 	TaskInfoService taskInfoService;
 
@@ -67,24 +68,26 @@ public class TaskInfoController implements Serializable {
 		Integer count = 0;
 		Integer count1 = 1;
 		List<AttributeMasterDataSql> listAttributes = attributeMasterDataSqlService.findByBaseServiceID(serviceId);
-	
+		List<Long> taskValues = new ArrayList<>();
 
 		// Long applId = 18220L;
 		List<TaskInfoJson> taskInfoJsonList = taskInfoJsonService.findByApplIdOrderByCurrentProcessId(applId);
 		ApplInfo info = applInfoService.findByApplId(applId);
+
 		System.out.println(info);
-		
+
 		List<Map<String, Object>> listofMap = new ArrayList<>();
-		Map<String,Object> applinfomap = new LinkedHashMap<>();
-		if(info != null) {
-		
-		applinfomap.put("id", count+1);
-		applinfomap.put("task_type", 14.0);
-		applinfomap.put("task_name", "Application Submission");
-		applinfomap.put("executed_time", info.getSubmissionDate());
-		applinfomap.put("Action", "1~Submitted");
-		
-	}
+		Map<String, Object> applinfomap = new LinkedHashMap<>();
+		if (info != null) {
+
+			applinfomap.put("id", count + 1);
+			applinfomap.put("task_type", 14.0);
+			applinfomap.put("task_name", "Application Submission");
+			applinfomap.put("executed_time", info.getSubmissionDate());
+			applinfomap.put("Action", "1~Submitted");
+
+		}
+
 		System.out.println(applinfomap);
 		listofMap.add(applinfomap);
 		for (TaskInfoJson temp : taskInfoJsonList) {
@@ -98,7 +101,7 @@ public class TaskInfoController implements Serializable {
 			count1++;
 			// merging map
 			Map<String, Object> mapFromString = new LinkedHashMap<>();
-		
+
 			mapFromString.putAll(maptotal);
 
 			listofMap.add(mapFromString);
@@ -128,12 +131,16 @@ public class TaskInfoController implements Serializable {
 				if (value != null) {
 					String[] arrOfStr = value.split("~");
 					l.put("Action", arrOfStr[1]);
-				} 
-			}
-			else {
+				}
+			} else {
 				l.put("Action", "N.A.");
 			}
+			if (l.containsKey("task_id")) {
+				Double d = (Double) l.get("task_id");
 
+				taskValues.add((long) (d * 1L));
+
+			}
 			if (l.containsKey("task_type")) {
 				Double value = (Double) l.get("task_type");
 				if (value == 14) {
@@ -147,38 +154,62 @@ public class TaskInfoController implements Serializable {
 					l.put("task_type", "Web Service");
 				}
 			}
-			
-			
+
 		}
-		System.out.println(mapFromString);
+
 		ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), "id,task_type,task_name,executed_time,Action");
 		String result = SquigglyUtils.stringify(objectMapper, mapFromString);
 
 		System.out.println(result);
 		// for percentage v
 		System.out.println("i am  here");
-		Long counter = taskMappingMasterService.countByServiceIdAndVersionNo(serviceId.toString(), versionNo);
-		System.out.println(counter);
+		Long counter = taskMappingMasterService.countByServiceIdAndVersionNo(serviceId.toString(),
+				versionNo.toString());
+		List<TaskMaster> taskMasterList = taskMappingMasterService.findByServiceIdAndVersionNo(serviceId.toString(),
+				versionNo.toString());
 
-		 List<TaskInfoJson> distinctElements = taskInfoJsonList.stream()
-                 .filter( distinctByKey(p -> p.getTaskId()) )
-                 .collect( Collectors.toList() );
-		double percentage = ((Double.valueOf(distinctElements.size()) / Double.valueOf(counter)) * 100);
+		Map<Long, String> taskmap = new LinkedHashMap<>();
+		for (TaskMaster master : taskMasterList) {
+			if (!master.getTaskName().equals("Application Submission")) {
+				taskmap.put(master.getTaskId(), master.getTaskName());
+			}
+		}
+
+		System.out.println(taskmap);
+		System.out.println(taskValues);
+		List<TaskInfoJson> distinctElements = taskInfoJsonList.stream().filter(distinctByKey(p -> p.getTaskId()))
+				.collect(Collectors.toList());
+		System.out.println(distinctElements.size());
+		double percentage = ((Double.valueOf(distinctElements.size() + 1) / Double.valueOf(counter)) * 100);
 		Map<String, Object> data = new LinkedHashMap<>();
 		data.put("data", result);
 		data.put("percentage", percentage);
 
-		
 		System.out.println(percentage);
+		Map<Integer, String> finalmapTask = new LinkedHashMap<>();
+		int cnt = 1;
+		// for map -------------- no values present
+
+		taskmap.keySet().removeAll(taskValues);
+		System.out.println(taskmap);
+		List<String> result2 = new ArrayList<String>(taskmap.values());
+		System.out.println(result2);
+		for (String taskname : result2) {
+
+			finalmapTask.put(cnt, taskname);
+			cnt ++;
+
+		}
+		System.out.println(finalmapTask);
+		data.put("PendingTasks", finalmapTask);
 
 		return ResponseEntity.ok(data);
 
 	}
-	
-	public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor)
-    {
-        Map<Object, Boolean> map = new ConcurrentHashMap<>();
-        return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
-    }
+
+	public static <T> Predicate<T> distinctByKey(Function<? super T, Object> keyExtractor) {
+		Map<Object, Boolean> map = new ConcurrentHashMap<>();
+		return t -> map.putIfAbsent(keyExtractor.apply(t), Boolean.TRUE) == null;
+	}
 
 }

@@ -8,13 +8,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "taskmappingmaster", schema = "saral")
+@Table(name = "taskmappingmaster", schema = "lgd")
 public class TaskMappingMaster {
 
 	@Id
 	@GeneratedValue(generator = "taskmappingmaster_tid_seq")
 	@SequenceGenerator(name = "taskmappingmaster_tid_seq", sequenceName = "saral.taskmappingmaster_tid_seq", initialValue = 1)
-	@Column(name = "id")
+	@Column(name = "tid")
 	private Long id;
 
 	@Column(name = "service_id")

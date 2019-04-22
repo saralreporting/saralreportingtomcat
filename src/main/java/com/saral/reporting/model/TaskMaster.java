@@ -8,13 +8,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "taskmaster", schema = "saral")
+@Table(name = "taskmaster", schema = "lgd")
 public class TaskMaster {
 
 	@Id
 	@GeneratedValue(generator = "taskmaster_id_seq")
 	@SequenceGenerator(name = "taskmaster_id_seq", sequenceName = "taskmaster_id_seq", initialValue = 1)
-	@Column(name = "id")
+	@Column(name = "tid")
 	private Long id;
 
 	@Column(name = "service_id")
@@ -40,8 +40,8 @@ public class TaskMaster {
 	private Long taskTypeId;
 	
 	
-	@Column(name = "task_type")
-	private Long taskType;
+	@Column(name = "task_type_name")
+	private String taskTypeName;
 
 
 	public Long getId() {
@@ -114,13 +114,13 @@ public class TaskMaster {
 	}
 
 
-	public Long getTaskType() {
-		return taskType;
+	public String getTaskType() {
+		return taskTypeName;
 	}
 
 
-	public void setTaskType(Long taskType) {
-		this.taskType = taskType;
+	public void setTaskType(String taskType) {
+		this.taskTypeName = taskType;
 	}
 
 
@@ -128,7 +128,7 @@ public class TaskMaster {
 	public String toString() {
 		return "TaskMaster [id=" + id + ", serviceId=" + serviceId + ", serviceName=" + serviceName + ", versionNo="
 				+ versionNo + ", taskName=" + taskName + ", taskId=" + taskId + ", taskTypeId=" + taskTypeId
-				+ ", taskType=" + taskType + "]";
+				+ ", taskType=" + taskTypeName + "]";
 	}
 	
 
