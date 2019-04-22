@@ -507,18 +507,17 @@ table.dataTable tbody td {
 											</thead>
 											<tbody id="tbodyid"></tbody>
 										</table>
-										<%-- <div class="infobox infobox-blue2">
-														<div class="infobox-progress">
-															<div class="easy-pie-chart percentage" data-percent="42" data-size="46" style="height: 46px; width: 46px; line-height: 45px;">
-																<span class="percent">42</span>%
-															<canvas height="46" width="46"></canvas></div>
-														</div>
-			
-														<div class="infobox-data">
-															<span class="infobox-text">Task</span>
-															Completion
-														</div>
-													</div> --%>
+										<!-- <p>Pending Tasks</p>
+										<table id="examplePendingTableModal"
+											class="table table-bordered table-condensed table-hover table-striped datatable">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th>Task Name</th>
+												</tr>
+											</thead>
+											<tbody id="tbodyidPending"></tbody>
+										</table> -->
 										<div id="prgrsdiv"
 											class="progress progress-striped pos-rel active"
 											data-percent="10%" style="margin-top: 1%;">
@@ -1506,6 +1505,25 @@ Highcharts.chart('stackedbar', {
 			    	        	
 			    	        	$("#exampleTableModal tbody").append(tr+td1+td2+td3+td4+td5); 
 			    	       }
+						//code for pending tasks
+						var pendingTasks = data.PendingTasks;
+						//$("#tbodyidPending").empty();
+						if(pendingTasks == "No Tasks Pending"){
+							
+						}else{
+							$.each(pendingTasks, function( index, value ) {
+								  var tr="<tr>";
+								  var td1="<td>"+index+"</td>";
+								  var td2="<td>"+value+"</td>";
+								  var td3="<td>--</td>";
+								  var td4="<td>--</td>";
+								  var td5="<td style='color:Red;'>"+ "Pending" +"</td></tr>";
+								  $("#exampleTableModal tbody").append(tr+td1+td2+td3+td4+td5);
+								//$("#examplePendingTableModal tbody").append(tr+td1+td2);
+								//alert( index + ": " + value );
+							});
+						}
+						
 						var percentage = data.percentage;
 						if(percentage=="Infinity" || percentage=="NaN" || percentage==undefined || percentage==null){
 							$("#prgrsdiv").attr("data-percent","0%");
