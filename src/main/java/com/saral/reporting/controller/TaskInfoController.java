@@ -191,7 +191,7 @@ public class TaskInfoController implements Serializable {
 
 		System.out.println(percentage);
 		Map<Integer, String> finalmapTask = new LinkedHashMap<>();
-		//int cnt = 1;
+		int cnt = 1;
 		// for map -------------- no values present
 
 		taskmap.keySet().removeAll(taskValues);
