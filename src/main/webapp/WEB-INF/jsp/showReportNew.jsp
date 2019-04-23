@@ -1377,7 +1377,7 @@ Highcharts.chart('stackedbar', {
 		        	columns: cols,
 			        bDestroy: true,
 
-			        order: [[2, 'asc'], [1, 'asc']],
+			        //order: [[2, 'asc'], [1, 'asc']],
 			        rowGroup: {
 			        	  endRender: null,
 			        	  startRender: function ( rows, group ) {

@@ -320,7 +320,7 @@ public class JsonUtils {
 
 					System.out.println(l);
 
-					String builder = "this_.combined_json-> " + "'" + l.toString() + "'" + " asc";
+					String builder = "this_.combined_json-> " + "'" + l.toString() + "'" + " ASC ";
 					System.out.println(builder);
 
 					joiner.add(builder);
@@ -619,7 +619,7 @@ public class JsonUtils {
 				if (l.length() > 0) {
 					System.out.println(l);
 
-					String builder = "this_." + l.toString() + " asc";
+					String builder = "this_." + l.toString() + " ASC ";
 					System.out.println(builder);
 
 					joiner.add(builder);

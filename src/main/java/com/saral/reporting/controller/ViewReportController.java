@@ -222,6 +222,7 @@ public class ViewReportController implements Serializable {
 		String havingvalues = "";
 		ReportBean listReport = reportBeanService.findByReportId(repId);
 		model.put("getLocationList", getLocationList1);
+		logger.info("Location List :" + getLocationList1);
 		model.put("tableColor", listReport.getTableColor());
 		model.put("reportHeader", listReport.getReport_header());
 		model.put("reportFooter", listReport.getReport_footer());
@@ -288,8 +289,7 @@ public class ViewReportController implements Serializable {
 			String orderby = "";
 			String where = "";
 			
-			String groupby = "  group by this_.aid,\r\n" + 
-					"     this_.appl_id,appl_info,application_form_attributes,enclosure_data,id,location_value,service_id,version_no ";
+			String groupby = " group by id ";
 			
 			if (request.getSession().getAttribute("selectedCol") != null) {
 
@@ -498,9 +498,7 @@ public class ViewReportController implements Serializable {
 			 * 
 			 */
 
-			String groupby = " group by aid, amount,appl_id,applied_by,base_service_id,department_id,department_name,no_of_attachment,payment_mode,\r\n" + 
-					"        payment_date,reference_no,registration_id,service_id,service_name,sub_version,submission_location,submission_date,\r\n" + 
-					"        submission_mode,version_no";
+			String groupby = " group by aid ";
 			model.put("ErrorReport", "");
 			List<ReportSelectColumn> listCol = listReport.getReportSelectColumnList();
 			String values = listReport.getGrouping();
@@ -715,16 +713,19 @@ public class ViewReportController implements Serializable {
 		List<HrOrgUnits> l1 = hrOrgUnitsService.findByOrgUnitCode(locationId);
 
 		HrOrgUnits hrOrgUnitsMain = l1.get(0);
-		System.out.println("list oif fe" + hrOrgUnitsMain);
+		System.out.println("list of hrOrgUnitsMain" + hrOrgUnitsMain);
+		logger.info("list of hrOrgUnitsMain" + hrOrgUnitsMain);
 		System.out.println(departmentId);
+		logger.info("department id inside location" + departmentId);
 		HrOrgLocatedAtLevels hrOrgLocatedAtLevelsMain = hrOrgLocatedAtLevelsService
 				.findByOlcAndOrgLocatedLevelCode(departmentId, hrOrgUnitsMain.getOrgLocatedLevelCode());
 		if (hrOrgLocatedAtLevelsMain != null) {
-			Long userLevel = hrOrgLocatedAtLevelsMain.getSortOrder();
+			Long userLevel = hrOrgLocatedAtLevelsMain.getSortOrder();//2
 
-			int count = hrOrgLocatedAtLevelsService.countByOlc(departmentId);
+			int count = hrOrgLocatedAtLevelsService.countByOlc(departmentId); //7
 
 			System.out.println("Count" + count + "userLevel :" + userLevel);
+			logger.info("Count" + count + "userLevel :" + userLevel);
 
 			List<Long> parentIds = l1.stream().map(urEntity -> urEntity.getOrgUnitCode()).collect(Collectors.toList());
 
@@ -737,7 +738,9 @@ public class ViewReportController implements Serializable {
 
 				parentIds.clear();
 				parentIds.addAll(childList2);
-
+				if(childListComplete.isEmpty() || childListComplete.size()==0){
+					break;
+				}
 			}
 
 			return finalList;
