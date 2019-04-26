@@ -1538,7 +1538,6 @@
 	    });
 	}
 
-	
 	//To append in sortable for initjson
 	function AppendToSortableB(element, item, key, value) {
 	    $(element).append(item);
