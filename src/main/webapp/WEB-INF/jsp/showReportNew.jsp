@@ -1458,7 +1458,7 @@ Highcharts.chart('stackedbar', {
 				});
 			}
 			
-			
+		
 			function showTaskInfo(applId,serviceId,versionNo){ 
 				$.ajax({
 					type : "GET",
