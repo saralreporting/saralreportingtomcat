@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -118,7 +119,7 @@ public class ReportBean {
 	private Date modifiedOn;
 	
 	@SuppressWarnings("deprecation")
-	@OneToMany(cascade=CascadeType.ALL, mappedBy = "reportBean12")
+	@OneToMany(cascade=CascadeType.ALL, mappedBy = "reportBean12",fetch=FetchType.LAZY)
 	 @Cascade(org.hibernate.annotations.CascadeType.DELETE_ORPHAN)   
 	private List<ReportSelectColumn> reportSelectColumnList;
 	

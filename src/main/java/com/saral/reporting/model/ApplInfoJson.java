@@ -34,6 +34,7 @@ public class ApplInfoJson {
 
     @Column(name = "application_form_attributes")
     private String applicationFormAttributes;
+    
 
     @Column(name = "enclosure_data")
     private String enclosureData;
@@ -106,16 +107,20 @@ public class ApplInfoJson {
         this.applicationFormAttributes = applicationFormAttributes;
     }
 
-    public String getEnclosureData() {
-        return enclosureData;
-    }
-
-    public void setEnclosureData(String enclosureData) {
-        this.enclosureData = enclosureData;
-    }
+   
     
 
-    public Long getVersionNo() {
+
+
+	public String getEnclosureData() {
+		return enclosureData;
+	}
+
+	public void setEnclosureData(String enclosureData) {
+		this.enclosureData = enclosureData;
+	}
+
+	public Long getVersionNo() {
 		return versionNo;
 	}
 

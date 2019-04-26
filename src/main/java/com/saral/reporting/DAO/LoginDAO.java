@@ -1,5 +1,6 @@
 package com.saral.reporting.DAO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -17,6 +18,7 @@ public class LoginDAO {
 	@Autowired
 	private EntityManager manager;
 
+	@SuppressWarnings("unchecked")
 	@Transactional
 	public List<Object[]> validateUser(String sign_no, String password) {
 		// TODO Auto-generated method stub'
@@ -28,20 +30,27 @@ public class LoginDAO {
 				+ " RoleMaster roleMaster, UserLocation userLocation,UserLocationDesignation userLocationDesignation"
 				+ " WHERE (loginData.userId = roleAssignment.userId) AND (roleAssignment.roleId =  roleMaster.roleId)"
 				+ " AND (loginData.userId = userLocation.userId) AND (userLocation.userLocId = userLocationDesignation.userLocId)"
+			
 				+ " AND loginData.signNo ='" + sign_no + "'  AND loginData.passwd= '" + password + "' ";
+		
+		List<Object[]> results = new ArrayList<Object[]>();
 
 		try {
 
-			@SuppressWarnings("unchecked")
-			List<Object[]> results = manager.createQuery(queryStr).getResultList();
-			manager.close();
-			manager.clear();
-			return results;
+		
+			results = manager.createQuery(queryStr).getResultList();
+		
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
+		finally{
+			manager.close();
+			manager.clear();
+		}
+		return results;
 
 	}
 

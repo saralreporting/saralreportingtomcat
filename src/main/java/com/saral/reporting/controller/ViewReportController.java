@@ -117,9 +117,9 @@ public class ViewReportController implements Serializable {
 			List<Long> userAllocatedServices = (List<Long>) request.getSession().getAttribute("saralUserServiceList");
 			String hmfromSession = (String) request.getSession().getAttribute("hm");
 			System.out.println("Roles From the session" + hmfromSession);
-			
+
 			System.out.println("This is the list we get from the session :" + userAllocatedServices);
-			if(hmfromSession.contains("State Service Definer")){
+			if (hmfromSession.contains("State Service Definer")) {
 				userAllocatedServices.clear();
 				System.out.println("This is the list we get from the session inside loop:" + userAllocatedServices);
 			}
@@ -217,7 +217,7 @@ public class ViewReportController implements Serializable {
 		if (locationId != 0L) {
 			getLocationList1 = getLocationList(locationId, department_id);
 		}
-
+		String groupby = "";
 		String abc = "";
 		String havingvalues = "";
 		ReportBean listReport = reportBeanService.findByReportId(repId);
@@ -229,32 +229,40 @@ public class ViewReportController implements Serializable {
 
 		if ((servID == 0L) || (servID == 1L)) {
 			if (listReport.getWhereCondition().length() > 2) {
-
+				groupby = "  group by aid ";
 				abc = JsonUtils.stringwhereAdminReportNew(listReport.getWhereCondition());
+				if (abc == "" || abc.equals("")) {
+					abc = "this_.department_id = this_.department_id ";
+				}
 				havingvalues = JsonUtils.stringHavingJoinerForAdmin(listReport.getHavingCls());
-				//System.out.println("where abc Admin " + abc);
+				// System.out.println("where abc Admin " + abc);
 			}
 		} else {
 			if (listReport.getWhereCondition().length() > 2) {
-
+				groupby = "  group by id ";
 				abc = JsonUtils.stringWhereNew(listReport.getWhereCondition());
+
+				if (abc == "" || abc.equals("")) {
+					abc = " service_id =" + servID + " ";
+				}
 				havingvalues = JsonUtils.stringHavingJoiner(listReport.getHavingCls());
-				//System.out.println("where abc" + abc);
+				// System.out.println("where abc" + abc);
 			}
 		}
 
-		//System.out.println("Srvice Id " + servID);
+		// System.out.println("Srvice Id " + servID);
 
 		Long countMax = 0L;
 		if (servID == 0L) {
 
-			countMax = reportViwer.findCountForAdmin(filterbserviceId, filterbdisttId, nDeptIdName, abc);
+			countMax = reportViwer.findCountForAdmin(filterbserviceId, filterbdisttId, nDeptIdName, abc.concat(groupby).concat(havingvalues));
 
 		} else {
-			countMax = reportViwer.findCount(servID, getLocationList1, abc);
-			//System.out.println("dddd" + countMax);
+			countMax = reportViwer.findCount(servID, getLocationList1,  abc.concat(groupby).concat(havingvalues));
+			logger.info("This is the count for normal user" + countMax);
+			// System.out.println("dddd" + countMax);
 		}
-		//System.out.println(repId + department_id);
+		// System.out.println(repId + department_id);
 		DashBoardReportData getDashBoardData = dashBoardReportDataService.findByReportIdAndDepartmentId(repId,
 				department_id);
 
@@ -275,7 +283,7 @@ public class ViewReportController implements Serializable {
 
 			model.put("ErrorReport", "No Record found for selected Report");
 			model.put("joiner", "[]");
-			model.put("groupValues","[]");
+			model.put("groupValues", "[]");
 			model.addAttribute("addresses", "\"NO Result\"");
 			return "showReportNew";
 
@@ -283,58 +291,64 @@ public class ViewReportController implements Serializable {
 			String values = listReport.getGrouping();
 			List<String> groupValues = Arrays.asList(values.toString().split("\\s*,\\s*"));
 			List<ReportSelectColumn> listCol = listReport.getReportSelectColumnList();
-			//List<String> groupColumns = JsonUtils.groupedDataColumnsAdmin(values);
-			//System.out.println("normal user");
+			// List<String> groupColumns = JsonUtils.groupedDataColumnsAdmin(values);
+			// System.out.println("normal user");
 			String orderby = "";
 			String where = "";
+
 			
-			String groupby = "  group by this_.aid,\r\n" + 
-					"     this_.appl_id,appl_info,application_form_attributes,enclosure_data,id,location_value,service_id,version_no ";
-			
+
 			if (request.getSession().getAttribute("selectedCol") != null) {
 
-			//	System.out.println("inside refresh report");
+				// System.out.println("inside refresh report");
 				String valToBePass = (String) request.getSession().getAttribute("selectedCol");
 				System.out.println("********************************** " + valToBePass);
-				if(JsonUtils.getSortingJoinerReport(valToBePass).equals("") && !JsonUtils.getSortingGroupingJoinerReport(values).equals("") )
-				orderby = " order by "+JsonUtils.getSortingGroupingJoinerReport(values);
-				else if(JsonUtils.getSortingGroupingJoinerReport(values).equals("") && !JsonUtils.getSortingJoinerReport(valToBePass).equals(""))
-					orderby = " order by "+JsonUtils.getSortingJoinerReport(valToBePass);
-				else if(JsonUtils.getSortingGroupingJoinerReport(values).equals("") && JsonUtils.getSortingJoinerReport(valToBePass).equals(""))
-					orderby =""; 
-				else 
-					orderby = " order by "+JsonUtils.getSortingJoinerReport(valToBePass) + " , " + JsonUtils.getSortingGroupingJoinerReport(values);
+				if (JsonUtils.getSortingJoinerReport(valToBePass).equals("")
+						&& !JsonUtils.getSortingGroupingJoinerReport(values).equals(""))
+					orderby = " order by " + JsonUtils.getSortingGroupingJoinerReport(values);
+				else if (JsonUtils.getSortingGroupingJoinerReport(values).equals("")
+						&& !JsonUtils.getSortingJoinerReport(valToBePass).equals(""))
+					orderby = " order by " + JsonUtils.getSortingJoinerReport(valToBePass);
+				else if (JsonUtils.getSortingGroupingJoinerReport(values).equals("")
+						&& JsonUtils.getSortingJoinerReport(valToBePass).equals(""))
+					orderby = "";
+				else
+					orderby = " order by " +JsonUtils.getSortingGroupingJoinerReport(values) + " , "
+							+  JsonUtils.getSortingJoinerReport(valToBePass);
 				if (abc == "" || abc.equals("")) {
 					abc = " service_id =" + servID + " ";
 				}
 				model.put("where", abc);
-				
+
 				where = abc.concat(groupby).concat(havingvalues).concat(orderby);
-				//System.out.println(where);
-				//System.out.println("my complete query" + abc);
+				// System.out.println(where);
+				// System.out.println("my complete query" + abc);
 
 			} else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
-				if(JsonUtils.getSortingJoinerReport(listReport.getOrderCondition()).equals("") && !JsonUtils.getSortingGroupingJoinerReport(values).equals(""))
-					orderby = " order by "+JsonUtils.getSortingGroupingJoinerReport(values);
-					else if(JsonUtils.getSortingGroupingJoinerReport(values).equals("") && !JsonUtils.getSortingJoinerReport(listReport.getOrderCondition()).equals(""))
-						orderby = " order by "+JsonUtils.getSortingJoinerReport(listReport.getOrderCondition());
-					else if(JsonUtils.getSortingGroupingJoinerReport(values).equals("") && JsonUtils.getSortingJoinerReport(listReport.getOrderCondition()).equals(""))
-						orderby =""; 
-					else 
-						orderby = " order by "+JsonUtils.getSortingJoinerReport(listReport.getOrderCondition()) + " , " + JsonUtils.getSortingGroupingJoinerReport(values);
+				if (JsonUtils.getSortingJoinerReport(listReport.getOrderCondition()).equals("")
+						&& !JsonUtils.getSortingGroupingJoinerReport(values).equals(""))
+					orderby = " order by " + JsonUtils.getSortingGroupingJoinerReport(values);
+				else if (JsonUtils.getSortingGroupingJoinerReport(values).equals("")
+						&& !JsonUtils.getSortingJoinerReport(listReport.getOrderCondition()).equals(""))
+					orderby = " order by " + JsonUtils.getSortingJoinerReport(listReport.getOrderCondition());
+				else if (JsonUtils.getSortingGroupingJoinerReport(values).equals("")
+						&& JsonUtils.getSortingJoinerReport(listReport.getOrderCondition()).equals(""))
+					orderby = "";
+				else
+					orderby = " order by " + JsonUtils.getSortingGroupingJoinerReport(values) + " , "
+							+ JsonUtils.getSortingJoinerReport(listReport.getOrderCondition());
 
-				
 				if (abc == "" || abc.equals("")) {
 					abc = " service_id =" + servID + " ";
 				}
 				model.put("where", abc);
 				where = abc.concat(groupby).concat(havingvalues).concat(orderby);
 
-				//System.out.println("my complete query" + abc);
+				// System.out.println("my complete query" + abc);
 			}
 
 			Page<ApplInfoJson> list = reportViwer.findByCombinedJson(servID, pageable, getLocationList1, where);
-			//System.out.println("appl_id");
+			// System.out.println("appl_id");
 
 			List<Map<String, Object>> listofMap = new ArrayList<>();
 
@@ -354,8 +368,8 @@ public class ViewReportController implements Serializable {
 				}
 			});
 
-			//System.out.println("initCol" + initCol.length());
-			//System.out.println("servCol" + servCol.length());
+			// System.out.println("initCol" + initCol.length());
+			// System.out.println("servCol" + servCol.length());
 			StringJoiner joiner = new StringJoiner(",");
 			joiner.add("view");
 			if ((initCol.length() > 0) && (servCol.length() > 0)) {
@@ -373,12 +387,12 @@ public class ViewReportController implements Serializable {
 
 			List<String> cols = Arrays.asList(joiner.toString().split("\\s*,\\s*"));
 			// Fetch applInfoNode from List
-			//System.out.println(cols);
+			// System.out.println(cols);
 			list.forEach((temp) -> {
 				// map applinfo in map
 				// map attributes in map
 				Map<String, Object> maptotal = temp.getCombinedJson();
-				//System.out.println("applid" + maptotal.get("appl_id"));
+				// System.out.println("applid" + maptotal.get("appl_id"));
 				maptotal.put("view", "<a href=javascript:void(0); onclick=showTaskInfo(" + temp.getApplId() + ","
 						+ temp.getServiceId() + "," + temp.getVersionNo() + ")>View</a>");
 				for (String s : cols) {
@@ -388,15 +402,21 @@ public class ViewReportController implements Serializable {
 						maptotal.put(s, "N.A.");
 						// System.out.println(maptotal);
 					}
-					
-					if(maptotal.get(s).toString().contains("~")) {
-						int p=maptotal.get(s).toString().lastIndexOf("~");
-						String newValue=maptotal.get(s).toString().substring(p+1);
-						maptotal.put(s,newValue);
+
+					if (maptotal.get(s).toString() == null || maptotal.get(s).toString().equals("")
+							|| maptotal.get(s).toString().equals("null")) {
+												maptotal.put(s, "N.A");
+					}
+
+					if (maptotal.get(s).toString().contains("~")) {
+						int p = maptotal.get(s).toString().lastIndexOf("~");
+						String newValue = maptotal.get(s).toString().substring(p + 1);
+						maptotal.put(s, newValue);
 					}
 
 				}
-				if (maptotal.containsKey("submission_location") && maptotal.get("submission_location").toString().contains("~")) {
+				if (maptotal.containsKey("submission_location")
+						&& maptotal.get("submission_location").toString().contains("~")) {
 
 					Object value = maptotal.get("submission_location");
 					String[] arr = value.toString().split("~");
@@ -406,7 +426,7 @@ public class ViewReportController implements Serializable {
 				if (maptotal.containsKey("registration_id")) {
 
 					Object value = maptotal.get("registration_id");
-					if(value == null || value == ""|| value.equals("") ||  value.equals(null)) {
+					if (value == null || value == "" || value.equals("") || value.equals(null)) {
 						maptotal.put("registration_id", "N.A.");
 					}
 				}
@@ -421,35 +441,39 @@ public class ViewReportController implements Serializable {
 
 			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), joiner.toString());
 			String result = SquigglyUtils.stringify(objectMapper, listofMap);
-			List<String> items = Arrays.asList(joiner.toString().split("\\s*,\\s*"));
-			//String values = listReport.getGrouping();
-			//<String> groupValues = Arrays.asList(values.toString().split("\\s*,\\s*"));
 
-			//System.out.println("my group" + groupValues);
+			List<String> items = Arrays.asList(joiner.toString().split("\\s*,\\s*"));
+			// String values = listReport.getGrouping();
+			// <String> groupValues = Arrays.asList(values.toString().split("\\s*,\\s*"));
+
+			// System.out.println("my group" + groupValues);
 			logger.info("my group" + groupValues);
 			for (ReportSelectColumn s : L1) {
 
 				// result = result.replace(s.getReportSelectedColumnId(),
 				// s.getReportSelectedColumnName());
-
-				result = result.replace("\"" + s.getReportSelectedColumnId() + "\":",
-						"\"" + s.getReportSelectedColumnName() + "\":");
-				Collections.replaceAll(items, s.getReportSelectedColumnId(), s.getReportSelectedColumnName());
-				Collections.replaceAll(groupValues, s.getReportSelectedColumnId(), s.getReportSelectedColumnName());
+				String value = s.getReportSelectedColumnName().replaceAll("\\)", "").replaceAll("\\(", "")
+						.replaceAll("\\.", "");
+				logger.info(value);
+				result = result.replace("\"" + s.getReportSelectedColumnId() + "\":", "\"" + value + "\":");
+				Collections.replaceAll(items, s.getReportSelectedColumnId(), s.getReportSelectedColumnName()
+						.replaceAll("\\)", "").replaceAll("\\(", "").replaceAll("\\.", ""));
+				Collections.replaceAll(groupValues, s.getReportSelectedColumnId(), s.getReportSelectedColumnName()
+						.replaceAll("\\)", "").replaceAll("\\(", "").replaceAll("\\.", ""));
 
 			}
-			//System.out.println("sss" + groupValues);
-			logger.info("sss" + groupValues);
-			
+			// System.out.println("sss" + groupValues);
+			logger.info(result);
+
 			Gson gson = new Gson();
 			// convert your list to json
-			String groupvaluesString =  gson.toJson(groupValues);
+			String groupvaluesString = gson.toJson(groupValues);
 			String jsonCartList = gson.toJson(items);
 			model.put("joiner", jsonCartList);
-			if( groupValues.size()>0) {
+			if (groupValues.size() > 0) {
 				model.put("groupValues", groupvaluesString);
 			}
-			
+
 			else {
 				model.put("groupValues", "[]");
 			}
@@ -476,7 +500,8 @@ public class ViewReportController implements Serializable {
 			model.put("applInfoJson", result);
 			model.put("reportId", repId);
 			model.put("service_id", servID);
-		//	System.out.println("Inside second loop where records are greater than 6000 ==== FINAL");
+			// System.out.println("Inside second loop where records are greater than 6000
+			// ==== FINAL");
 
 			JsonUtils.pageModel(model, list);
 			long pNumber = ((pageable.getPageNumber() - 1) * 150);
@@ -498,9 +523,7 @@ public class ViewReportController implements Serializable {
 			 * 
 			 */
 
-			String groupby = " group by aid, amount,appl_id,applied_by,base_service_id,department_id,department_name,no_of_attachment,payment_mode,\r\n" + 
-					"        payment_date,reference_no,registration_id,service_id,service_name,sub_version,submission_location,submission_date,\r\n" + 
-					"        submission_mode,version_no";
+			
 			model.put("ErrorReport", "");
 			List<ReportSelectColumn> listCol = listReport.getReportSelectColumnList();
 			String values = listReport.getGrouping();
@@ -512,14 +535,18 @@ public class ViewReportController implements Serializable {
 				System.out.println("inside refresh report");
 				String valToBePass = (String) request.getSession().getAttribute("selectedCol");
 				System.out.println("********************************** " + valToBePass);
-				if(JsonUtils.getSortingJoinerAdminReport(valToBePass).equals("") && !JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals(""))
-					orderby = " order by "+JsonUtils.getSortingGroupingJoinerReportAdmin(values);
-					else if(JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("") && !JsonUtils.getSortingJoinerAdminReport(valToBePass).equals("") )
-						orderby = " order by "+JsonUtils.getSortingJoinerAdminReport(valToBePass);
-					else if(JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("") && JsonUtils.getSortingJoinerAdminReport(valToBePass).equals(""))
-						orderby =""; 
-					else 
-						orderby = " order by "+JsonUtils.getSortingJoinerAdminReport(valToBePass) + " , " + JsonUtils.getSortingGroupingJoinerReportAdmin(values);
+				if (JsonUtils.getSortingJoinerAdminReport(valToBePass).equals("")
+						&& !JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals(""))
+					orderby = " order by " + JsonUtils.getSortingGroupingJoinerReportAdmin(values);
+				else if (JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("")
+						&& !JsonUtils.getSortingJoinerAdminReport(valToBePass).equals(""))
+					orderby = " order by " + JsonUtils.getSortingJoinerAdminReport(valToBePass);
+				else if (JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("")
+						&& JsonUtils.getSortingJoinerAdminReport(valToBePass).equals(""))
+					orderby = "";
+				else
+					orderby = " order by " + JsonUtils.getSortingJoinerAdminReport(valToBePass) + " , "
+							+ JsonUtils.getSortingGroupingJoinerReportAdmin(values);
 				System.out.println("ABC is" + abc);
 				if (abc == "" || abc.equals("")) {
 					abc = "this_.department_id = this_.department_id ";
@@ -531,17 +558,19 @@ public class ViewReportController implements Serializable {
 				System.out.println("my complete query" + abc);
 
 			} else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
-				if(JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition()).equals("") && (!JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("")))
-					orderby = " order by "+JsonUtils.getSortingGroupingJoinerReportAdmin(values);
-					else if(JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("") && !JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition()).equals(""))
-						orderby = " order by "+JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition());
-					else if(JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("") && JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition()).equals(""))
-						orderby =""; 
-					else 
-						orderby = " order by "+JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition()) + " , " + JsonUtils.getSortingGroupingJoinerReportAdmin(values);
-				
-				
-				
+				if (JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition()).equals("")
+						&& (!JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("")))
+					orderby = " order by " + JsonUtils.getSortingGroupingJoinerReportAdmin(values);
+				else if (JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("")
+						&& !JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition()).equals(""))
+					orderby = " order by " + JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition());
+				else if (JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("")
+						&& JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition()).equals(""))
+					orderby = "";
+				else
+					orderby = " order by " + JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition())
+							+ " , " + JsonUtils.getSortingGroupingJoinerReportAdmin(values);
+
 				System.out.println("ABC is" + abc);
 				if (abc == "" || abc.equals("")) {
 					abc = "this_.department_id = this_.department_id ";
@@ -567,18 +596,19 @@ public class ViewReportController implements Serializable {
 				l.setView("<a href=javascript:void(0); onclick=showTaskInfo(" + l.getApplId() + "," + l.getServiceId()
 						+ "," + l.getVersionNo() + ")>View</a>");
 				applListwithView.add(l);
-
+				if(l.getSubmissionLocation().contains("~") && l.getSubmissionLocation()!=null) {
 				String value = l.getSubmissionLocation();
 				String[] arr = value.toString().split("~");
 				l.setSubmissionLocation(arr[2]);
-				
-				if(l.getPaymentMode() == null || l.getPaymentMode().equals(null)|| l.getPaymentMode()== "" && l.getPaymentMode().equals("")) {
+				}
+				if (l.getPaymentMode() == null || l.getPaymentMode().equals(null)
+						|| l.getPaymentMode() == "" && l.getPaymentMode().equals("")) {
 					l.setPaymentMode("N.A.");
 				}
-				
+
 			}
 
-			System.out.println(applListwithView);
+			
 			JSONParser parser = new JSONParser();
 			JSONObject array = (JSONObject) parser.parse(jsonString);
 			// System.out.println(array);
@@ -643,7 +673,6 @@ public class ViewReportController implements Serializable {
 			System.out.println("sasasasa" + result4);
 			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), StringUtils.join(result4, ','));
 			String result = SquigglyUtils.stringify(objectMapper, applListwithView);
-			
 
 			for (ReportSelectColumn s : L1) {
 
@@ -652,20 +681,18 @@ public class ViewReportController implements Serializable {
 				Collections.replaceAll(groupValues, s.getReportSelectedColumnId(), s.getReportSelectedColumnName());
 
 			}
-			//System.out.println("sss" + groupValues);
+			// System.out.println("sss" + groupValues);
 			logger.info("sss" + groupValues);
-			
-		
+
 			// convert your list to json
-			
 
 			Gson gson = new Gson();
-			String groupvaluesString =  gson.toJson(groupColumns);
+			String groupvaluesString = gson.toJson(groupColumns);
 			// convert your list to json
-			if( groupValues.size()>0) {
+			if (groupValues.size() > 0) {
 				model.put("groupValues", groupvaluesString);
 			}
-			
+
 			else {
 				model.put("groupValues", "[]");
 			}
@@ -737,6 +764,10 @@ public class ViewReportController implements Serializable {
 
 				parentIds.clear();
 				parentIds.addAll(childList2);
+
+				if (childListComplete.isEmpty() || childListComplete.size() == 0) {
+					break;
+				}
 
 			}
 
@@ -811,7 +842,7 @@ public class ViewReportController implements Serializable {
 			@RequestParam String aggregation, HttpServletRequest request)
 			throws ServletException, IOException, ParseException {
 
-		//Long repId = (Long) request.getSession().getAttribute("reportId");
+		// Long repId = (Long) request.getSession().getAttribute("reportId");
 		Long servID = (Long) request.getSession().getAttribute("service_id");
 		Long location_id = (Long) request.getSession().getAttribute("location_Id");
 

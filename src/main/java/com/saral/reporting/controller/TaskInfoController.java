@@ -67,6 +67,7 @@ public class TaskInfoController implements Serializable {
 			@RequestParam Long serviceId, @RequestParam Long versionNo) throws ServletException, IOException {
 		Integer count = 0;
 		Integer count1 = 1;
+		String actionvalue = "";
 		List<AttributeMasterDataSql> listAttributes = attributeMasterDataSqlService.findByBaseServiceID(serviceId);
 		List<Long> taskValues = new ArrayList<>();
 
@@ -131,7 +132,9 @@ public class TaskInfoController implements Serializable {
 				String value = (String) l.get("Action");
 
 				if (value != null && !value.equals("")) {
+				
 					String[] arrOfStr = value.split("~");
+					actionvalue = arrOfStr[0];
 					l.put("Action", arrOfStr[1]);
 				} else {
 					l.put("Action", "N.A.");
@@ -191,13 +194,13 @@ public class TaskInfoController implements Serializable {
 
 		System.out.println(percentage);
 		Map<Integer, String> finalmapTask = new LinkedHashMap<>();
-		int cnt = 1;
+		//int cnt = 1;
 		// for map -------------- no values present
 
 		taskmap.keySet().removeAll(taskValues);
 		System.out.println(taskmap);
 		List<String> result2 = new ArrayList<String>(taskmap.values());
-		if (result2.size() > 0) {
+		if (result2.size() > 0 && !actionvalue.equals("10")) {
 			System.out.println(result2);
 			for (String taskname : result2) {
 

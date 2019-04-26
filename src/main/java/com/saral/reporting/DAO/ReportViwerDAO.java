@@ -51,10 +51,11 @@ public interface ReportViwerDAO {
 	
 	
 	public JSONArray selectWhereColumnsForReport(String groupByDataColumnsForQuery, String abc, String groupByString, int size,
-			List<String> groupSplit, String aggregation, String having) throws JSONException;
+			List<String> groupSplit, String aggregation, String having,  Long serviceId,  List<Long> locationvalues) throws JSONException;
 	
 	public JSONArray selectWhereColumnsForReportAdmin(String groupByDataColumnsForQuery, String abc, String groupByString, int size,
-			List<String> groupSplit, String aggregation, String having);
+			List<String> groupSplit, String aggregation, String having, List<Long> filterbserviceId, List<Long> filterbdisttId,
+			List<Long> filterbdeptId);
 	
 	public JSONArray DeptCountForAdminDash(List<Long> depId) throws JSONException;
 	

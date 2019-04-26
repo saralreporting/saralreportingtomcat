@@ -780,7 +780,7 @@ public class JsonUtils {
 				if (json.get("Function").toString().equalsIgnoreCase("count")) {
 					builder = "count(combined_json->> "
 							+ "'" + json.get("ColumnId").toString() + "" + "')" + " as " + json.get("Column").toString()
-									.replaceAll("\\s", "").replace("'", "").replaceAll("\\(", "").replaceAll("\\)", "")
+									.replaceAll("\\s", "").replace("'", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\:", "")
 							+ "_count";
 					joiner.add(builder);
 				}
@@ -791,7 +791,7 @@ public class JsonUtils {
 
 							+ " THEN  cast(combined_json->> " + "'" + json.get("ColumnId").toString() + ""
 							+ "'as float) ELSE 0 end) " + json.get("Column").toString().replaceAll("\\s", "")
-									.replace("'", "").replaceAll("\\(", "").replaceAll("\\)", "")
+									.replace("'", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\:", "")
 							+ "_sum";
 					joiner.add(builder);
 				}
@@ -876,7 +876,7 @@ public class JsonUtils {
 				System.out.println(key + " dd " + value);
 
 				String builder = "combined_json->> " + "'" + key + "'" + " as "
-						+ value.replaceAll("\\s", "").replace("'", "").replaceAll("\\(", "").replaceAll("\\)", "") + "";
+						+ value.replaceAll("\\s", "").replace("'", "").replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\:", "") + "";
 				joiner.add(builder);
 			}
 			System.out.println(joiner);

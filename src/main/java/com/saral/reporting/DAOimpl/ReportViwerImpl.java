@@ -35,6 +35,7 @@ import org.hibernate.criterion.Restrictions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 @Service
 public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 
@@ -44,7 +45,7 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 	@Autowired
 	private SessionFactory sessionFactory1;
 
-	@PersistenceContext
+	@Autowired
 	private EntityManager manager;
 
 	@SuppressWarnings({ "unchecked" })
@@ -84,9 +85,10 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	public Long findCount(Long serviceId, List<Long> locationvalues, String commonJson) {
 
-		Criteria criteria = sessionFactory1.openSession().createCriteria(ApplInfoJson.class);
+		DetachedCriteria criteria = DetachedCriteria.forClass(ApplInfoJson.class);
 
 		if (CommonUtils.isNotEmpty(serviceId)) {
 			criteria.add(Restrictions.eq("serviceId", serviceId));
@@ -98,11 +100,23 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 			criteria.add(Restrictions.sqlRestriction(commonJson));
 		}
 		criteria.setProjection(Projections.rowCount());
+		List<Object> results = new ArrayList<>();
+		try {
+			results = (List<Object>) getHibernateTemplate().findByCriteria(criteria);
+			;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
-		Long results = (Long) criteria.uniqueResult();
+		if (results.size() > 1) {
+			return (long) results.size();
+		} else if (results.size() == 1) {
 
-		return results;
+			return (Long) results.get(0);
+		}
 
+		else
+			return 0L;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -123,14 +137,13 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 
 		List<ApplInfoJson> results = (List<ApplInfoJson>) getHibernateTemplate().findByCriteria(criteria);
 
-	
 		return results;
 
 	}
 
 	@Override
 	public Long findCountForDept(String filterString) {
-		
+
 		Criteria criteria = sessionFactory1.openSession().createCriteria(ApplInfo.class);
 
 		if (CommonUtils.isNotEmpty(filterString)) {
@@ -146,7 +159,7 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 	@Override
 	public Long findCountForAdmin(List<Long> filterbserviceId, List<Long> filterbdisttId, List<Long> filterbdeptId,
 			String abc) {
-		Criteria criteria = sessionFactory1.openSession().createCriteria(ApplInfo.class);
+		DetachedCriteria criteria = DetachedCriteria.forClass(ApplInfo.class);
 		System.out.println("filterbdeptId" + filterbdeptId);
 
 		if (filterbdeptId.size() > 0) {
@@ -162,9 +175,17 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 		}
 		criteria.setProjection(Projections.rowCount());
 
-		Long count = (Long) criteria.uniqueResult();
+		@SuppressWarnings("unchecked")
+		List<Object> results = (List<Object>) getHibernateTemplate().findByCriteria(criteria);
+		if (results.size() > 1) {
+			return (long) results.size();
+		} else if (results.size() == 1) {
 
-		return count;
+			return (Long) results.get(0);
+		}
+
+		else
+			return 0L;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -207,14 +228,14 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 		return (Page<ApplInfo>) pageImpianto;
 
 	}
-	
+
 	@Override
 	public Object findAggregationCombinedJson(List<Long> filterbserviceId, List<Long> filterbdisttId,
 			List<Long> filterbdeptId, String abc, String agr, String column) {
 
 		// criteriaQuery=
 		DetachedCriteria criteria = DetachedCriteria.forClass(ApplInfo.class);
-String col = ApplInfo.returnColumnPojoName(column);
+		String col = ApplInfo.returnColumnPojoName(column);
 		if (filterbdeptId.size() > 0) {
 			criteria.add(Restrictions.in("departmentId", filterbdeptId));
 		}
@@ -241,12 +262,13 @@ String col = ApplInfo.returnColumnPojoName(column);
 
 		}
 		Object results = null;
-try {
-	results  = getHibernateTemplate().findByCriteria(criteria);
-}catch(Exception e) {
-	results = 0;
-	
-}System.out.println(results);
+		try {
+			results = getHibernateTemplate().findByCriteria(criteria);
+		} catch (Exception e) {
+			results = 0;
+
+		}
+		System.out.println(results);
 		return results;
 
 	}
@@ -443,29 +465,29 @@ try {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object findSumofColumn(String columnId, String departmentId, String aggr, String where, List<Long> locationList) {
+	public Object findSumofColumn(String columnId, String departmentId, String aggr, String where,
+			List<Long> locationList) {
 		String Query = "";
-	String whereconcat = "";	
-	String loc = "";
-				if(!where.equals("")) {
-					whereconcat = " and " + where ;
-				}
-				else {
-					whereconcat = "";
-				}
-				
-				if (locationList.size()>0) {
-					loc = "and  location_value in("+StringUtils.join(locationList, ',')+")"; 
-				}
+		String whereconcat = "";
+		String loc = "";
+		if (!where.equals("")) {
+			whereconcat = " and " + where;
+		} else {
+			whereconcat = "";
+		}
+
+		if (locationList.size() > 0) {
+			loc = "and  location_value in(" + StringUtils.join(locationList, ',') + ")";
+		}
 		if (aggr.equalsIgnoreCase("sum") || aggr.equalsIgnoreCase("avg")) {
-			
+
 			Query = "select " + aggr + "(CASE WHEN  combined_json->>'" + columnId
-					+ "'~E'^[+-]?([0-9]*[.])?[0-9]+' THEN  cast(combined_json->> '" + columnId + "'as float) ELSE 0  end) from "
-					+ StringConstants.TABLE + ".r_app_json where " + "combined_json @> '{ \"department_id\" : "
-					+ departmentId + " }' "+ whereconcat  + loc;
+					+ "'~E'^[+-]?([0-9]*[.])?[0-9]+' THEN  cast(combined_json->> '" + columnId
+					+ "'as float) ELSE 0  end) from " + StringConstants.TABLE + ".r_app_json where "
+					+ "combined_json @> '{ \"department_id\" : " + departmentId + " }' " + whereconcat + loc;
 		} else if (aggr.equalsIgnoreCase("count")) {
 			Query = "select count(combined_json ->>'" + columnId + "')  from " + StringConstants.TABLE + ".r_app_json "
-					+ "where combined_json @> '{ \"department_id\" : " + departmentId + " }' "+ whereconcat  + loc;
+					+ "where combined_json @> '{ \"department_id\" : " + departmentId + " }' " + whereconcat + loc;
 		}
 		List<Object> results = (List<Object>) manager.createNativeQuery(Query).getResultList();
 		System.out.println(results.get(0));
@@ -495,16 +517,22 @@ try {
 	@SuppressWarnings("unchecked")
 	@Transactional
 	public JSONArray selectWhereColumnsForReport(String Groupcolumn, String where, String groupby, int partitionSize,
-			List<String> arrays, String aggregation, String having) throws JSONException {
+			List<String> arrays, String aggregation, String having, Long serviceId, List<Long> locationvalues)
+			throws JSONException {
 
 		if (where.toString() == "" || where.toString().equals("")) {
 			System.out.println("inside if loop of where by");
-			where = "";
+			where = "where  service_id = " + serviceId + " ";
 		} else {
-			where = " where " + where;
+			where = " where " + where + " and  service_id = " + serviceId + " ";
 			System.out.println("inside else loop of where by");
 		}
 
+		if (locationvalues.size() > 0) {
+			String locValuesComma = StringUtils.join(locationvalues, ",");
+
+			where = where.concat(" and location_value in  (" + locValuesComma + " ) ");
+		}
 		// 3 checks for string condition based on aggregation and Groupcolumn
 		String select = "";
 		if ((aggregation.toString() == "") && (Groupcolumn.toString() == "")) {
@@ -524,7 +552,7 @@ try {
 			select = aggregation + " , " + Groupcolumn;
 		}
 
-		String query = "Select " + select + " from saral1.r_app_json " + where + groupby + having;
+		String query = " Select " + select + " from saral1.r_app_json " + where + groupby + having;
 		List<Object[]> results = manager.createNativeQuery(query).getResultList();
 		JSONArray arraygroupby = new JSONArray();
 
@@ -537,15 +565,20 @@ try {
 					List<Object> list = Arrays.asList(l);
 					if (list.get(i) == null) {
 
-						json.put(arrays.get(i).replaceAll("\"", ""), "NA");
+						json.put(arrays.get(i).replaceAll("\"", "").replaceAll("\\s", "").replace("'", "")
+								.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\:", ""), "NA");
 
 					} else if ((list.get(i)).equals(null) || (list.get(i)).equals("null")) {
 
-						json.put(arrays.get(i).replaceAll("\"", ""), "NA");
+						json.put(arrays.get(i).replaceAll("\"", "").replaceAll("\\s", "").replace("'", "")
+								.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\:", ""), "NA");
 					}
 
 					else {
-						json.put(arrays.get(i).replaceAll("\"", ""), list.get(i));
+						json.put(
+								arrays.get(i).replaceAll("\"", "").replaceAll("\\s", "").replace("'", "")
+										.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\:", ""),
+								list.get(i));
 					}
 				}
 
@@ -555,11 +588,19 @@ try {
 			return arraygroupby;
 		} else if (arrays.size() == 1 && results.size() > 0) {
 			System.out.println("i am here for one column--------->" + results.size());
-			for (Object l : results) {
 
+			for (Object l : results) {
 				JSONObject json = new JSONObject();
-				json.put(arrays.get(0).replaceAll("\"", ""), l);
+				logger.info(l);
+				if (l != null) {
+					json.put(arrays.get(0).replaceAll("\"", "").replaceAll("\\s", "").replace("'", "")
+							.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\:", ""), l);
+				} else {
+					json.put(arrays.get(0).replaceAll("\"", "").replaceAll("\\s", "").replace("'", "")
+							.replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("\\:", ""), "NA");
+				}
 				arraygroupby.put(json);
+				logger.info(arraygroupby);
 			}
 
 			return arraygroupby;
@@ -576,14 +617,55 @@ try {
 	@SuppressWarnings("unchecked")
 	@Override
 	public JSONArray selectWhereColumnsForReportAdmin(String Groupcolumn, String where, String groupby,
-			int partitionSize, List<String> arrays, String aggregation, String having) {
+			int partitionSize, List<String> arrays, String aggregation, String having, List<Long> filterbserviceId,
+			List<Long> filterbdisttId, List<Long> filterbdeptId) {
 
+		logger.info("filterbserviceId ------------->" + filterbserviceId);
+		logger.info("filterbdisttId ------------->" + filterbdisttId);
+		logger.info("filterbdeptId ------------->" + filterbdeptId);
 		if (where.toString() == "" || where.toString().equals("")) {
 			System.out.println("inside if loop of where by");
 			where = "";
 		} else {
 			where = " where " + where;
 			System.out.println("inside else loop of where by");
+		}
+		if (filterbdeptId.size() > 0) {
+			String filterbdeptidValues = StringUtils.join(filterbdeptId, ",");
+			if (!where.equals("") && where.toString() != "") {
+
+				/*
+				 * 
+				 * if (filterbserviceId.size() > 0) { criteria.add(Restrictions.in("serviceId",
+				 * filterbserviceId)); }
+				 */
+				where = where.concat(" and department_id  in (" + filterbdeptidValues + ") ");
+			}
+
+			else {
+				where = where.concat(" department_id  in (" + filterbdeptidValues + ") ");
+			}
+		}
+		if (filterbserviceId.size() > 0) {
+
+			String filterbserviceIdValues = StringUtils.join(filterbserviceId, ",");
+			if (!where.equals("") && where.toString() != "") {
+
+				/*
+				 * 
+				 * if (filterbserviceId.size() > 0) { criteria.add(Restrictions.in("serviceId",
+				 * filterbserviceId)); }
+				 */
+				where = where.concat(" and service_id  in (" + filterbserviceIdValues + ") ");
+			}
+
+			else {
+				where = where.concat(" service_id  in (" + filterbserviceIdValues + ") ");
+			}
+
+		}
+		if (filterbdisttId.size() > 0) {
+
 		}
 
 		// 3 checks for string condition based on aggregation and Groupcolumn
@@ -721,13 +803,14 @@ try {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public JSONArray partialSum(String columns,Pageable pageable ) {
+	public JSONArray partialSum(String columns, Pageable pageable) {
 		// TODO Auto-generated method stub
 		String value = JsonUtils.partialSumJoiner(columns);
 		List<String> arrays = Arrays.asList(columns.split("\\s*,\\s*"));
 		String query = " Select " + value + " from saral1.r_app_json ";
 		pageable = new PageRequest(pageable.getPageNumber() - 1, 150);
-		List<Object[]> results = manager.createNativeQuery(query).setMaxResults(150).setFirstResult(pageable.getOffset()).getResultList();
+		List<Object[]> results = manager.createNativeQuery(query).setMaxResults(150)
+				.setFirstResult(pageable.getOffset()).getResultList();
 		JSONArray arraygroupby = new JSONArray();
 
 		// for many columns
@@ -795,6 +878,7 @@ try {
 			}
 			arraygroupby.put(json);
 			return arraygroupby;
-	}
+		}
 
-}}
+	}
+}

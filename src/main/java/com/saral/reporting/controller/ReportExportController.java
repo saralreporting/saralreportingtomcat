@@ -45,11 +45,15 @@ import com.saral.reporting.model.ApplInfoJson;
 import com.saral.reporting.model.HrOrgLocatedAtLevels;
 import com.saral.reporting.model.HrOrgUnits;
 import com.saral.reporting.model.ReportBean;
+import com.saral.reporting.model.ReportOrganizations;
 import com.saral.reporting.model.ReportSelectColumn;
+import com.saral.reporting.model.ServiceMaster;
 import com.saral.reporting.service.ApplInfoJsonService;
 import com.saral.reporting.service.HrOrgLocatedAtLevelsService;
 import com.saral.reporting.service.HrOrgUnitsService;
 import com.saral.reporting.service.ReportBeanService;
+import com.saral.reporting.service.ReportDomainService;
+import com.saral.reporting.service.ServiceMasterService;
 import com.saral.reporting.utils.JsonUtils;
 import com.saral.reporting.utils.StringConstants;
 import com.saral.reporting.view.CsvView;
@@ -76,6 +80,11 @@ public class ReportExportController {
 	@Autowired
 	ReportViwerDAO reportViwer;
 	
+	@Autowired
+	ReportDomainService reportDomainService;
+	
+	@Autowired
+	ServiceMasterService serviceMasterService;
 	
 	@Autowired
 	HrOrgLocatedAtLevelsService hrOrgLocatedAtLevelsService;
@@ -117,16 +126,28 @@ public class ReportExportController {
 	@RequestMapping(value = "/reportExportPDF", method = RequestMethod.GET)
 	public ModelAndView mainListReportPDF(HttpServletRequest res, HttpServletResponse rep) throws ParseException, IOException, JSONException {
 
-		String output = CommonFunctionForExport(res, rep);
+	String output = CommonFunctionForExport(res, rep);
 
-		String arr[] = output.split("===");
-		JSONArray jsonArray = new JSONArray(arr[0]);
-		JSONArray jsonArray1 = new JSONArray(arr[1]);
-		Map<String, Object> map =  new LinkedHashMap<>();
-		map.put("applInfoJsonForPDF", jsonArray);
-		map.put("groupByDataForPDF", jsonArray1);
-
-		return new ModelAndView(new PdfView(), "applInfoJsonwithGroupByForPDF", map);
+	String arr[] = output.split("===");
+	Long repId = (Long) res.getSession().getAttribute("reportId");
+	ReportBean listReport = reportBeanService.findByReportId(repId);
+	JSONArray jsonArray = new JSONArray(arr[0]);
+	JSONArray jsonArray1 = new JSONArray(arr[1]);
+	Map<String, Object> map =  new LinkedHashMap<>();
+	map.put("applInfoJsonForPDF", jsonArray);
+	map.put("groupByDataForPDF", jsonArray1);
+	map.put("reportName", listReport.getReportName());
+	map.put("reportPurpose", listReport.getTooltip());
+	map.put("tableColor", listReport.getTableColor());
+	Long deptidwithNameSelectedBU = (Long) res.getSession().getAttribute("deptidwithNameSelectedBU");
+	ReportOrganizations reportOrganizations =reportDomainService.findByOrgCode(deptidwithNameSelectedBU);
+	map.put("organisationName", reportOrganizations.getOrgName());
+	Long servID = (Long) res.getSession().getAttribute("service_id");
+	if((servID != 0L) && (servID != 1L) && (servID != null)){
+	ServiceMaster serviceMaster = serviceMasterService.findByServiceCode(servID.toString());
+	map.put("serviceName", serviceMaster.getServiceName());
+	}
+	return new ModelAndView(new PdfView(), "applInfoJsonwithGroupByForPDF", map);
 	}
 
 	// code for export to csv
@@ -207,14 +228,12 @@ String havingvalues ="";
 			if (listReport.getWhereCondition().length() > 2) {
 				System.out.println("where" + listReport.getWhereCondition());
 				abc = JsonUtils.stringWhereNew(listReport.getWhereCondition());
-				havingvalues = JsonUtils.stringHavingJoinerForAdmin(listReport.getHavingCls());
+				havingvalues = JsonUtils.stringHavingJoiner(listReport.getHavingCls());
 
 			}
 			String values = listReport.getGrouping();
 			System.out.println("1ststep =[===>" + values);
-			String groupby = "  group by this_.aid,\r\n" + 
-					"     this_.appl_id,appl_info,application_form_attributes,enclosure_data,id,location_value,service_id,version_no ";
-			
+			String groupby = "  group by id ";
 			String orderby = "";
 			if (res.getSession().getAttribute("selectedCol") != null) {
 				String valToBePass = (String) res.getSession().getAttribute("selectedCol");
@@ -255,9 +274,7 @@ String havingvalues ="";
 				
 			
 			}
-			System.out.println("main hu yaha ------------------------------>" + where);
-			System.out.println("Ashish Sharma" + repId);
-			System.out.println("Ashish Sharma" + servID);
+			
 
 			List<ApplInfoJson> list = reportViwer.findByCombinedJson(servID, getLocationList1, where);
 
@@ -345,7 +362,7 @@ String havingvalues ="";
 			
 			for (ReportSelectColumn s : L1) {
 
-				result = result.replace("\""+s.getReportSelectedColumnId()+"\":", "\""+s.getReportSelectedColumnName().replaceAll("\\/", "\\_").replaceAll(" ","\\_")+"\":");
+				result = result.replace("\""+s.getReportSelectedColumnId()+"\":", "\""+s.getReportSelectedColumnName()+"\":");
 			}
 			System.out.println("I am at 5th level updated record");
 			JSONArray output;
@@ -372,7 +389,7 @@ String havingvalues ="";
 			String aggregation = JsonUtils.stringAggregationJoiner(listReport.getAggregationCls());
 			String having = JsonUtils.stringHavingJoiner(listReport.getHavingCls());
 			JSONArray listGroupbyData = reportViwer.selectWhereColumnsForReport(groupByDataColumnsForQuery, abc, groupByString, size,
-					total_columns, aggregation, having);
+					total_columns, aggregation, having, servID, getLocationList1);
 			
 			
 			return output.toString() + "===" + listGroupbyData.toString();
@@ -382,14 +399,8 @@ String havingvalues ="";
 		
 		} else { //code for Admin Report Export Starts Here
 			String where = "";
-			//Long locationId = (long) 1218758;
-			// String abc="combined_json -> 'appl_id' = '726317' and
-			// combined_json->'31694'='9416478067'";
-			// String abc = "combined_json -> 'appl_id' = '726317'";
 			String abc = "";
-			String groupby = " group by aid, amount,appl_id,applied_by,base_service_id,department_id,department_name,no_of_attachment,payment_mode,\r\n" + 
-					"        payment_date,reference_no,registration_id,service_id,service_name,sub_version,submission_location,submission_date,\r\n" + 
-					"        submission_mode,version_no";
+			String groupby = " group by aid ";
 			ReportBean listReport = reportBeanService.findByReportId(repId);
 			
 			String values = listReport.getGrouping();
@@ -397,6 +408,7 @@ String havingvalues ="";
 			if (listReport.getWhereCondition().length() > 2) {
 				System.out.println("where" + listReport.getWhereCondition());
 				abc = JsonUtils.stringwhereAdminReportNew(listReport.getWhereCondition());
+				havingvalues = JsonUtils.stringHavingJoinerForAdmin(listReport.getHavingCls());
 
 			}
 
@@ -549,7 +561,8 @@ String havingvalues ="";
 			String aggregation = JsonUtils.stringAggregationJoinerForAdmin(listReport.getAggregationCls());
 			String having = JsonUtils.stringHavingJoinerForAdmin(listReport.getHavingCls());
 			JSONArray listGroupbyData = reportViwer.selectWhereColumnsForReportAdmin(groupByDataColumnsForQuery, abc, groupByString, size,
-					total_columns, aggregation, having);
+					total_columns, aggregation, having, filterbserviceId, filterbdisttId,
+					nDeptIdName);
 			
 			
 			return output.toString() + "===" + listGroupbyData.toString();
@@ -580,6 +593,9 @@ String havingvalues ="";
 			parentIds.addAll(childList2);
 			//System.out.println("This is Parent List After Loop " + i + "parentIds : " + parentIds);
 			//System.out.println("This is Final List After Loop " + i + "finalList : " + finalList);
+			if(childListComplete.isEmpty() || childListComplete.size()==0){
+				break;
+				}
 		}
 		
 		return finalList;

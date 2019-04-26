@@ -134,7 +134,7 @@ System.out.println("collllllllllllllllllllllllllll"+ columns);
 			if(map.get("groupByDataForExcel").toString().length()>2) {
 				JSONArray jsonGroupArray = (JSONArray) map.get("groupByDataForExcel");
 				// List<String> myList = new ArrayList<String>(Arrays.asList(list.split(",")));
-
+logger.info("jsonGroupArray"+jsonGroupArray);
 			
 				Sheet sheet2 = workbook1.createSheet("Group By details");
 				Row header1 = sheet2.createRow(0);

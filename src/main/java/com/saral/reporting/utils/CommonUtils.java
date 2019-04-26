@@ -931,10 +931,8 @@ public class CommonUtils {
 	 }
 	 public static void main(String[] args) throws Exception
 	 {
-	  System.out.println("Enter one number:");
-	  BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-	  Words w=Words.getInstance(Integer.parseInt(br.readLine()));
-	  System.out.println(w.getNumberInWords());
+	 String s ="Aadhaar Enrollment No.(EID)";
+	 System.out.println(s.replaceAll("\\)", "_").replaceAll("\\(", "_").replace(" ", "_"));
 	 }
 	}
 	

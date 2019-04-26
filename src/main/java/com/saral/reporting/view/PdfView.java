@@ -30,9 +30,7 @@ public class PdfView extends AbstractPdfView {
 		System.out.println("I am here at first line");
 		Map<String,Object> map = (Map<String, Object>) model.get("applInfoJsonwithGroupByForPDF");
 		JSONArray output = (JSONArray) map.get("applInfoJsonForPDF");
-		//String rpName = (String) map.get("reportName");
-		//String reportPurpose = (String) map.get("reportPurpose");
-		//String organisationName = (String) map.get("organisationName");tableColor
+
 		document.add(new Paragraph("Report Name : " + (String) map.get("reportName")));
 		document.add(new Paragraph("Report Purpose : " + (String) map.get("reportPurpose")));
 		document.add(new Paragraph("Department Name : " + (String) map.get("organisationName")));
@@ -44,7 +42,7 @@ public class PdfView extends AbstractPdfView {
 		document.add(new Paragraph("Total Records = " + output.length()));
 
 		System.out.println("I am here at second line");
-
+logger.info("PDF JSON OUTPUT ----------->" + output);
 		JSONObject json = output.getJSONObject(0);
 
 		Iterator<String> keys = json.keys();
