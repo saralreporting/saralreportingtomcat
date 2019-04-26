@@ -1375,9 +1375,13 @@ Highcharts.chart('stackedbar', {
 		        //initialize DataTables
 		        var table = $('#example').DataTable({
 		        	columns: cols,
+		        	"columnDefs": [{
+		        	    "defaultContent": "-",
+		        	    "targets": "_all"
+		        	  }],
 			        bDestroy: true,
 
-			        order: [[2, 'asc'], [1, 'asc']],
+			        //order: [[2, 'asc'], [1, 'asc']],
 			        rowGroup: {
 			        	  endRender: null,
 			        	  startRender: function ( rows, group ) {
@@ -1458,7 +1462,7 @@ Highcharts.chart('stackedbar', {
 				});
 			}
 			
-		
+			
 			function showTaskInfo(applId,serviceId,versionNo){ 
 				$.ajax({
 					type : "GET",
