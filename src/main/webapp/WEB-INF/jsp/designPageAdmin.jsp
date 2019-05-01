@@ -10,7 +10,7 @@
 			<ul class="breadcrumb">
 				<li><i class="ace-icon fa fa-home home-icon"></i> <a href="/welcome">Home</a>
 				</li>
-				<li class="active">Design Report</li>
+				<li class="active"><a href="/DesignAdminReptPage">Design Report</a></li>
 			</ul>
 			<!-- /.breadcrumb -->
 		</div>
@@ -303,7 +303,7 @@
 										</div>
 										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-input-bttns">
 											<input type="button" style="" class="cus-add-more"
-												value="Add More" onclick="javascript:AddODCondition()" />
+												value="Add" onclick="javascript:AddODCondition()" />
 										</div>
 									</div>
 									<div class="form-group">
@@ -362,7 +362,7 @@
 											</select>	
 										</div>
 										<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-input-bttns">
-											<input type="button" class="cus-add-more" value="Add More" onclick="javascript:AddWhrCondition()" />
+											<input type="button" class="cus-add-more" value="Add" onclick="javascript:AddWhrCondition()" />
 										</div>
 									</div>
 
@@ -377,7 +377,7 @@
 														<th class="col-sm-3">Column</th>
 														<th class="col-sm-2">Condition</th>
 														<th class="col-sm-1">Value</th>
-														<th class="col-sm-1">And Or</th>
+														<th style="display: none;" class="col-sm-1">And Or</th>
 													</tr>
 												</thead>
 												<tbody>
@@ -424,7 +424,7 @@
 												</select>	
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-input-bttns">
-												<input type="button" class="cus-add-more" value="Add More" onclick="javascript:AddHvngCondition()" />
+												<input type="button" class="cus-add-more" value="Add" onclick="javascript:AddHvngCondition()" />
 											</div>
 									
 										</div>
@@ -470,7 +470,7 @@
 												</select>	
 											</div>
 											<div class="col-lg-2 col-md-2 col-sm-2 col-xs-12 cus-input-bttns">
-												<input type="button" class="cus-add-more" value="Add More" onclick="javascript:AddAGCondition()" />
+												<input type="button" class="cus-add-more" value="Add" onclick="javascript:AddAGCondition()" />
 											</div>
 									
 										<div class="form-group">
@@ -816,7 +816,7 @@
 				var Condition = $("#rpWhrCondition").val();
 				var Value = $("#rpWhrCondition2").val();
 				var AndOr = $("#rpWhr1Condition").val();
-				if(ColumnId=="" || Column=="Please Select" || Condition==0){
+				if(ColumnId=="" || Column=="Please Select" || Condition==0 || AndOr==0){
 					alert("Please select values from dropdown");
 					return false;
 				}
@@ -843,7 +843,7 @@
 					}
 				});
 				if(exist!="false"){
-					var markup = "<tr><td><input type='checkbox' name='recordgridwhr' id='recordgridwhr'></td><td style='display:none;'>" + ColumnId + "</td><td>" + Column + "</td><td>" + Condition + "</td><td>" + Value + "</td><td>" + AndOr + "</td></tr>";
+					var markup = "<tr><td><input type='checkbox' name='recordgridwhr' id='recordgridwhr'></td><td style='display:none;'>" + ColumnId + "</td><td>" + Column + "</td><td>" + Condition + "</td><td>" + Value + "</td><td style='display:none;'>" + AndOr + "</td></tr>";
 					$("#rpWhrConditionGridView tbody").append(markup);
 					MyWhereFunction();
 				}
