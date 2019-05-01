@@ -127,8 +127,6 @@ public class ViewReportController implements Serializable {
 					userAllocatedServices);
 		}
 
-		// List<ReportBean> listReport =
-		// reportBeanService.findBySignNo(sign_no);
 		PagedListHolder<ReportBean> pagedListHolder = new PagedListHolder<ReportBean>(listReport);
 		int page = ServletRequestUtils.getIntParameter(request, "p", 0);
 		pagedListHolder.setPage(page);
@@ -148,7 +146,6 @@ public class ViewReportController implements Serializable {
 		Long servID = Long.parseLong(service_id);
 
 		ReportBean listReport = reportBeanService.findByReportId(repId);
-
 		model.put("reportId", repId);
 		model.put("service_id", servID);
 		if (servID != 0L) {
@@ -167,7 +164,6 @@ public class ViewReportController implements Serializable {
 			;
 			model.put("deptidwithNameSelectedBU", deptidwithNameSelected);
 		}
-		// request.getSession().setAttribute("selectedOrder", null);
 		request.getSession().setAttribute("selectedCol", null);
 		return "showReportNew";
 
@@ -180,9 +176,7 @@ public class ViewReportController implements Serializable {
 
 		model.put("selectedCol", selectedCol);
 		request.getSession().setAttribute("selectedCol", selectedCol);
-
 		request.getSession().setAttribute("deptidwithNameSelectedBU", deptidwithNameSelected);
-
 		model.put("deptidwithNameSelectedBU", deptidwithNameSelected);
 		return "showReportNew";
 
@@ -195,22 +189,16 @@ public class ViewReportController implements Serializable {
 
 		Long repId = (Long) request.getSession().getAttribute("reportId");
 		Long servID = (Long) request.getSession().getAttribute("service_id");
-		// String filterString = (String)
-		// request.getSession().getAttribute("filterString");
+		// String filterString = (String) request.getSession().getAttribute("filterString");
 		List<Long> filterbserviceId = (List<Long>) request.getSession().getAttribute("filterbserviceId");
 		List<Long> filterbdisttId = (List<Long>) request.getSession().getAttribute("filterbdisttId");
-		// List<Long> filterbdeptId = (List<Long>)
-		// request.getSession().getAttribute("filterbdeptId");
-
+		// List<Long> filterbdeptId = (List<Long>) request.getSession().getAttribute("filterbdeptId");
 		Long department_id = (Long) request.getSession().getAttribute("department_id");
-
 		Long deptidwithNameSelectedBU = (Long) request.getSession().getAttribute("deptidwithNameSelectedBU");
 		List<Long> nDeptIdName = new ArrayList<>();
 		nDeptIdName.add(deptidwithNameSelectedBU);
-
 		model.put("deptidwithNameSelectedBU", deptidwithNameSelectedBU);
 		model.put("nDeptIdName", nDeptIdName);
-
 		Long locationId = (Long) request.getSession().getAttribute("location_Id");
 		System.out.println("my location" + locationId);
 		List<Long> getLocationList1 = new ArrayList<>();
@@ -235,39 +223,27 @@ public class ViewReportController implements Serializable {
 					abc = "this_.department_id = this_.department_id ";
 				}
 				havingvalues = JsonUtils.stringHavingJoinerForAdmin(listReport.getHavingCls());
-				// System.out.println("where abc Admin " + abc);
 			}
 		} else {
 			if (listReport.getWhereCondition().length() > 2) {
 				groupby = "  group by id ";
 				abc = JsonUtils.stringWhereNew(listReport.getWhereCondition());
-
 				if (abc == "" || abc.equals("")) {
 					abc = " service_id =" + servID + " ";
 				}
 				havingvalues = JsonUtils.stringHavingJoiner(listReport.getHavingCls());
-				// System.out.println("where abc" + abc);
 			}
 		}
-
-		// System.out.println("Srvice Id " + servID);
-
+		
 		Long countMax = 0L;
 		if (servID == 0L) {
-
 			countMax = reportViwer.findCountForAdmin(filterbserviceId, filterbdisttId, nDeptIdName, abc.concat(groupby).concat(havingvalues));
-
 		} else {
 			countMax = reportViwer.findCount(servID, getLocationList1,  abc.concat(groupby).concat(havingvalues));
 			logger.info("This is the count for normal user" + countMax);
-			// System.out.println("dddd" + countMax);
 		}
-		// System.out.println(repId + department_id);
-		DashBoardReportData getDashBoardData = dashBoardReportDataService.findByReportIdAndDepartmentId(repId,
-				department_id);
-
+		DashBoardReportData getDashBoardData = dashBoardReportDataService.findByReportIdAndDepartmentId(repId, department_id);
 		if (getDashBoardData != null) {
-
 			getDashBoardData.setCount(getDashBoardData.getCount() + 1L);
 			dashBoardReportDataService.save(getDashBoardData);
 		} else {
@@ -278,7 +254,7 @@ public class ViewReportController implements Serializable {
 			dashBoardData.setCount(1L);
 			dashBoardReportDataService.save(dashBoardData);
 		}
-
+		
 		if (countMax == 0L) {
 
 			model.put("ErrorReport", "No Record found for selected Report");
@@ -286,21 +262,14 @@ public class ViewReportController implements Serializable {
 			model.put("groupValues", "[]");
 			model.addAttribute("addresses", "\"NO Result\"");
 			return "showReportNew";
-
-		} else if ((servID != 0L) && (servID != 1L)) { // for normal user
+		} else if ((servID != 0L) && (servID != 1L)) { // for Service Reports
 			String values = listReport.getGrouping();
 			List<String> groupValues = Arrays.asList(values.toString().split("\\s*,\\s*"));
 			List<ReportSelectColumn> listCol = listReport.getReportSelectColumnList();
 			// List<String> groupColumns = JsonUtils.groupedDataColumnsAdmin(values);
-			// System.out.println("normal user");
 			String orderby = "";
 			String where = "";
-
-			
-
 			if (request.getSession().getAttribute("selectedCol") != null) {
-
-				// System.out.println("inside refresh report");
 				String valToBePass = (String) request.getSession().getAttribute("selectedCol");
 				System.out.println("********************************** " + valToBePass);
 				if (JsonUtils.getSortingJoinerReport(valToBePass).equals("")
@@ -319,11 +288,7 @@ public class ViewReportController implements Serializable {
 					abc = " service_id =" + servID + " ";
 				}
 				model.put("where", abc);
-
 				where = abc.concat(groupby).concat(havingvalues).concat(orderby);
-				// System.out.println(where);
-				// System.out.println("my complete query" + abc);
-
 			} else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
 				if (JsonUtils.getSortingJoinerReport(listReport.getOrderCondition()).equals("")
 						&& !JsonUtils.getSortingGroupingJoinerReport(values).equals(""))
@@ -337,27 +302,18 @@ public class ViewReportController implements Serializable {
 				else
 					orderby = " order by " + JsonUtils.getSortingGroupingJoinerReport(values) + " , "
 							+ JsonUtils.getSortingJoinerReport(listReport.getOrderCondition());
-
 				if (abc == "" || abc.equals("")) {
 					abc = " service_id =" + servID + " ";
 				}
 				model.put("where", abc);
 				where = abc.concat(groupby).concat(havingvalues).concat(orderby);
-
-				// System.out.println("my complete query" + abc);
 			}
-
 			Page<ApplInfoJson> list = reportViwer.findByCombinedJson(servID, pageable, getLocationList1, where);
-			// System.out.println("appl_id");
-
 			List<Map<String, Object>> listofMap = new ArrayList<>();
-
 			List<ReportSelectColumn> L1 = listReport.getReportSelectColumnList();
-
 			StringBuilder initCol = new StringBuilder();
 			StringBuilder servCol = new StringBuilder();
 			L1.forEach((temp1) -> {
-
 				if (temp1.getStatus().equals('I')) {
 					// initCol.append("combined_json ->");
 					initCol.append(temp1.getReportSelectedColumnName());
@@ -367,9 +323,6 @@ public class ViewReportController implements Serializable {
 					servCol.append(",");
 				}
 			});
-
-			// System.out.println("initCol" + initCol.length());
-			// System.out.println("servCol" + servCol.length());
 			StringJoiner joiner = new StringJoiner(",");
 			joiner.add("view");
 			if ((initCol.length() > 0) && (servCol.length() > 0)) {
@@ -384,10 +337,9 @@ public class ViewReportController implements Serializable {
 				String servColL = servCol.substring(0, servCol.length() - 1);
 				joiner.add(servColL);
 			}
-
+			
 			List<String> cols = Arrays.asList(joiner.toString().split("\\s*,\\s*"));
 			// Fetch applInfoNode from List
-			// System.out.println(cols);
 			list.forEach((temp) -> {
 				// map applinfo in map
 				// map attributes in map
@@ -396,24 +348,20 @@ public class ViewReportController implements Serializable {
 				maptotal.put("view", "<a href=javascript:void(0); onclick=showTaskInfo(" + temp.getApplId() + ","
 						+ temp.getServiceId() + "," + temp.getVersionNo() + ")>View</a>");
 				for (String s : cols) {
-
 					if (!maptotal.containsKey(s)) {
 
 						maptotal.put(s, "N.A.");
 						// System.out.println(maptotal);
 					}
-
 					if (maptotal.get(s).toString() == null || maptotal.get(s).toString().equals("")
 							|| maptotal.get(s).toString().equals("null")) {
 												maptotal.put(s, "N.A");
 					}
-
 					if (maptotal.get(s).toString().contains("~")) {
 						int p = maptotal.get(s).toString().lastIndexOf("~");
 						String newValue = maptotal.get(s).toString().substring(p + 1);
 						maptotal.put(s, newValue);
 					}
-
 				}
 				if (maptotal.containsKey("submission_location")
 						&& maptotal.get("submission_location").toString().contains("~")) {
@@ -434,22 +382,17 @@ public class ViewReportController implements Serializable {
 				// merging map
 				Map<String, Object> mapFromString = new LinkedHashMap<>();
 				mapFromString.putAll(maptotal);
-
 				listofMap.add(mapFromString);
-
 			});
 
 			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), joiner.toString());
 			String result = SquigglyUtils.stringify(objectMapper, listofMap);
-
 			List<String> items = Arrays.asList(joiner.toString().split("\\s*,\\s*"));
 			// String values = listReport.getGrouping();
 			// <String> groupValues = Arrays.asList(values.toString().split("\\s*,\\s*"));
-
-			// System.out.println("my group" + groupValues);
 			logger.info("my group" + groupValues);
+			
 			for (ReportSelectColumn s : L1) {
-
 				// result = result.replace(s.getReportSelectedColumnId(),
 				// s.getReportSelectedColumnName());
 				String value = s.getReportSelectedColumnName().replaceAll("\\)", "").replaceAll("\\(", "")
@@ -462,7 +405,6 @@ public class ViewReportController implements Serializable {
 						.replaceAll("\\)", "").replaceAll("\\(", "").replaceAll("\\.", ""));
 
 			}
-			// System.out.println("sss" + groupValues);
 			logger.info(result);
 
 			Gson gson = new Gson();
@@ -473,14 +415,12 @@ public class ViewReportController implements Serializable {
 			if (groupValues.size() > 0) {
 				model.put("groupValues", groupvaluesString);
 			}
-
-			else {
+			else{
 				model.put("groupValues", "[]");
 			}
 
 			Integer totalPages = (int) (countMax / 150);
 			if (countMax % 150 == 0) {
-
 			} else {
 				totalPages = totalPages + 1;
 			}
@@ -496,12 +436,9 @@ public class ViewReportController implements Serializable {
 			int end = Math.min(begin + 5, totalPages);
 
 			model.addAttribute("end", end);
-
 			model.put("applInfoJson", result);
 			model.put("reportId", repId);
 			model.put("service_id", servID);
-			// System.out.println("Inside second loop where records are greater than 6000
-			// ==== FINAL");
 
 			JsonUtils.pageModel(model, list);
 			long pNumber = ((pageable.getPageNumber() - 1) * 150);
@@ -512,17 +449,15 @@ public class ViewReportController implements Serializable {
 			model.addAttribute("totalPages", totalPages);
 			model.addAttribute("listCol", listCol);
 			return "showReportNew";
-
 		} else {
 
 			/*
 			 * 
-			 * Code for Showing Admin reports Department-wise starts here Write all Admin
-			 * reports related code here
+			 * Code for Showing Admin reports Department-wise starts here 
+			 * Write all Department reports related code here
 			 * 
 			 * 
 			 */
-
 			
 			model.put("ErrorReport", "");
 			List<ReportSelectColumn> listCol = listReport.getReportSelectColumnList();
@@ -551,12 +486,9 @@ public class ViewReportController implements Serializable {
 				if (abc == "" || abc.equals("")) {
 					abc = "this_.department_id = this_.department_id ";
 				}
-
 				model.put("where", abc);
 				abc = abc.concat(groupby).concat(havingvalues).concat(orderby);
-
 				System.out.println("my complete query" + abc);
-
 			} else if ((listReport.getOrderCondition().length() > 2) && (orderby == "")) {
 				if (JsonUtils.getSortingJoinerAdminReport(listReport.getOrderCondition()).equals("")
 						&& (!JsonUtils.getSortingGroupingJoinerReportAdmin(values).equals("")))
@@ -583,10 +515,8 @@ public class ViewReportController implements Serializable {
 
 			Page<ApplInfo> list = reportViwer.findByCombinedJsonAdminReport(filterbserviceId, pageable, filterbdisttId,
 					nDeptIdName, abc, orderby);
-
 			ObjectMapper mapper1 = new ObjectMapper();
 			String jsonString = mapper1.writeValueAsString(list);
-
 			List<ApplInfo> applList = list.getContent();
 			List<ApplInfo> applListwithView = new ArrayList<>();
 			for (ApplInfo l : applList) {
@@ -605,19 +535,13 @@ public class ViewReportController implements Serializable {
 						|| l.getPaymentMode() == "" && l.getPaymentMode().equals("")) {
 					l.setPaymentMode("N.A.");
 				}
-
 			}
-
 			
 			JSONParser parser = new JSONParser();
 			JSONObject array = (JSONObject) parser.parse(jsonString);
-			// System.out.println(array);
 			org.json.simple.JSONArray objarray = (org.json.simple.JSONArray) array.get("content");
-
 			System.out.println("objarray size" + objarray.size());
-
 			List<ReportSelectColumn> L1 = listReport.getReportSelectColumnList();
-
 			StringBuilder initCol = new StringBuilder();
 			StringBuilder servCol = new StringBuilder();
 			L1.forEach((temp1) -> {
@@ -647,7 +571,7 @@ public class ViewReportController implements Serializable {
 				String servColL = servCol.substring(0, servCol.length() - 1);
 				joiner.add(servColL);
 			}
-//joiner.add("view");
+			//joiner.add("view");
 			System.out.println("merz view joiner " + joiner);
 			ApplInfo applInfo = new ApplInfo();
 			Map<String, Object> listofColsMap = applInfo.getColumnNamesWithPojoVariables();
@@ -666,9 +590,7 @@ public class ViewReportController implements Serializable {
 			}
 
 			List<String> result4 = mapFromString.values().stream().collect(Collectors.toList());
-
 			// String valueString = String.join(",", mapFromString.values());
-
 			result4.add(0, "view");
 			System.out.println("sasasasa" + result4);
 			ObjectMapper objectMapper = Squiggly.init(new ObjectMapper(), StringUtils.join(result4, ','));
@@ -679,20 +601,16 @@ public class ViewReportController implements Serializable {
 				result = result.replace("\"" + s.getReportSelectedColumnId() + "\":",
 						"\"" + s.getReportSelectedColumnName() + "\":");
 				Collections.replaceAll(groupValues, s.getReportSelectedColumnId(), s.getReportSelectedColumnName());
-
 			}
-			// System.out.println("sss" + groupValues);
 			logger.info("sss" + groupValues);
 
 			// convert your list to json
-
 			Gson gson = new Gson();
 			String groupvaluesString = gson.toJson(groupColumns);
 			// convert your list to json
 			if (groupValues.size() > 0) {
 				model.put("groupValues", groupvaluesString);
 			}
-
 			else {
 				model.put("groupValues", "[]");
 			}
@@ -714,15 +632,10 @@ public class ViewReportController implements Serializable {
 			int current = pageable.getPageNumber() + 1;
 			int begin = Math.max(1, current - 5);
 			int end = Math.min(begin + 5, totalPages);
-
 			model.addAttribute("end", end);
 			model.put("applInfoJson", result);
 			model.put("reportId", repId);
 			model.put("service_id", servID);
-
-			// System.out.println("Inside second loop where records are greater than 6000
-			// ==== FINAL");
-
 			JsonUtils.pageModel(model, list);
 			long pNumber = ((pageable.getPageNumber() - 1) * 150);
 			model.put("number", pNumber);
@@ -732,9 +645,7 @@ public class ViewReportController implements Serializable {
 			model.addAttribute("totalPages", totalPages);
 			model.addAttribute("listCol", listCol);
 			return "showReportNew";
-
 		}
-
 	}
 
 	public List<Long> getLocationList(Long locationId, Long departmentId) {
