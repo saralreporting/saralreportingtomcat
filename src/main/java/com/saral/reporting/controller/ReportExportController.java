@@ -112,12 +112,24 @@ public class ReportExportController {
 
 		String output = CommonFunctionForExport(res, rep);
 		String arr[] = output.split("===");
+		Long repId = (Long) res.getSession().getAttribute("reportId");
+		ReportBean listReport = reportBeanService.findByReportId(repId);
 		JSONArray jsonArray = new JSONArray(arr[0]);
 		JSONArray jsonArray1 = new JSONArray(arr[1]);
 		Map<String, Object> map = new LinkedHashMap<>();
 		map.put("applInfoJsonForExcel", jsonArray);
 		map.put("groupByDataForExcel", jsonArray1);
-
+		map.put("reportName", listReport.getReportName());
+		map.put("reportPurpose", listReport.getTooltip());
+		Long deptidwithNameSelectedBU = (Long) res.getSession().getAttribute("deptidwithNameSelectedBU");
+		ReportOrganizations reportOrganizations =reportDomainService.findByOrgCode(deptidwithNameSelectedBU);
+		map.put("organisationName", reportOrganizations.getOrgName());
+		Long servID = (Long) res.getSession().getAttribute("service_id");
+		if((servID != 0L) && (servID != 1L) && (servID != null)){
+		ServiceMaster serviceMaster = serviceMasterService.findByServiceCode(servID.toString());
+		map.put("serviceName", serviceMaster.getServiceName());
+		}
+		
 		return new ModelAndView(new ExcelViewReport(), "applInfoJsonWithGroupByForExcel", map);
 
 	}
