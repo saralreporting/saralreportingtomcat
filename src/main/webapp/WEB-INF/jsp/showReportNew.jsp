@@ -611,6 +611,47 @@ table.dataTable tbody td {
 								</div>
 							</div>
 						</div>
+						
+						<div id="dateFilter" class="row"
+							style="margin-left: initial; width: 100%; border-style: groove; border-width: thin; padding-top: 1%;">
+							<div class="col-xs-12" style="padding-top: 0%;">
+								<div class="widget-box collapsed">
+									<div class="widget-header widget-header-flat">
+										<h4 class="widget-title lighter">
+											<i class="ace-icon fa fa-star orange"></i> Date Filter
+										</h4>
+
+										<div class="widget-toolbar">
+											<a href="#" data-action="collapse"> <i
+												class="ace-icon fa fa-chevron-down"></i>
+											</a>
+										</div>
+									</div>
+									<div class="widget-body">
+										<div class="widget-main no-padding">
+											<div class="form-group">
+												<label class="control-label col-sm-2" for="rpODCondition"> From Date : </label>
+												<div class="col-sm-3">
+													<input type="text" id="datepicker1">
+												</div>
+												<label class="control-label col-sm-2" for="rpODCondition"> To Date : </label>
+												<div class="col-sm-2">
+													<input type="text" id="datepicker2" >
+												</div>
+												<div class="col-sm-2" style="margin-left: 3%;">
+													<a href="javascript:void(0);" onclick="refreshDataForDate()">Apply
+													Filter</a> <input type="hidden" id="dateFilterFromSession"
+													name="dateFilterFromSession" />
+													<!-- <input type="button" style="" class="btn no-border"
+														value="Add More" onclick="javascript:AddODCondition()" /> -->
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
 						<div id="exampleSumReport" class="row"
 							style="margin-left: initial; width: 100%; border-style: groove; border-width: thin; padding-top: 2%;">
 							<div class="col-xs-12"
@@ -748,7 +789,7 @@ table.dataTable tbody td {
 <script src="js/dataTables.colReorder.min.js"></script>
 
 <script src="js/dataTables.select.min.js"></script>
-
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <!-- <script src="assets/js/jquery.easypiechart.min.js"></script> -->
 
 <!-- inline scripts related to this page -->
@@ -1316,8 +1357,8 @@ Highcharts.chart('stackedbar', {
     );
              });
 		</script>
-<script>
 	
+	<script>
 		function CreateTableFromJSON() {
 			var errMessage = "${ErrorReport}";
 
@@ -1437,7 +1478,6 @@ Highcharts.chart('stackedbar', {
 		        	console.log(err.message);
 		        }
 			}
-	           
 	}
 		
 			function list(page) {
@@ -1592,6 +1632,37 @@ Highcharts.chart('stackedbar', {
 				}
 			}
 			
+			function refreshDataForDate() {
+				var x = $("#datepicker1").val();
+				var y = $("#datepicker2").val();			
+				var fromDate = new Date(x);
+				var toDate = new Date(y);
+				if (isNaN(toDate) || isNaN(fromDate)) {
+				    alert("please enter a date");
+					return false;
+				}else if(fromDate > toDate){
+					alert("From Date cannot be greater than TO Date.");
+					return false;
+				}else{
+					var deptidwithNameSelected = $("#deptidwithName").val();
+					$.ajax({
+						type : "GET",
+						url : '/viewFiltereByDateReport',
+						data : {
+							fromDate : $('#datepicker1').val(),
+							toDate : $('#datepicker2').val(),
+							deptidwithNameSelected : deptidwithNameSelected
+							
+						},
+						success : function(data) {
+							//CreateTableFromJSON();
+							window.location.href='/viewSelectedReportData?page=1';
+						}
+					});
+				}
+				
+			}
+			
 			
 			RefreshReportView = function(){
 				var deptidwithNameSelected = $("#deptidwithName").val();
@@ -1681,6 +1752,11 @@ Highcharts.chart('stackedbar', {
 		</script>
 <script>
 		$(document).ready(function(){
+			
+			$( function() {
+			    $( "#datepicker1" ).datepicker();
+			    $( "#datepicker2" ).datepicker();
+			  } );
 			
 			$("#reportHeader").append("${reportHeader}");
 			$("#reportFooter").append("${reportFooter}");

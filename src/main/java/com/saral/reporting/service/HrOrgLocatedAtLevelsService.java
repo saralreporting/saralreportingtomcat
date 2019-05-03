@@ -8,4 +8,5 @@ public interface HrOrgLocatedAtLevelsService {
 
 	int countByOlc(Long departmentId);
 	
+	HrOrgLocatedAtLevels findByOrgLocatedLevelCode(Long orgLocatedLevelCode);
 }

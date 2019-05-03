@@ -100,6 +100,7 @@ public class ViewReportController implements Serializable {
 
 	@Autowired
 	HrOrgLocatedAtLevelsService hrOrgLocatedAtLevelsService;
+	
 	@Autowired
 	AttributeMasterDataSqlService attributeMasterDataSqlService;
 
@@ -110,9 +111,21 @@ public class ViewReportController implements Serializable {
 
 		Long department_id = (Long) request.getSession().getAttribute("department_id");
 		List<ReportBean> listReport = new ArrayList<ReportBean>();
-
+		
+		Long org_located_at_levels = (Long) request.getSession().getAttribute("org_located_at_levels");
+		System.out.println("Located at level code :" + org_located_at_levels);
+		
+		HrOrgLocatedAtLevels hrOrgLocatedAtLevels = hrOrgLocatedAtLevelsService.findByOrgLocatedLevelCode(org_located_at_levels);
+		
 		if (department_id == 0L) {
-			listReport = reportBeanService.findByIsAdminReport('Y');
+			List<Long> filterbserviceId = (List<Long>) request.getSession().getAttribute("filterbserviceId");
+			//List<Long> filterbdisttId = (List<Long>) request.getSession().getAttribute("filterbdisttId");
+			List<Long> filterbdeptId = (List<Long>) request.getSession().getAttribute("filterbdeptId");
+			System.out.println("service list is :" + filterbserviceId);
+			System.out.println("dept list is :" +filterbdeptId);
+			listReport = reportViwer.findByDepartmentIdAndIsAdminReportAndServiceIdAdmin(filterbdeptId, 'Y',
+					filterbserviceId);
+			//listReport = reportBeanService.findByIsAdminReport('Y');
 		} else {
 			List<Long> userAllocatedServices = (List<Long>) request.getSession().getAttribute("saralUserServiceList");
 			String hmfromSession = (String) request.getSession().getAttribute("hm");
@@ -122,7 +135,11 @@ public class ViewReportController implements Serializable {
 			if (hmfromSession.contains("State Service Definer")) {
 				userAllocatedServices.clear();
 				System.out.println("This is the list we get from the session inside loop:" + userAllocatedServices);
+			}else if (hrOrgLocatedAtLevels.getLocatedAtLevel() == 1L) {
+				System.out.println("Org Located level : " + hrOrgLocatedAtLevels.getLocatedAtLevel());
+				userAllocatedServices.clear();
 			}
+			
 			listReport = reportViwer.findByDepartmentIdAndIsAdminReportAndServiceId(department_id, 'N',
 					userAllocatedServices);
 		}

@@ -35,12 +35,8 @@ public class LoginDAO {
 		
 		List<Object[]> results = new ArrayList<Object[]>();
 
-		try {
-
-		
+		try {	
 			results = manager.createQuery(queryStr).getResultList();
-		
-			
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,7 +56,7 @@ public class LoginDAO {
 		String queryStr = "SELECT loginData.signNo,loginData.userId,loginData.userName,"
 				+ " roleAssignment.roleId, roleMaster.roleName, userLocation.departmentLevelName,"
 				+ " userLocation.departmentId, userLocationDesignation.designationId, "
-				+ " userLocationDesignation.designationName, roleMaster.signRole, loginData.passwd, loginData.locationId FROM  RoleAssignment roleAssignment ,LoginData loginData,"
+				+ " userLocationDesignation.designationName, roleMaster.signRole, loginData.passwd, loginData.locationId, hrOrgUnits.orgLocatedLevelCode FROM  RoleAssignment roleAssignment ,LoginData loginData,"
 				+ " RoleMaster roleMaster, UserLocation userLocation,UserLocationDesignation userLocationDesignation,HrOrgUnits hrOrgUnits "
 				+ " WHERE (loginData.userId = roleAssignment.userId) AND (roleAssignment.roleId =  roleMaster.roleId)"
 				+ " AND (loginData.userId = userLocation.userId) AND (userLocation.userLocId = userLocationDesignation.userLocId)"

@@ -29,7 +29,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.logoutSuccessUrl("/login?logout");
 
 		http.authorizeRequests().antMatchers(PUBLIC_MATCHERS).access(
-				"hasRole('ROLE_DHEAD') or hasRole('ROLE_SADMN') or hasRole('ROLE_CTZN') or hasRole('ROLE_SAPR') or hasRole('ROLE_SDEF') or hasRole('ROLE_CM') or hasRole('ROLE_DEO')  or hasRole('ROLE_DISP') or hasRole('ROLE_SCA') or hasRole('ROLE_SGA') or hasRole('ROLE_HRR')  or hasRole('ROLE_GOVT')  or hasRole('ROLE_ADMIN')")
+				"hasRole('ROLE_DHEAD') or hasRole('ROLE_SADMN') or hasRole('ROLE_CTZN') or hasRole('ROLE_SAPR') or hasRole('ROLE_SDEF') or hasRole('ROLE_CM') or hasRole('ROLE_DEO')  or hasRole('ROLE_DISP') or hasRole('ROLE_SCA') or hasRole('ROLE_SGA') or hasRole('ROLE_HRR')  or hasRole('ROLE_GOVT')  or hasRole('ROLE_CM') or hasRole('ROLE_ADMIN')")
 				.and().formLogin().loginPage("/login").defaultSuccessUrl("/welcome").failureUrl("/login?error")
 
 				.usernameParameter("sign_no").passwordParameter("password");

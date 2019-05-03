@@ -10,4 +10,6 @@ public interface HrOrgLocatedAtLevelsRepo extends JpaRepository<HrOrgLocatedAtLe
 
 	int countByOlc(Long departmentId);
 
+	HrOrgLocatedAtLevels findByOrgLocatedLevelCode(Long orgLocatedLevelCode);
+
 }

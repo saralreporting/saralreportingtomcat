@@ -126,6 +126,34 @@
 
 					</ul></li>
 					</sec:authorize>
+					
+					<li class=""><a href="#" class="dropdown-toggle"> <i
+						class="menu-icon fa fa-pencil-square-o"></i> <span
+						class="menu-text">General Reports </span> <b
+						class="arrow fa fa-angle-down"></b>
+						</a> <b class="arrow"></b>
+
+					<ul class="submenu">
+						<li class=""><a href="/AppOutcomeReport"> <i
+								class="menu-icon fa fa-caret-right"></i> Application Outcome Report
+						</a> <b class="arrow"></b></li>
+						<!-- <li class=""><a href="/RoleMasterlist"> <i
+								class="menu-icon fa fa-caret-right"></i> Report Role Master
+						</a> <b class="arrow"></b></li>
+						<li class=""><a href="/FilterMasterlist"> <i
+								class="menu-icon fa fa-caret-right"></i> Report Filter Master
+						</a> <b class="arrow"></b></li>
+							<li class=""><a href="/UserMasterlist"> <i
+								class="menu-icon fa fa-caret-right"></i> Report User Master
+						</a> <b class="arrow"></b></li>
+							<li class=""><a href="/DomainMasterlist"> <i
+								class="menu-icon fa fa-caret-right"></i> Report Domain Master
+						</a> <b class="arrow"></b></li> -->
+
+
+					</ul></li>
+					
+					
 <!-- 				<li class=""><a href="#" class="dropdown-toggle"> <i
 						class="menu-icon fa fa-desktop"></i> <span class="menu-text">
 							UI &amp; Elements </span> <b class="arrow fa fa-angle-down"></b>

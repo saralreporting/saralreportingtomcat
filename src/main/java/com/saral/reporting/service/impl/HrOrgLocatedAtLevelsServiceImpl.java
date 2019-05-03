@@ -25,5 +25,11 @@ public class HrOrgLocatedAtLevelsServiceImpl implements HrOrgLocatedAtLevelsServ
 		return hrOrgLocatedAtLevelsRepo.countByOlc(departmentId);
 	}
 
+	@Override
+	public HrOrgLocatedAtLevels findByOrgLocatedLevelCode(Long orgLocatedLevelCode) {
+		// TODO Auto-generated method stub
+		return hrOrgLocatedAtLevelsRepo.findByOrgLocatedLevelCode(orgLocatedLevelCode);
+	}
+
 	
 }

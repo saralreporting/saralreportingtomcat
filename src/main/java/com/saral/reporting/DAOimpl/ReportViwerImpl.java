@@ -800,6 +800,44 @@ public class ReportViwerImpl extends DaoSupport implements ReportViwerDAO {
 		return reportList;
 
 	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ReportBean> findByDepartmentIdAndIsAdminReportAndServiceIdAdmin(List<Long> filterbdeptId, char c,
+			List<Long> filterbserviceId) {
+		// TODO Auto-generated method stub
+		// return reportBeanRepository.findByDepartmentIdAndIsAdminReport(department_id,
+		// c);
+		boolean ans = filterbdeptId.contains(0L);
+		boolean ans1 = filterbdeptId.contains(1L);
+		if(ans == true && ans1 == true ) {
+		}else {
+			filterbdeptId.add(0L);
+			filterbdeptId.add(1L);
+		}
+		boolean ans2 = filterbserviceId.contains(0L);
+		if(ans2 == true ) {
+		}else {
+			filterbserviceId.add(0L);
+		}
+		
+		DetachedCriteria criteria = DetachedCriteria.forClass(ReportBean.class);
+		if (CommonUtils.isNotEmpty(filterbdeptId)) {
+			criteria.add(Restrictions.in("departmentId", filterbdeptId));
+		}
+		if (CommonUtils.isNotEmpty(c)) {
+			criteria.add(Restrictions.eq("isAdminReport", c));
+		}
+		if (CommonUtils.isNotEmpty(filterbserviceId)) {
+			criteria.add(Restrictions.in("serviceId", filterbserviceId));
+		}
+
+		List<ReportBean> reportList = (List<ReportBean>) getHibernateTemplate().findByCriteria(criteria);
+
+		return reportList;
+
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

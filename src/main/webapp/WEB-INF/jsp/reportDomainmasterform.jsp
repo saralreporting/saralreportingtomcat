@@ -605,9 +605,11 @@
 		$('#checkallServices:checkbox').change(function () {
 			if ($(this).prop("checked") == true){
 		    	$('#servDiv').find('input[type="checkbox"]').prop( "checked",true);
+		    	$("#servDiv ul li:hidden input[type=checkbox]").prop('checked', false);
 		    }
 		    else{
 		    	$('#servDiv').find('input[type="checkbox"]').prop( "checked",false);
+		    	$("#servDiv ul li:hidden input[type=checkbox]").prop('checked', false);
 		    }
 		});
 		

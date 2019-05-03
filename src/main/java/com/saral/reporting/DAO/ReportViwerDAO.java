@@ -73,4 +73,8 @@ public interface ReportViwerDAO {
 	
 	
 	public JSONArray partialSum(String column, Pageable pageable );
+
+
+	public List<ReportBean> findByDepartmentIdAndIsAdminReportAndServiceIdAdmin(List<Long> filterbdeptId, char c,
+			List<Long> filterbserviceId);
 }
