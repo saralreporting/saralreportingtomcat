@@ -108,10 +108,8 @@ public class ViewReportController implements Serializable {
 	@RequestMapping(value = { "/fetchReportList" }, method = RequestMethod.GET)
 	public String reportViewPage(ModelMap model, HttpServletRequest request) throws ServletException, IOException {
 		String sign_no = (String) request.getSession().getAttribute("sign_no");
-
 		Long department_id = (Long) request.getSession().getAttribute("department_id");
 		List<ReportBean> listReport = new ArrayList<ReportBean>();
-		
 		Long org_located_at_levels = (Long) request.getSession().getAttribute("org_located_at_levels");
 		System.out.println("Located at level code :" + org_located_at_levels);
 		

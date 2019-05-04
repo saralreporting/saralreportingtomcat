@@ -134,8 +134,11 @@
 						</a> <b class="arrow"></b>
 
 					<ul class="submenu">
-						<li class=""><a href="/AppOutcomeReport"> <i
+						<li class=""><a href="/appOutcomeReport"> <i
 								class="menu-icon fa fa-caret-right"></i> Application Outcome Report
+						</a> <b class="arrow"></b></li>
+						<li class=""><a href="/deptCollectionReport"> <i
+								class="menu-icon fa fa-caret-right"></i> Department Collection Report
 						</a> <b class="arrow"></b></li>
 						<!-- <li class=""><a href="/RoleMasterlist"> <i
 								class="menu-icon fa fa-caret-right"></i> Report Role Master

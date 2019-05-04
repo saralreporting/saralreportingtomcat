@@ -20,7 +20,7 @@
 								<i class="ace-icon fa fa-home home-icon"></i>
 								<a href="/welcome">Home</a>
 							</li>
-							<li class="active">View Reports</li>
+							<li class="active">Departmental Collection Report</li>
 						</ul><!-- /.breadcrumb -->
 
 						<div class="nav-search" id="nav-search">
@@ -102,10 +102,11 @@
 						</div><!-- /.ace-settings-container -->
 
 						<div class="page-header">
-							<h1>
-								Application Outcome Report
-							</h1>
-							
+							<div>
+								<h1>
+									Department Collection Report
+								</h1>
+							</div>
 							<div id="period">
 								<label> for Last </label>
 								<select name="periodId" id="periodId">
@@ -130,27 +131,16 @@
 							
 							<table class="table table-striped table-bordered table-hover dataTable no-footer cus-grids-table cus-text-center">
 								<tr>
-									<th style="width: 5%;">Id</th>
-									<th style="display: none;">Service ID</th>
-									<th>Name</th>
-									<th>Purpose</th>
-									<th style="width: 5%;">View</th>
+									<th>Service Name</th>
+									<th>Fee Collection (&#8377;)</th>
 								</tr>
-								<%-- <c:forEach items="${pagedListHolder.pageList}" var="item">
+								 <c:forEach items="${collectionList}" var="item">
 									<tr>
-										<td style="width: 5%;">${item.reportId}</td>
-										<td>${item.reportName}</td>
-										<td style="display: none;">${item.serviceId}</td>
-										<td>${item.tooltip}</td>
-										<td style="width: 5%;"><spring:url	value="/viewSelectedReport?reportId=${item.reportId}&sign_no=${sign_no}&service_id=${item.serviceId}&page=1" var="viewURL" /> 
-											<a class="cus-view-bttn2"	href="javascript:void(0);" role="button" onclick="getData('${item.serviceId}','${item.reportId}')"></a></td>
+										<td>${item.serviceName}</td>
+										<td style="text-align: right;">${item.sum}.00</td>
 									</tr>
-								</c:forEach> --%>
+								</c:forEach> 
 							</table>
-								<%-- <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-left">
-							<tg:paging pagedListHolder="${pagedListHolder}"
-								pagedLink="${pagedLink}" />
-							</div> --%>
 						</div>
 						
 		
@@ -201,26 +191,42 @@
 		
 		
 		<script type="text/javascript">
-			function getData(servId,repId) {
-				modifyData(servId,repId);
-			}
-
+		$(document).ready(function(){
 			
-			function modifyData(servId,repId) {
+			$('#deptidwithName').val(${collctnDeptSelected});
+			$('#periodId').val(${collctnPeriodSelected});
+			
+			$('#deptidwithName').on('change', function () {
 				var deptidwithNameSelected = $("#deptidwithName").val();
+				var timePeriod = $('#periodId').val();
 				$.ajax({
 					type : "GET",
-					url : '/viewSelectedReport?page=1',
+					url : '/deptCollectionReportRef',
 					data : {
-						deptidwithNameSelected : deptidwithNameSelected,
-						reportId : repId,
-						service_id : servId
+						deptidSelectedCollctn : deptidwithNameSelected,
+						timePeriod : timePeriod
 					},
 					success : function(data) {
-						window.location.href='/viewSelectedReportData?page=1';
+						window.location.href='/deptCollectionReport';
 					}
 				});
-			}
-		
+			});
+			
+			$('#periodId').on('change', function () {
+				var deptidwithNameSelected = $("#deptidwithName").val();
+				var timePeriod = $('#periodId').val();
+				$.ajax({
+					type : "GET",
+					url : '/deptCollectionReportRef',
+					data : {
+						deptidSelectedCollctn : deptidwithNameSelected,
+						timePeriod : timePeriod
+					},
+					success : function(data) {
+						window.location.href='/deptCollectionReport';
+					}
+				});
+			});
+		});			
 		</script>
 		

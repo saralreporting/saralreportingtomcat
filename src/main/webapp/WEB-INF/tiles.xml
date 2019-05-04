@@ -98,6 +98,14 @@
 		<put-attribute name="title" value="ModifyReportDesign" />
 		<put-attribute name="body" value="/WEB-INF/jsp/modifyReportDesign.jsp" />
 	</definition>
+	<definition name="appOutcomeReportList" extends="base-definition">
+		<put-attribute name="title" value="AppOutcomeReportList" />
+		<put-attribute name="body" value="/WEB-INF/jsp/appOutcomeReportList.jsp" />
+	</definition>
+	<definition name="deptCollectionReport" extends="base-definition">
+		<put-attribute name="title" value="DeptCollectionReport" />
+		<put-attribute name="body" value="/WEB-INF/jsp/deptCollectionReport.jsp" />
+	</definition>
 	
 	<!-- Domain Master  -->
 	
